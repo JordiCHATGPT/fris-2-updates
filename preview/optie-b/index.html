@@ -467,6 +467,52 @@ main#content:has(.fris-full-composition){flex:1 1 auto;min-height:0;height:100%;
  height:0!important;
 }
 </style>
+<style id="fris-b-refined-navigation">
+/* Light, compact four-button navigation. A remains unchanged. */
+.phone.fris-b-theme nav.nav,
+.phone.fris-b-theme nav.nav.on-home,
+.phone.fris-b-theme nav.nav:not(.on-home){
+  height:clamp(56px,7.4dvh,68px)!important;
+  min-height:56px!important;
+  padding:3px 3px max(5px,env(safe-area-inset-bottom))!important;
+  border-top:1px solid rgba(155,137,113,.17)!important;
+  background:#fffaf3!important;
+}
+.phone.fris-b-theme nav.nav button,
+.phone.fris-b-theme nav.nav:not(.on-home) button{
+  font:400 clamp(10px,2.8vw,12px)/1.1 Arial,Helvetica,sans-serif!important;
+  gap:1px!important;
+  padding:2px 0 5px!important;
+  color:#44413e!important;
+}
+.phone.fris-b-theme nav.nav button svg,
+.phone.fris-b-theme nav.nav:not(.on-home) button svg{
+  width:clamp(22px,6vw,27px)!important;
+  height:clamp(22px,6vw,27px)!important;
+  stroke-width:1.65!important;
+  stroke:#3b3c3d!important;
+}
+.phone.fris-b-theme nav.nav button.active,
+.phone.fris-b-theme nav.nav:not(.on-home) button.active{
+  color:#ce2528!important;
+  font-weight:500!important;
+}
+.phone.fris-b-theme nav.nav button.active svg,
+.phone.fris-b-theme nav.nav:not(.on-home) button.active svg{
+  stroke:#d92a2a!important;
+}
+.phone.fris-b-theme nav.nav button[data-nav="home"].active svg{
+  fill:none!important;
+}
+.phone.fris-b-theme nav.nav button.active:after,
+.phone.fris-b-theme nav.nav:not(.on-home) button.active:after{
+  height:2px!important;
+  left:33%!important;
+  width:34%!important;
+  bottom:0!important;
+  background:#d92a2a!important;
+}
+</style>
 </head>
 <body>
 <div class="phone fris-b-theme">
