@@ -586,8 +586,11 @@ main#content:has(.fris-full-composition){flex:1 1 auto;min-height:0;height:100%;
 .phone.fris-b-theme .fris-b-composition{width:100%;height:100%!important;position:relative;overflow:hidden}
 .phone.fris-b-theme #fris-b-canvas{width:100%!important;height:100%!important;display:block}
 .phone.fris-b-theme .fris-b-composition .fris-b-tap{position:absolute!important;z-index:5!important;border:0!important;padding:0!important;background:transparent!important;cursor:pointer}
-.phone.fris-b-theme:not(:has(.fris-b-composition))>header.hero{background-image:url('../art/fris-b-goedgekeurd.webp')!important}
+.phone.fris-b-theme:not(:has(.fris-b-composition))>header.hero{background-image:url('../art/fris-fontbase-b.webp')!important}
 </style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+<style id="fris-selected-font-b-20261121">.phone, .phone button, .phone input, .phone select, .phone textarea, .phone .fris-inner-intro h1, .phone .fris-inner-intro p {font-family:'Manrope',sans-serif!important}</style>
 </head>
 <body>
 <div class="phone fris-b-theme">
@@ -770,6 +773,16 @@ function drawBHome(){
    }
    return offset;
  };
+
+ // Independent, editable interface lettering; the approved artwork remains untouched elsewhere.
+ ctx.textBaseline='alphabetic';ctx.textAlign='left';
+ ctx.fillStyle='#203d56';ctx.font='700 49px "Manrope", sans-serif';
+ [["Lessen",418,530],["Oefenen",418,760],["Herhaling",418,990]].forEach(([text,x,y])=>ctx.fillText(text,x,mapY(y)));
+ ctx.fillStyle='#394454';ctx.font='400 29px "Manrope", sans-serif';
+ [["Nieuwe stof leren en",418,570],["begrijpen.",418,606],["Direct aan de slag met",418,799],["de stof.",418,836],["Eerder geleerde stof",418,1034],["opfrissen.",418,1072]].forEach(([text,x,y])=>ctx.fillText(text,x,mapY(y)));
+ ctx.fillStyle='#203d56';ctx.font='600 25px "Manrope", sans-serif';ctx.textAlign='center';
+ [["Home",130,1585],["Theorie",354,1585],["Voortgang",581,1585],["Instellingen",810,1585]].forEach(([text,x,y])=>ctx.fillText(text,x,mapY(y)));
+ ctx.textAlign='left';
  shell.querySelectorAll('[data-b-top]').forEach(btn=>{
   const top=mapY(Number(btn.dataset.bTop));
   const bottom=mapY(Number(btn.dataset.bBottom));
@@ -783,6 +796,8 @@ function drawBHome(){
 }
 window.addEventListener('resize',()=>requestAnimationFrame(drawBHome));
 window.addEventListener('orientationchange',()=>requestAnimationFrame(drawBHome));
+document.fonts.load('700 49px "Manrope"').then(()=>requestAnimationFrame(drawBHome)).catch(()=>{});
+
 
 function render(){
 const areaKey=['home','skills','setup','started','lessons'].includes(state.screen)?'home':state.screen;
