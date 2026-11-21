@@ -367,6 +367,7 @@ function drawHomeCanvas(){
  });
 }
 window.addEventListener('resize',()=>requestAnimationFrame(drawHomeCanvas));
+window.addEventListener('orientationchange',()=>requestAnimationFrame(drawHomeCanvas));
 
 function render(){
 const areaKey=['home','skills','setup','started','lessons'].includes(state.screen)?'home':state.screen;
