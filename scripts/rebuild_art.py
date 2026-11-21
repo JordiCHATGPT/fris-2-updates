@@ -21,7 +21,8 @@ for encoded in matches:
         continue
 if not images:
     raise RuntimeError("Could not decode historic art")
-print("All available historical images:", [(i, x.size) for i, x in enumerate(images)])\nim = max(images, key=lambda x: x.width * x.height)
+print("All available historical images:", [(i, x.size) for i, x in enumerate(images)])
+im = max(images, key=lambda x: x.width * x.height)
 print("Original artwork resolution:", im.size)
 sx, sy = im.width / 1024, im.height / 1536
 
