@@ -58,6 +58,16 @@ header.hero{height:auto;aspect-ratio:1024/442;max-height:none;flex-shrink:0}
 .progress-wrap{margin-top:auto;padding:14px 28px 9px}
 @media(max-height:720px){header.hero{height:auto}.footer-illustration{height:auto}.tile-illustration{height:auto}}
 </style>
+
+<style id="navigation-art">
+.nav{position:relative;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));width:100%;height:auto;aspect-ratio:1024/274;padding:0;border:0;background:#fffaf3 url("art/navigation.webp") center/100% 100% no-repeat;gap:0}
+.nav button{position:relative;height:100%;padding:0;background:transparent;border:0;border-radius:0;opacity:1;color:transparent}
+.nav button svg,.nav button span{visibility:hidden}
+.nav button.active{background:transparent;color:transparent}
+.nav button.active:after{display:none}
+.nav button:focus-visible{outline:3px solid #e51c23;outline-offset:-5px}
+@media(min-width:650px){.nav{border-radius:0 0 18px 18px}}
+</style>
 </head>
 <body>
 <div class="phone">
