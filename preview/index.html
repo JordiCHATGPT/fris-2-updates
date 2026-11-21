@@ -222,7 +222,20 @@ main#content{flex:1 1 auto;min-height:0;overflow:auto;padding:0;display:flex;fle
  .home-actions.fris-editorial-actions .home-action img{max-height:76px}
 }
 @media(prefers-reduced-motion:reduce){.home-actions.fris-editorial-actions .home-action img{transition:none}}
-</style></head>
+</style><style id="fris-pixelperfect-home">
+/* Use the ONE approved illustration. Invisible native buttons provide accessible navigation. */
+.phone:has(.fris-full-composition) header.hero,
+.phone:has(.fris-full-composition) nav.nav {display:none}
+.phone:has(.fris-full-composition) main#content {background:#f9f2e9;overflow-y:auto;display:block}
+.fris-full-composition {position:relative;display:block;width:100%;line-height:0}
+.fris-full-composition img {display:block;width:100%;height:auto;object-fit:contain}
+.fris-hotspot {position:absolute;display:block;border:0;background:transparent;box-shadow:none;padding:0;margin:0;cursor:pointer;z-index:2}
+.fris-hotspot:hover {background:rgba(255,192,0,.055)}
+.fris-hotspot:focus-visible {outline:3px solid #e22323;outline-offset:-3px;border-radius:7px;background:rgba(255,240,180,.12)}
+.fris-hotspot:active {background:rgba(224,40,40,.09)}
+@media(min-width:650px){.phone:has(.fris-full-composition){height:100dvh;overflow:hidden}}
+</style>
+</head>
 <body>
 <div class="phone">
 <header class="hero"><img class="hero-photo" src="art/2026-home-header.webp" alt="FRIS! je Duits op – geïllustreerde Duitse skyline"></header>
@@ -287,20 +300,15 @@ function render(){
 const areaKey=['home','skills','setup','started','lessons'].includes(state.screen)?'home':state.screen;
 document.querySelector('.nav').classList.toggle('on-home',state.screen==='home');
 document.querySelectorAll('[data-nav]').forEach(b=>{b.classList.toggle('active',areaKey===b.dataset.nav); b.setAttribute('aria-current',areaKey===b.dataset.nav?'page':'false')});
-if(state.screen==='home'){content.innerHTML=`<div class="home-panel">
-<section class="home-actions fris-editorial-actions" aria-label="Wat wil je doen?">
-<button class="home-action" type="button" data-go="lessons" aria-label="Lessen openen">
-<img src="art/2026-home-lessons.webp" alt="" draggable="false" loading="eager">
-<span class="fris-action-copy"><strong>Lessen</strong><em>Nieuwe stof leren en begrijpen.</em></span></button>
-<button class="home-action" type="button" data-go="skills" aria-label="Oefenen openen">
-<img src="art/2026-home-practice.webp" alt="" draggable="false" loading="eager">
-<span class="fris-action-copy"><strong>Oefenen</strong><em>Direct aan de slag met de stof.</em></span></button>
-<button class="home-action" type="button" data-go="review" aria-label="Herhaling openen">
-<img src="art/2026-home-review.webp" alt="" draggable="false" loading="eager">
-<span class="fris-action-copy"><strong>Herhaling</strong><em>Eerder geleerde stof opfrissen.</em></span></button>
-</section>
-<div class="home-fill-space" aria-hidden="true"></div>
-<img class="home-footer" src="art/2026-home-footer.webp" alt="" draggable="false">
+if(state.screen==='home'){content.innerHTML=`<div class="fris-full-composition" aria-label="FRIS! startscherm">
+<img src="art/fris-approved-watercolor.webp" alt="FRIS! je Duits op, aquarelillustratie met Duitse skyline, Lessen, Oefenen, Herhaling, café en navigatie" draggable="false" loading="eager">
+<button type="button" class="fris-hotspot" style="left:4%;top:30%;width:92%;height:12.5%" data-go="lessons" aria-label="Lessen openen"></button>
+<button type="button" class="fris-hotspot" style="left:4%;top:43%;width:92%;height:12.6%" data-go="skills" aria-label="Oefenen openen"></button>
+<button type="button" class="fris-hotspot" style="left:4%;top:56%;width:92%;height:13.5%" data-go="review" aria-label="Herhaling openen"></button>
+<button type="button" class="fris-hotspot" style="left:0%;top:91.2%;width:25%;height:8.8%" data-nav="home" aria-label="Home"></button>
+<button type="button" class="fris-hotspot" style="left:25%;top:91.2%;width:25%;height:8.8%" data-nav="theory" aria-label="Theorie"></button>
+<button type="button" class="fris-hotspot" style="left:50%;top:91.2%;width:25%;height:8.8%" data-nav="progress" aria-label="Voortgang"></button>
+<button type="button" class="fris-hotspot" style="left:75%;top:91.2%;width:25%;height:8.8%" data-nav="settings" aria-label="Instellingen"></button>
 </div>`;}
 else if(state.screen==='skills'){content.innerHTML=`<div class="page-inner"><button class="back" data-back="home">← Terug</button><h1>Oefenen</h1>${skills.map(([s,ic])=>`<button class="skill" data-skill="${esc(s)}"><span class="symbol">${skillIcon(ic)}</span>${esc(s)}<span class="chev">›</span></button>`).join('')}</div>`;}
 else if(state.screen==='setup'){
