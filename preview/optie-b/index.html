@@ -586,7 +586,13 @@ main#content:has(.fris-full-composition){flex:1 1 auto;min-height:0;height:100%;
 .phone.fris-b-theme .fris-b-composition{width:100%;height:100%!important;position:relative;overflow:hidden}
 .phone.fris-b-theme #fris-b-canvas{width:100%!important;height:100%!important;display:block}
 .phone.fris-b-theme .fris-b-composition .fris-b-tap{position:absolute!important;z-index:5!important;border:0!important;padding:0!important;background:transparent!important;cursor:pointer}
-.phone.fris-b-theme:not(:has(.fris-b-composition))>header.hero{background-image:url('../art/fris-b-goedgekeurd.webp')!important}
+.phone.fris-b-theme:not(:has(.fris-b-composition))>header.hero{background-image:url('../art/fris-typography-clean-b.webp')!important}
+</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap">
+<style id="fris-20261121-correct-typography-b">
+.phone,.phone button,.phone input,.phone select,.phone textarea,.phone .fris-inner-intro h1,.phone .fris-inner-intro p,.phone .page-inner{font-family:'Manrope',Arial,sans-serif!important}
 </style>
 </head>
 <body>
@@ -770,6 +776,16 @@ function drawBHome(){
    }
    return offset;
  };
+
+ // Canvas lettering is drawn only over a verified text-free copy of the original image.
+ ctx.save();ctx.textAlign='left';ctx.textBaseline='alphabetic';
+ ctx.fillStyle='#223c51';ctx.font='700 47px "Manrope", Arial, sans-serif';
+ [["Lessen",418,530],["Oefenen",418,759],["Herhaling",418,987]].forEach(([t,x,y])=>ctx.fillText(t,x,mapY(y)));
+ ctx.fillStyle='#394957';ctx.font='400 27px "Manrope", Arial, sans-serif';
+ [["Nieuwe stof leren en",418,575],["begrijpen.",418,609],["Direct aan de slag met",418,803],["de stof.",418,837],["Eerder geleerde stof",418,1034],["opfrissen.",418,1070]].forEach(([t,x,y])=>ctx.fillText(t,x,mapY(y)));
+ ctx.textAlign='center';ctx.fillStyle='#223c51';ctx.font='600 24px "Manrope", Arial, sans-serif';
+ [["Home",129,1604],["Theorie",351,1604],["Voortgang",586,1604],["Instellingen",812,1604]].forEach(([t,x,y])=>ctx.fillText(t,x,mapY(y)));
+ ctx.restore();
  shell.querySelectorAll('[data-b-top]').forEach(btn=>{
   const top=mapY(Number(btn.dataset.bTop));
   const bottom=mapY(Number(btn.dataset.bBottom));
@@ -783,6 +799,9 @@ function drawBHome(){
 }
 window.addEventListener('resize',()=>requestAnimationFrame(drawBHome));
 window.addEventListener('orientationchange',()=>requestAnimationFrame(drawBHome));
+// Await exact webfont before re-painting editable menu and navigation labels.
+Promise.all([document.fonts.load('700 47px "Manrope"'),document.fonts.load('400 27px "Manrope"'),document.fonts.load('600 24px "Manrope"')]).then(()=>requestAnimationFrame(drawBHome)).catch(()=>{});
+
 
 function render(){
 const areaKey=['home','skills','setup','started','lessons'].includes(state.screen)?'home':state.screen;
