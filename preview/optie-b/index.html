@@ -431,7 +431,7 @@ main#content:has(.fris-full-composition){flex:1 1 auto;min-height:0;height:100%;
 /* Supporting pages inherit the new sharper identity, not A's skyline or artwork. */
 .phone.fris-b-theme:not(:has(.fris-b-composition))>header.hero{
  display:block!important;
- height:clamp(122px,33vw,160px)!important;max-height:160px!important;
+ height:clamp(140px,40vw,170px)!important;max-height:170px!important;
  background:#f8f3e9 url('../art/fris-optie-b.webp') center top / 100% auto no-repeat!important;
 }
 .phone.fris-b-theme>header.hero .hero-photo{display:none!important}
@@ -606,11 +606,12 @@ function drawBHome(){
  if(!c||!frisBArt.complete||!frisBArt.naturalWidth)return;
  const root=c.closest('.fris-b-composition');
  if(!root)return;
- const w=root.clientWidth,available=root.clientHeight;
+ const w=root.clientWidth,available=root.parentElement.clientHeight;
  if(w<=0||available<=0)return;
  const h=Math.max(bArtEnd,available/w*bArtWidth);
  const cssHeight=h*w/bArtWidth;
  const dpr=Math.min(window.devicePixelRatio||1,2);
+ root.style.height=cssHeight+'px';
  c.style.height=cssHeight+'px';
  c.width=Math.round(w*dpr);c.height=Math.round(cssHeight*dpr);
  const ctx=c.getContext('2d',{alpha:false});
