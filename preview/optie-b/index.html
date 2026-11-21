@@ -513,6 +513,73 @@ main#content:has(.fris-full-composition){flex:1 1 auto;min-height:0;height:100%;
   background:#d92a2a!important;
 }
 </style>
+<style id="fris-b-soft-gradient-footer-alignment">
+/* Subtle optical separation of content and footer; no hard color band. */
+.phone.fris-b-theme main#content:has(.fris-b-composition){
+ background:#fff6e9!important;
+}
+.phone.fris-b-theme .fris-b-composition{
+ background:#fff6e9!important;
+}
+/* All four navigation items follow identical two-row geometry. */
+.phone.fris-b-theme nav.nav,
+.phone.fris-b-theme nav.nav.on-home,
+.phone.fris-b-theme nav.nav:not(.on-home){
+  height:clamp(60px,7.7dvh,66px)!important;
+  min-height:60px!important;
+  padding:4px 4px max(5px,env(safe-area-inset-bottom))!important;
+  background:linear-gradient(180deg,#fffaf3 0%,#fff8f0 100%)!important;
+  border-top:1px solid rgba(156,135,109,.13)!important;
+  align-items:stretch!important;
+}
+.phone.fris-b-theme nav.nav button,
+.phone.fris-b-theme nav.nav:not(.on-home) button{
+  display:grid!important;
+  grid-template-rows:27px 15px!important;
+  grid-template-columns:1fr!important;
+  align-content:center!important;
+  align-items:center!important;
+  justify-items:center!important;
+  gap:2px!important;
+  padding:0 1px 3px!important;
+  margin:0!important;
+  line-height:1!important;
+  font-size:clamp(10px,2.9vw,12px)!important;
+  font-weight:400!important;
+  text-align:center!important;
+}
+.phone.fris-b-theme nav.nav button svg,
+.phone.fris-b-theme nav.nav:not(.on-home) button svg{
+  width:25px!important;
+  height:25px!important;
+  min-height:25px!important;
+  grid-row:1!important;
+  grid-column:1!important;
+  justify-self:center!important;
+  align-self:center!important;
+  stroke-width:1.65!important;
+}
+.phone.fris-b-theme nav.nav button span,
+.phone.fris-b-theme nav.nav:not(.on-home) button span{
+  display:block!important;
+  height:15px!important;
+  line-height:15px!important;
+  grid-row:2!important;
+  grid-column:1!important;
+  align-self:center!important;
+  justify-self:center!important;
+  white-space:nowrap!important;
+  text-align:center!important;
+  font-family:Arial,Helvetica,sans-serif!important;
+}
+.phone.fris-b-theme nav.nav button.active:after,
+.phone.fris-b-theme nav.nav:not(.on-home) button.active:after{
+  bottom:0!important;
+  width:28%!important;
+  left:36%!important;
+  height:2px!important;
+}
+</style>
 </head>
 <body>
 <div class="phone fris-b-theme">
@@ -700,6 +767,18 @@ function drawBHome(){
    }
    src=next;
  }
+ // Gently frame the three choices using a warm tint; keep skyline and café untouched.
+ // Feathered edges avoid a hard stripe between the three illustration zones.
+ const zoneTop=at(378),zoneBottom=at(1190);
+ const tint=ctx.createLinearGradient(0,zoneTop,0,zoneBottom);
+ tint.addColorStop(0,'rgba(247,233,206,0)');
+ tint.addColorStop(.15,'rgba(249,235,209,.10)');
+ tint.addColorStop(.32,'rgba(241,219,178,.22)');
+ tint.addColorStop(.57,'rgba(245,223,184,.23)');
+ tint.addColorStop(.78,'rgba(251,236,206,.12)');
+ tint.addColorStop(1,'rgba(250,238,218,0)');
+ ctx.fillStyle=tint;
+ ctx.fillRect(0,zoneTop,bArtWidth,zoneBottom-zoneTop);
  root.querySelectorAll('[data-b-top]').forEach(btn=>{
   const top=at(+btn.dataset.bTop),bottom=at(+btn.dataset.bBottom);
   btn.style.top=(top/h*100)+'%';
