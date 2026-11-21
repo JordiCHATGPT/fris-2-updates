@@ -222,18 +222,43 @@ main#content{flex:1 1 auto;min-height:0;overflow:auto;padding:0;display:flex;fle
  .home-actions.fris-editorial-actions .home-action img{max-height:76px}
 }
 @media(prefers-reduced-motion:reduce){.home-actions.fris-editorial-actions .home-action img{transition:none}}
-</style><style id="fris-pixelperfect-home">
-/* Use the ONE approved illustration. Invisible native buttons provide accessible navigation. */
-.phone:has(.fris-full-composition) header.hero,
-.phone:has(.fris-full-composition) nav.nav {display:none}
-.phone:has(.fris-full-composition) main#content {background:#f9f2e9;overflow-y:auto;display:block}
-.fris-full-composition {position:relative;display:block;width:100%;line-height:0}
-.fris-full-composition img {display:block;width:100%;height:auto;object-fit:contain}
-.fris-hotspot {position:absolute;display:block;border:0;background:transparent;box-shadow:none;padding:0;margin:0;cursor:pointer;z-index:2}
-.fris-hotspot:hover {background:rgba(255,192,0,.055)}
-.fris-hotspot:focus-visible {outline:3px solid #e22323;outline-offset:-3px;border-radius:7px;background:rgba(255,240,180,.12)}
-.fris-hotspot:active {background:rgba(224,40,40,.09)}
-@media(min-width:650px){.phone:has(.fris-full-composition){height:100dvh;overflow:hidden}}
+</style><style id="fris-responsive-watercolor">
+/* The approved image fills any portrait phone; protect icons and text from distortion. */
+.phone{height:100dvh;min-height:0;overflow:hidden;background:#faf4eb}
+main#content:has(.fris-full-composition){flex:1 1 auto;min-height:0;height:100%;overflow:hidden;background:#faf4eb}
+.phone:has(.fris-full-composition)>header.hero,
+.phone:has(.fris-full-composition)>nav.nav{display:none!important}
+.fris-full-composition{height:100%;min-height:0;width:100%;position:relative;overflow:hidden;background:#faf3e6}
+#fris-home-canvas{width:100%;height:100%;display:block}
+.fris-hotspot{position:absolute;left:4%;width:92%;border:0;padding:0;background:transparent;cursor:pointer;z-index:3}
+.fris-hotspot:hover{background:rgba(255,198,65,.055)}
+.fris-hotspot:active{background:rgba(220,38,40,.08)}
+.fris-hotspot:focus-visible{outline:3px solid #d52429;outline-offset:-3px;border-radius:7px}
+.fris-bottom-hotspot{width:25%;left:0}
+.fris-bottom-hotspot:nth-of-type(5){left:25%}
+.fris-bottom-hotspot:nth-of-type(6){left:50%}
+.fris-bottom-hotspot:nth-of-type(7){left:75%}
+/* Inner pages use the same painted paper, navy serif text and warm gold accents. */
+.phone:not(:has(.fris-full-composition)) header.hero{height:clamp(132px,20dvh,178px);max-height:178px;aspect-ratio:auto;flex:0 0 auto;background:#f6ede0}
+.phone:not(:has(.fris-full-composition)) header.hero .hero-photo{width:100%;height:100%;object-fit:cover;object-position:center top}
+.phone:not(:has(.fris-full-composition)) main#content{overflow-y:auto;min-height:0;background:radial-gradient(ellipse at 6% 2%,rgba(233,197,131,.22),transparent 50%),radial-gradient(ellipse at 97% 96%,rgba(179,203,188,.18),transparent 58%),#fbf4e9}
+.phone:not(:has(.fris-full-composition)) .page-inner{background:transparent;padding:18px 22px 26px;color:#263d55}
+.page-inner h1{font:700 clamp(25px,6.5vw,32px)/1.22 Georgia,'Times New Roman',serif;color:#283e58;margin:2px 0 18px}
+.back{font:400 15px Georgia,serif;color:#75634e;padding:4px 0 17px}
+.skill{border:0;border-bottom:1px solid rgba(151,111,65,.3);border-radius:0;box-shadow:none;background:transparent;padding:16px 6px;font:700 clamp(17px,4.7vw,20px)/1.2 Georgia,serif;color:#2b435d;margin:0}
+.skill:hover{background:rgba(255,234,185,.28)}
+.skill .symbol{color:#8a6136}
+.chev{color:#b29366}
+.field,.setting-mode{background:rgba(255,251,244,.77);border:1px solid #dac7a9;border-radius:6px;color:#2e4156}
+.subtle,.summary{background:rgba(255,249,238,.62);border:1px solid rgba(173,138,95,.4);border-radius:7px;color:#2e4054}
+.primary{border-radius:7px;background:#2d4965;color:white}
+.primary:hover{background:#1c344c}
+.note,.muted,.tiny{color:#655e57}
+.phone:not(:has(.fris-full-composition)) .nav:not(.on-home){height:clamp(66px,9dvh,84px);aspect-ratio:auto;background:rgba(253,247,237,.98)!important;border-top:1px solid rgba(166,133,93,.4);flex:0 0 auto}
+.phone:not(:has(.fris-full-composition)) .nav button{font-family:Georgia,'Times New Roman',serif;font-weight:400;font-size:clamp(11px,3vw,14px);gap:1px}
+.phone:not(:has(.fris-full-composition)) .nav button.active{color:#284867;background:rgba(202,220,230,.4)}
+.phone:not(:has(.fris-full-composition)) .nav button.active svg{stroke:#284867}
+@media(min-width:650px){.phone{max-width:480px;height:100dvh;border-radius:0}}
 </style>
 </head>
 <body>
@@ -296,20 +321,67 @@ const skillchecks=s==='Gemengd'?`<label>Vaardigheden</label><div class="check-ro
 const levels=['Automatisch','A1','A2','B1','B2'];
 return `<section class="subtle"><div class="subtle-header"><strong>Oefeninstellingen</strong>${select('mode','Oefeninstellingen',['Automatisch','Handmatig'],mode,'setting-mode')}</div>${mode==='Handmatig'?`<div class="extra"><label for="level">Niveau</label>${select('level','Niveau',levels,state.level)}<label for="method">${esc(cfg.methodLabel)}</label>${select('method',cfg.methodLabel,cfg.methods,state.method)}${skillchecks}</div>`:''}</section>`
 }
+
+// Rescale only soft watercolour bands; menu illustrations and lettering retain their proportions.
+// This adapts the approved 1024 x 1536 artwork to a tall phone without cropping the sides.
+const frisArt=new Image();
+frisArt.src='art/fris-approved-watercolor.webp';
+frisArt.addEventListener('load',drawHomeCanvas);
+const frisBreaks=[0,400,480,630,682,810,868,1015,1135,1394,1536];
+const frisGrow=[0,.245,0,.10,0,.10,0,.23,.27,.055];
+function frisMapper(targetHeight){
+  const extra=Math.max(0,targetHeight-1536);
+  const scale=Math.min(1,targetHeight/1536);
+  const dest=[0];
+  for(let i=0;i<frisGrow.length;i++){
+    const native=(frisBreaks[i+1]-frisBreaks[i])*scale;
+    dest.push(dest[dest.length-1]+native+extra*frisGrow[i]);
+  }
+  return function(y){
+    if(y<=0)return 0;if(y>=1536)return targetHeight;
+    let i=0;while(i<frisGrow.length-1&&y>frisBreaks[i+1])i++;
+    return dest[i]+(y-frisBreaks[i])/(frisBreaks[i+1]-frisBreaks[i])*(dest[i+1]-dest[i]);
+  };
+}
+function drawHomeCanvas(){
+ const canvas=document.getElementById('fris-home-canvas');
+ if(!canvas||!frisArt.complete||!frisArt.naturalWidth)return;
+ const shell=canvas.closest('.fris-full-composition');
+ const width=shell.clientWidth,height=shell.clientHeight;
+ if(width<1||height<1)return;
+ const dpr=Math.min(window.devicePixelRatio||1,2);
+ canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);
+ const ctx=canvas.getContext('2d',{alpha:false});
+ ctx.setTransform(canvas.width/1024,0,0,canvas.height/(height/width*1024),0,0);
+ ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
+ const designHeight=height/width*1024;
+ const ymap=frisMapper(designHeight);
+ for(let i=0;i<frisBreaks.length-1;i++){
+   const a=frisBreaks[i],b=frisBreaks[i+1];
+   const top=ymap(a),bottom=ymap(b);
+   ctx.drawImage(frisArt,0,a,1024,b-a,0,top,1024,bottom-top);
+ }
+ shell.querySelectorAll('[data-art-top]').forEach(btn=>{
+   btn.style.top=(ymap(+btn.dataset.artTop)/designHeight*100)+'%';
+   btn.style.height=((ymap(+btn.dataset.artBottom)-ymap(+btn.dataset.artTop))/designHeight*100)+'%';
+ });
+}
+window.addEventListener('resize',()=>requestAnimationFrame(drawHomeCanvas));
+
 function render(){
 const areaKey=['home','skills','setup','started','lessons'].includes(state.screen)?'home':state.screen;
 document.querySelector('.nav').classList.toggle('on-home',state.screen==='home');
 document.querySelectorAll('[data-nav]').forEach(b=>{b.classList.toggle('active',areaKey===b.dataset.nav); b.setAttribute('aria-current',areaKey===b.dataset.nav?'page':'false')});
-if(state.screen==='home'){content.innerHTML=`<div class="fris-full-composition" aria-label="FRIS! startscherm">
-<img src="art/fris-approved-watercolor.webp" alt="FRIS! je Duits op, aquarelillustratie met Duitse skyline, Lessen, Oefenen, Herhaling, café en navigatie" draggable="false" loading="eager">
-<button type="button" class="fris-hotspot" style="left:4%;top:30%;width:92%;height:12.5%" data-go="lessons" aria-label="Lessen openen"></button>
-<button type="button" class="fris-hotspot" style="left:4%;top:43%;width:92%;height:12.6%" data-go="skills" aria-label="Oefenen openen"></button>
-<button type="button" class="fris-hotspot" style="left:4%;top:56%;width:92%;height:13.5%" data-go="review" aria-label="Herhaling openen"></button>
-<button type="button" class="fris-hotspot" style="left:0%;top:91.2%;width:25%;height:8.8%" data-nav="home" aria-label="Home"></button>
-<button type="button" class="fris-hotspot" style="left:25%;top:91.2%;width:25%;height:8.8%" data-nav="theory" aria-label="Theorie"></button>
-<button type="button" class="fris-hotspot" style="left:50%;top:91.2%;width:25%;height:8.8%" data-nav="progress" aria-label="Voortgang"></button>
-<button type="button" class="fris-hotspot" style="left:75%;top:91.2%;width:25%;height:8.8%" data-nav="settings" aria-label="Instellingen"></button>
-</div>`;}
+if(state.screen==='home'){content.innerHTML=`<div class="fris-full-composition" aria-label="FRIS! startscherm in aquarelstijl">
+<canvas id="fris-home-canvas" role="img" aria-label="Duitse skyline, aquarelmenu met Lessen, Oefenen en Herhaling, café en onderste navigatie"></canvas>
+<button type="button" class="fris-hotspot" data-go="lessons" data-art-top="480" data-art-bottom="655" aria-label="Lessen openen"></button>
+<button type="button" class="fris-hotspot" data-go="skills" data-art-top="681" data-art-bottom="854" aria-label="Oefenen openen"></button>
+<button type="button" class="fris-hotspot" data-go="review" data-art-top="865" data-art-bottom="1030" aria-label="Herhaling openen"></button>
+<button type="button" class="fris-hotspot fris-bottom-hotspot" data-nav="home" data-art-top="1397" data-art-bottom="1536" aria-label="Home"></button>
+<button type="button" class="fris-hotspot fris-bottom-hotspot" data-nav="theory" data-art-top="1397" data-art-bottom="1536" aria-label="Theorie"></button>
+<button type="button" class="fris-hotspot fris-bottom-hotspot" data-nav="progress" data-art-top="1397" data-art-bottom="1536" aria-label="Voortgang"></button>
+<button type="button" class="fris-hotspot fris-bottom-hotspot" data-nav="settings" data-art-top="1397" data-art-bottom="1536" aria-label="Instellingen"></button>
+</div>`;requestAnimationFrame(drawHomeCanvas);}
 else if(state.screen==='skills'){content.innerHTML=`<div class="page-inner"><button class="back" data-back="home">← Terug</button><h1>Oefenen</h1>${skills.map(([s,ic])=>`<button class="skill" data-skill="${esc(s)}"><span class="symbol">${skillIcon(ic)}</span>${esc(s)}<span class="chev">›</span></button>`).join('')}</div>`;}
 else if(state.screen==='setup'){
 const s=state.skill,cfg=config[s];
