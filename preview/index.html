@@ -327,43 +327,71 @@ return `<section class="subtle"><div class="subtle-header"><strong>Oefeninstelli
 const frisArt=new Image();
 frisArt.src='art/fris-approved-watercolor.webp';
 frisArt.addEventListener('load',drawHomeCanvas);
-const frisBreaks=[0,400,480,630,682,810,868,1015,1135,1394,1536];
-const frisGrow=[0,.245,0,.10,0,.10,0,.23,.27,.055];
-function frisMapper(targetHeight){
-  const extra=Math.max(0,targetHeight-1536);
-  const scale=Math.min(1,targetHeight/1536);
-  const dest=[0];
-  for(let i=0;i<frisGrow.length;i++){
-    const native=(frisBreaks[i+1]-frisBreaks[i])*scale;
-    dest.push(dest[dest.length-1]+native+extra*frisGrow[i]);
-  }
-  return function(y){
-    if(y<=0)return 0;if(y>=1536)return targetHeight;
-    let i=0;while(i<frisGrow.length-1&&y>frisBreaks[i+1])i++;
-    return dest[i]+(y-frisBreaks[i])/(frisBreaks[i+1]-frisBreaks[i])*(dest[i+1]-dest[i]);
-  };
+// The artwork is never stretched: only four quiet paper-texture bands grow.
+const frisStops=[475,660,835,1010];
+const frisWeights=[.13,.26,.26,.35];
+function frisGeometry(designHeight){
+ const extra=Math.max(0,designHeight-1536);
+ const gaps=frisWeights.map(weight=>weight*extra);
+ const mappedY=y=>y+frisStops.reduce((n,stop,i)=>n+(y>=stop?gaps[i]:0),0);
+ return {gaps,mappedY,renderHeight:1536+extra};
 }
 function drawHomeCanvas(){
  const canvas=document.getElementById('fris-home-canvas');
  if(!canvas||!frisArt.complete||!frisArt.naturalWidth)return;
  const shell=canvas.closest('.fris-full-composition');
- const width=shell.clientWidth,height=shell.clientHeight;
- if(width<1||height<1)return;
+ if(!shell)return;
+ const width=shell.clientWidth;
+ const viewHeight=shell.clientHeight;
+ if(width<1||viewHeight<1)return;
+ const designHeight=Math.max(1536,viewHeight/width*1024);
+ const naturalHeight=width*designHeight/1024;
  const dpr=Math.min(window.devicePixelRatio||1,2);
- canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);
+ canvas.style.height=naturalHeight+'px';
+ canvas.width=Math.round(width*dpr);
+ canvas.height=Math.round(naturalHeight*dpr);
  const ctx=canvas.getContext('2d',{alpha:false});
- ctx.setTransform(canvas.width/1024,0,0,canvas.height/(height/width*1024),0,0);
- ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
- const designHeight=height/width*1024;
- const ymap=frisMapper(designHeight);
- for(let i=0;i<frisBreaks.length-1;i++){
-   const a=frisBreaks[i],b=frisBreaks[i+1];
-   const top=ymap(a),bottom=ymap(b);
-   ctx.drawImage(frisArt,0,a,1024,b-a,0,top,1024,bottom-top);
+ const ratio=canvas.width/1024;
+ ctx.setTransform(ratio,0,0,ratio,0,0);
+ ctx.imageSmoothingEnabled=true;
+ ctx.imageSmoothingQuality='high';
+ const {gaps,mappedY}=frisGeometry(designHeight);
+ let previous=0;
+ let target=0;
+ for(let i=0;i<=frisStops.length;i++){
+   const next=i<frisStops.length?frisStops[i]:1536;
+   const segment=next-previous;
+   // Original header, text, icons, cafe and navigation are all rendered 1:1.
+   ctx.drawImage(frisArt,0,previous,1024,segment,0,target,1024,segment);
+   target+=segment;
+   if(i<frisStops.length){
+     // Only repeat the unobtrusive paper texture bordering a row.
+     const gap=gaps[i];
+     const stop=frisStops[i];
+     const stripe=14;
+     for(let y=0;y<gap;y+=stripe){
+       const height=Math.min(stripe,gap-y);
+       const cycle=Math.floor(y/stripe)%2;
+       const source=cycle?stop-7:stop-7;
+       ctx.save();
+       if(cycle){
+         ctx.translate(0,target+y+height);
+         ctx.scale(1,-1);
+         ctx.drawImage(frisArt,0,source,1024,7,0,0,1024,height);
+       }else{
+         ctx.drawImage(frisArt,0,source,1024,7,0,target+y,1024,height);
+       }
+       ctx.restore();
+     }
+     target+=gap;
+   }
+   previous=next;
  }
  shell.querySelectorAll('[data-art-top]').forEach(btn=>{
-   btn.style.top=(ymap(+btn.dataset.artTop)/designHeight*100)+'%';
-   btn.style.height=((ymap(+btn.dataset.artBottom)-ymap(+btn.dataset.artTop))/designHeight*100)+'%';
+   const top=mappedY(+btn.dataset.artTop);
+   const bottom=mappedY(+btn.dataset.artBottom);
+   btn.style.top=top/designHeight*100+'%';
+   btn.style.height=(bottom-top)/designHeight*100+'%';
  });
 }
 window.addEventListener('resize',()=>requestAnimationFrame(drawHomeCanvas));
@@ -375,9 +403,9 @@ document.querySelector('.nav').classList.toggle('on-home',state.screen==='home')
 document.querySelectorAll('[data-nav]').forEach(b=>{b.classList.toggle('active',areaKey===b.dataset.nav); b.setAttribute('aria-current',areaKey===b.dataset.nav?'page':'false')});
 if(state.screen==='home'){content.innerHTML=`<div class="fris-full-composition" aria-label="FRIS! startscherm in aquarelstijl">
 <canvas id="fris-home-canvas" role="img" aria-label="Duitse skyline, aquarelmenu met Lessen, Oefenen en Herhaling, café en onderste navigatie"></canvas>
-<button type="button" class="fris-hotspot" data-go="lessons" data-art-top="480" data-art-bottom="655" aria-label="Lessen openen"></button>
-<button type="button" class="fris-hotspot" data-go="skills" data-art-top="681" data-art-bottom="854" aria-label="Oefenen openen"></button>
-<button type="button" class="fris-hotspot" data-go="review" data-art-top="865" data-art-bottom="1030" aria-label="Herhaling openen"></button>
+<button type="button" class="fris-hotspot" data-go="lessons" data-art-top="489" data-art-bottom="642" aria-label="Lessen openen"></button>
+<button type="button" class="fris-hotspot" data-go="skills" data-art-top="671" data-art-bottom="820" aria-label="Oefenen openen"></button>
+<button type="button" class="fris-hotspot" data-go="review" data-art-top="847" data-art-bottom="1000" aria-label="Herhaling openen"></button>
 <button type="button" class="fris-hotspot fris-bottom-hotspot" data-nav="home" data-art-top="1397" data-art-bottom="1536" aria-label="Home"></button>
 <button type="button" class="fris-hotspot fris-bottom-hotspot" data-nav="theory" data-art-top="1397" data-art-bottom="1536" aria-label="Theorie"></button>
 <button type="button" class="fris-hotspot fris-bottom-hotspot" data-nav="progress" data-art-top="1397" data-art-bottom="1536" aria-label="Voortgang"></button>
