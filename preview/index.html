@@ -107,7 +107,15 @@ header.hero{height:auto;aspect-ratio:1024/442;max-height:none;flex-shrink:0}
 }
 @media(max-height:710px){.greeting h1{font-size:clamp(39px,9vw,50px)}.greeting p{font-size:13px}}
 </style>
-</head>
+<style id="footer-docking">
+/* Footer rests directly on the five-button bottom bar, independent of viewport height. */
+.phone{display:flex;flex-direction:column}
+main#content{flex:1 0 auto;display:flex;flex-direction:column}
+.home-panel{display:flex;flex-direction:column;flex:1}
+.footer-illustration{display:block;width:100%;height:auto;flex-shrink:0;margin-top:auto;margin-bottom:0;vertical-align:bottom}
+.nav{flex-shrink:0;margin-top:0}
+@media(max-height:710px){.footer-illustration{margin-top:auto}}
+</style></head>
 <body>
 <div class="phone">
 <header class="hero"><img class="hero-photo" src="art/skyline.webp" alt="FRIS! je Duits op, Duitse skyline"></header>
