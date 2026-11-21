@@ -123,12 +123,12 @@ else if(state.screen==='setup'){
 const s=state.skill,cfg=config[s];
 const first=s==='Spreken'?select('category','Situatie',cfg.items,state.category):select('choice',cfg.label,cfg.items,state.choices[s]);
 const second=s==='Spreken'&&state.category!=='Alle situaties'?select('situation','Specifieke situatie',situations[state.category]||['Alle situaties'],state.situation):'';
-content.innerHTML=`<button class="back" data-back="skills">← Terug</button><h1>${esc(s)}</h1>${first}${second}${settings()}<button class="primary" id="start">Start oefenen →</button>`;
+content.innerHTML=`<div class="page-inner"><button class="back" data-back="skills">← Terug</button><h1>${esc(s)}</h1>${first}${second}${settings()}<button class="primary" id="start">Start oefenen →</button></div>`;
 }
-else if(state.screen==='started'){content.innerHTML=`<button class="back" data-back="setup">← Terug</button><h1>Oefening</h1>${example()}<button class="primary" data-back="setup">Keuzes aanpassen</button>`;}
+else if(state.screen==='started'){content.innerHTML=`<div class="page-inner"><button class="back" data-back="setup">← Terug</button><h1>Oefening</h1>${example()}<button class="primary" data-back="setup">Keuzes aanpassen</button></div>`;}
 else if(['theory','vocabulary','review','lessons'].includes(state.screen)){const names={theory:'Theorie',vocabulary:'Woordenschat',review:'Herhaling',lessons:'Lessen'};content.innerHTML=`<div class="page-inner"><button class="back" data-back="home">← Terug</button><h1>${names[state.screen]}</h1><p class="note">Dit is een klikbaar navigatievoorbeeld. De lessen en oefeningen komen uit het afzonderlijke Android-project.</p>${state.screen==='lessons'?'<button class="primary" data-go="skills">Naar oefeningen</button>':''}</div>`;}
-else if(state.screen==='progress'){content.innerHTML=`<h1>Voortgang</h1><p class="note">Voortgang voor ${esc(activeProfile)} komt hier. In deze schets zijn er nog geen echte oefenresultaten.</p>`;}
-else if(state.screen==='settings'){content.innerHTML=`<h1>Instellingen</h1><p class="note">Je oefenkeuzes worden bewaard in deze browser.</p>`;}
+else if(state.screen==='progress'){content.innerHTML=`<div class="page-inner"><h1>Voortgang</h1><p class="note">De 9% op het startscherm is een voorbeeld uit het ontwerp. Er zijn in deze HTML-preview nog geen echte oefenresultaten.</p></div>`;}
+else if(state.screen==='settings'){content.innerHTML=`<div class="page-inner"><h1>Instellingen</h1><p class="note">Je oefenkeuzes worden bewaard in deze browser.</p></div>`;}
 persist();
 }
 document.addEventListener('click',ev=>{
