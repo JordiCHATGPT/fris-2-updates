@@ -65,6 +65,7 @@ header.hero{height:auto;aspect-ratio:1024/442;max-height:none;flex-shrink:0}
 @media(max-height:720px){header.hero{height:auto}.footer-illustration{height:auto}.tile-illustration{height:auto}}
 </style>
 """
-html = re.sub(r"<style id=\"approved-art\">.*?</style>", "", html, flags=re.S)\nhtml = html.replace("</head>", extra + "</head>", 1)
+html = re.sub(r"<style id=\"approved-art\">.*?</style>", "", html, flags=re.S)
+html = html.replace("</head>", extra + "</head>", 1)
 file.write_text(html, encoding="utf-8")
 print("Finished HTML", len(html))
