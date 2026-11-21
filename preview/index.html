@@ -26,7 +26,7 @@ main{flex:1;padding:22px 21px}h1{font-size:22px;letter-spacing:-.4px;margin:0 0 
 </head>
 <body>
 <div class="phone">
-<header><b>FRIS<span style="color:#d4433d">!</span></b><small id="prototype-label">SCHETS · V5</small><button type="button" id="switchProfile" class="who" hidden aria-label="Andere gebruiker kiezen"></button></header>
+<header><b>FRIS<span style="color:#d4433d">!</span></b><small id="prototype-label">SCHETS · V6</small></header>
 <main id="content" aria-live="polite"></main>
 <nav class="nav" aria-label="Onderste navigatie">
   <button type="button" data-nav="home" class="active"><span class="navicon">⌂</span>Home</button>
@@ -61,50 +61,29 @@ const situations={
  'Vrije gesprekken':['Alle situaties','Vragen beantwoorden','Een mening geven','Een gesprek gaande houden']
 };
 const defaults={Lezen:'Alle teksten',Luisteren:'Alle fragmenten',Spreken:'Alle situaties',Schrijven:'Alle schrijfdoelen',Gemengd:'Evenwichtig oefenen'};
-const profileNames=['Jordi','Joëlle'];
-const storagePrefix='fris2-v5-profile:';
-function freshState(){return {screen:'skills',skill:'Lezen',mode:'Automatisch',level:'Automatisch',method:'Automatisch',choices:{...defaults},category:'Alle situaties',situation:'Alle situaties',selectedSkills:['Lezen','Luisteren','Spreken','Schrijven']};}
-let state=freshState();
-let activeProfile=null;
-function selectProfile(name){
- if(!profileNames.includes(name))return;
- if(activeProfile)persist();
- activeProfile=name;
- state=freshState();
- try{
-  const saved=JSON.parse(localStorage.getItem(storagePrefix+name)||'null');
-  if(saved && typeof saved==='object' && skills.some(s=>s[0]===saved.skill)){
-   const baseline=freshState();
-   state={...baseline,...saved,choices:{...defaults,...saved.choices},screen:'skills'};
-  }
- }catch{}
- if(name==='Joëlle' && !['Automatisch','A0','A1'].includes(state.level))state.level='Automatisch';
- render();
-}
+const storageKey='fris2-v5-profile:Jordi';
+const activeProfile='Jordi';
+const defaultsForState=()=>({screen:'skills',skill:'Lezen',mode:'Automatisch',level:'Automatisch',method:'Automatisch',choices:{...defaults},category:'Alle situaties',situation:'Alle situaties',selectedSkills:['Lezen','Luisteren','Spreken','Schrijven']});
+let state=defaultsForState();
+try {
+ const saved=JSON.parse(localStorage.getItem(storageKey)||'null');
+ if(saved && typeof saved==='object' && skills.some(s=>s[0]===saved.skill)){
+  state={...state,...saved,choices:{...defaults,...saved.choices},screen:'skills'};
+ }
+} catch {}
 const content=document.getElementById('content');
 function esc(x){return String(x).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;')}
 function options(items,value){return items.map(x=>`<option value="${esc(x)}"${x===value?' selected':''}>${esc(x)}</option>`).join('')}
 function select(id,title,items,value,cls='field'){return `<select id="${id}" class="${cls}" aria-label="${esc(title)}">${options(items,value)}</select>`}
-function persist(){if(!activeProfile)return;try{localStorage.setItem(storagePrefix+activeProfile,JSON.stringify({...state,screen:'skills'}))}catch{}}
+function persist(){try{localStorage.setItem(storageKey,JSON.stringify({...state,screen:'skills'}))}catch{}}
 function area(){if(state.skill==='Spreken'){if(state.category==='Alle situaties')return 'Alle situaties';return state.situation==='Alle situaties'?state.category:state.category+' · '+state.situation}return state.choices[state.skill]}
 function example(){const a=area();const s=state.skill;return `<div class="summary"><strong>${esc(s)}</strong><div>${esc(a)}</div><div class="muted">Niveau: ${esc(state.mode==='Automatisch'?'Automatisch':state.level)}</div><div class="muted">${s==='Gemengd'?'Verdeling':config[s].methodLabel}: ${esc(state.mode==='Automatisch'?'Automatisch':state.method)}</div>${s==='Gemengd'?`<div class="muted">Vaardigheden: ${esc(state.selectedSkills.join(', '))}</div>`:''}</div><p class="note">${esc(config[s].sample)}</p><p class="tiny">Navigatieschets — nog geen echte oefening of beoordeling.</p>`}
 function settings(){const s=state.skill;const cfg=config[s];const mode=state.mode;
 const skillchecks=s==='Gemengd'?`<label>Vaardigheden</label><div class="check-row">${skills.filter(x=>x[0]!=='Gemengd').map(([name])=>`<label><input type="checkbox" data-included="${name}"${state.selectedSkills.includes(name)?' checked':''}>${name}</label>`).join('')}</div>`:'';
-const levels=activeProfile==='Joëlle'?['Automatisch','A0','A1']:['Automatisch','A1','A2','B1','B2'];
+const levels=['Automatisch','A1','A2','B1','B2'];
 return `<section class="subtle"><div class="subtle-header"><strong>Oefeninstellingen</strong>${select('mode','Oefeninstellingen',['Automatisch','Handmatig'],mode,'setting-mode')}</div>${mode==='Handmatig'?`<div class="extra"><label for="level">Niveau</label>${select('level','Niveau',levels,state.level)}<label for="method">${esc(cfg.methodLabel)}</label>${select('method',cfg.methodLabel,cfg.methods,state.method)}${skillchecks}</div>`:''}</section>`
 }
 function render(){
-const navBar=document.querySelector('.nav');
-const who=document.getElementById('switchProfile');
-const version=document.getElementById('prototype-label');
-navBar.hidden=!activeProfile;
-who.hidden=!activeProfile;
-version.hidden=!!activeProfile;
-if(!activeProfile){
- content.innerHTML=`<h1 class="profile-title">Wie gaat oefenen?</h1><div class="profile-selection">${profileNames.map(name=>`<button type="button" class="skill" data-profile="${esc(name)}"><span class="symbol">◉</span>${esc(name)}<span class="chev">›</span></button>`).join('')}</div>`;
- return;
-}
-who.textContent=activeProfile+' ⌄';
 const areaKey=['skills','setup','started'].includes(state.screen)?'home':state.screen;
 document.querySelectorAll('[data-nav]').forEach(b=>b.classList.toggle('active',areaKey===b.dataset.nav));
 if(state.screen==='skills'){content.innerHTML=`<h1>Oefenen</h1>${skills.map(([s,ic])=>`<button class="skill" data-skill="${esc(s)}"><span class="symbol">${skillIcon(ic)}</span>${esc(s)}<span class="chev">›</span></button>`).join('')}`;}
@@ -116,12 +95,10 @@ content.innerHTML=`<button class="back" data-back="skills">← Terug</button><h1
 }
 else if(state.screen==='started'){content.innerHTML=`<button class="back" data-back="setup">← Terug</button><h1>Oefening</h1>${example()}<button class="primary" data-back="setup">Keuzes aanpassen</button>`;}
 else if(state.screen==='progress'){content.innerHTML=`<h1>Voortgang</h1><p class="note">Voortgang voor ${esc(activeProfile)} komt hier. In deze schets zijn er nog geen echte oefenresultaten.</p>`;}
-else if(state.screen==='settings'){content.innerHTML=`<h1>Instellingen</h1><p class="note">De oefenkeuzes van ${esc(activeProfile)} worden apart bewaard in deze browser.</p>`;}
+else if(state.screen==='settings'){content.innerHTML=`<h1>Instellingen</h1><p class="note">Je oefenkeuzes worden bewaard in deze browser.</p>`;}
 persist();
 }
 document.addEventListener('click',ev=>{
-if(ev.target.closest('#switchProfile')){persist();activeProfile=null;state=freshState();render();return}
-const profileButton=ev.target.closest('[data-profile]');if(profileButton){selectProfile(profileButton.dataset.profile);return}
 const sk=ev.target.closest('[data-skill]');if(sk){state.skill=sk.dataset.skill;state.screen='setup';state.mode='Automatisch';state.level='Automatisch';state.method='Automatisch';render();return}
 const b=ev.target.closest('[data-back]');if(b){state.screen=b.dataset.back;render();return}
 const nav=ev.target.closest('[data-nav]');if(nav){state.screen=nav.dataset.nav==='home'?'skills':nav.dataset.nav;render();return}
