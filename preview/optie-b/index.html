@@ -588,6 +588,13 @@ main#content:has(.fris-full-composition){flex:1 1 auto;min-height:0;height:100%;
 .phone.fris-b-theme .fris-b-composition .fris-b-tap{position:absolute!important;z-index:5!important;border:0!important;padding:0!important;background:transparent!important;cursor:pointer}
 .phone.fris-b-theme:not(:has(.fris-b-composition))>header.hero{background-image:url('../art/fris-b-goedgekeurd.webp')!important}
 </style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+<style id="fris-verified-typography-20261121">
+.phone,.phone button,.phone input,.phone select,.phone textarea,.phone .fris-inner-intro h1,.phone .fris-inner-intro p{font-family:'Manrope',Arial,sans-serif!important}
+</style>
 </head>
 <body>
 <div class="phone fris-b-theme">
@@ -730,7 +737,7 @@ window.addEventListener('orientationchange',()=>requestAnimationFrame(drawHomeCa
 // Precisely render the approved Optie B image at the original aspect ratio.
 // Only blank watercolor intervals may grow on taller screens, never text or illustrations.
 const frisBArt=new Image();
-frisBArt.src='../art/fris-b-goedgekeurd.webp';
+frisBArt.src='../art/fris-type-clean-b.webp';
 frisBArt.addEventListener('load',()=>requestAnimationFrame(drawBHome));
 const frisApprovedBands=[[414,454,0.15],[674,689,0.2],[895,919,0.2],[1122,1210,0.45]].map(([start,end,share])=>({start,end,share}));
 function drawBHome(){
@@ -770,6 +777,16 @@ function drawBHome(){
    }
    return offset;
  };
+
+ // Verified typography only: the source image is text-free; all original hotspots are retained.
+ ctx.save();ctx.textAlign='left';ctx.textBaseline='alphabetic';ctx.fillStyle='#233c59';
+ ctx.font='700 46px "Manrope",Arial,sans-serif';
+ [["Lessen",420,523],["Oefenen",420,752],["Herhaling",420,981]].forEach(([t,x,y])=>ctx.fillText(t,x,mapY(y)));
+ ctx.font='400 28px "Manrope",Arial,sans-serif';
+ [["Nieuwe stof leren en",420,573],["begrijpen.",420,607],["Direct aan de slag met",420,801],["de stof.",420,835],["Eerder geleerde stof",420,1029],["opfrissen.",420,1064]].forEach(([t,x,y])=>ctx.fillText(t,x,mapY(y)));
+ ctx.textAlign='center';ctx.font='600 23px "Manrope",Arial,sans-serif';
+ [["Home",129,1604],["Theorie",352,1604],["Voortgang",586,1604],["Instellingen",811,1604]].forEach(([t,x,y])=>ctx.fillText(t,x,mapY(y)));
+ ctx.restore();
  shell.querySelectorAll('[data-b-top]').forEach(btn=>{
   const top=mapY(Number(btn.dataset.bTop));
   const bottom=mapY(Number(btn.dataset.bBottom));
@@ -783,6 +800,9 @@ function drawBHome(){
 }
 window.addEventListener('resize',()=>requestAnimationFrame(drawBHome));
 window.addEventListener('orientationchange',()=>requestAnimationFrame(drawBHome));
+ Promise.all([document.fonts.load('700 46px "Manrope"'),document.fonts.load('400 28px "Manrope"'),document.fonts.load('600 23px "Manrope"')])
+  .then(()=>requestAnimationFrame(drawBHome)).catch(()=>{});
+
 
 function render(){
 const areaKey=['home','skills','setup','started','lessons'].includes(state.screen)?'home':state.screen;

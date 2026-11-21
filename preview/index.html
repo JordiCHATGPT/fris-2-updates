@@ -392,6 +392,13 @@ main#content:has(.fris-full-composition){flex:1 1 auto;min-height:0;height:100%;
 .phone:not(:has(.fris-full-composition)) header.hero{background-image:url('art/fris-a-goedgekeurd.webp')!important}
 .phone:not(:has(.fris-full-composition)) nav.nav:not(.on-home){background-image:url('art/fris-a-goedgekeurd.webp')!important;aspect-ratio:941 / 172!important}
 </style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style id="fris-verified-typography-20261121">
+.phone,.phone button,.phone input,.phone select,.phone textarea,.phone .fris-inner-intro h1,.phone .fris-inner-intro p{font-family:'Nunito Sans',Arial,sans-serif!important}
+</style>
 </head>
 <body>
 <div class="phone">
@@ -459,7 +466,7 @@ return `<section class="subtle"><div class="subtle-header"><strong>Oefeninstelli
 // Precisely render the approved Optie A image at the original aspect ratio.
 // Only blank watercolor intervals may grow on taller screens, never text or illustrations.
 const frisArt=new Image();
-frisArt.src='art/fris-a-goedgekeurd.webp';
+frisArt.src='art/fris-type-clean-a.webp';
 frisArt.addEventListener('load',()=>requestAnimationFrame(drawHomeCanvas));
 const frisApprovedBands=[[470,530,0.15],[711,727,0.2],[917,929,0.2],[1091,1160,0.45]].map(([start,end,share])=>({start,end,share}));
 function drawHomeCanvas(){
@@ -499,6 +506,16 @@ function drawHomeCanvas(){
    }
    return offset;
  };
+
+ // Verified typography only: the source image is text-free; all original hotspots are retained.
+ ctx.save();ctx.textAlign='left';ctx.textBaseline='alphabetic';ctx.fillStyle='#233c59';
+ ctx.font='700 46px "Nunito Sans",Arial,sans-serif';
+ [["Lessen",380,590],["Oefenen",380,793],["Herhaling",380,989]].forEach(([t,x,y])=>ctx.fillText(t,x,mapY(y)));
+ ctx.font='400 27px "Nunito Sans",Arial,sans-serif';
+ [["Nieuwe stof leren en begrijpen.",380,633],["Direct aan de slag met de stof.",380,836],["Eerder geleerde stof opfrissen.",380,1033]].forEach(([t,x,y])=>ctx.fillText(t,x,mapY(y)));
+ ctx.textAlign='center';ctx.font='600 24px "Nunito Sans",Arial,sans-serif';
+ [["Home",128,1608],["Theorie",351,1608],["Voortgang",585,1608],["Instellingen",813,1608]].forEach(([t,x,y])=>ctx.fillText(t,x,mapY(y)));
+ ctx.restore();
  shell.querySelectorAll('[data-art-top]').forEach(btn=>{
   const top=mapY(Number(btn.dataset.artTop));
   const bottom=mapY(Number(btn.dataset.artBottom));
@@ -512,6 +529,9 @@ function drawHomeCanvas(){
 }
 window.addEventListener('resize',()=>requestAnimationFrame(drawHomeCanvas));
 window.addEventListener('orientationchange',()=>requestAnimationFrame(drawHomeCanvas));
+ Promise.all([document.fonts.load('700 46px "Nunito Sans"'),document.fonts.load('400 27px "Nunito Sans"'),document.fonts.load('600 24px "Nunito Sans"')])
+  .then(()=>requestAnimationFrame(drawHomeCanvas)).catch(()=>{});
+
 
 function render(){
 const areaKey=['home','skills','setup','started','lessons'].includes(state.screen)?'home':state.screen;
