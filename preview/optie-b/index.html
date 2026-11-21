@@ -451,6 +451,22 @@ main#content:has(.fris-full-composition){flex:1 1 auto;min-height:0;height:100%;
 .phone.fris-b-theme .skill{border-bottom:1px solid #dec7a8;color:#2b4059;font-size:clamp(16px,4vw,19px)!important}
 @media(min-width:650px){.phone.fris-b-theme{max-width:480px}}
 </style>
+<style id="fris-b-no-scrollbar">
+/* Option B displays no scroll tracks. Short devices can still scroll by touch. */
+.phone.fris-b-theme,
+.phone.fris-b-theme main#content,
+.phone.fris-b-theme .fris-b-composition{
+ scrollbar-width:none!important;
+ -ms-overflow-style:none!important;
+}
+.phone.fris-b-theme::-webkit-scrollbar,
+.phone.fris-b-theme main#content::-webkit-scrollbar,
+.phone.fris-b-theme .fris-b-composition::-webkit-scrollbar{
+ display:none!important;
+ width:0!important;
+ height:0!important;
+}
+</style>
 </head>
 <body>
 <div class="phone fris-b-theme">
@@ -593,7 +609,9 @@ window.addEventListener('orientationchange',()=>requestAnimationFrame(drawHomeCa
 const frisBArt=new Image();
 frisBArt.src='../art/fris-optie-b.webp';
 frisBArt.addEventListener('load',()=>requestAnimationFrame(drawBHome));
-const bArtWidth=941,bArtEnd=1434;
+// Crop the decorative scrollbar baked into the generated illustration (x >= 890).
+// The remaining artwork is scaled uniformly, with no distortion.
+const bArtWidth=890,bArtEnd=1434;
 const bBreaks=[420,680,908,1130],bWeights=[.10,.23,.23,.44];
 function bMapFor(height){
  const extra=Math.max(0,height-bArtEnd);
