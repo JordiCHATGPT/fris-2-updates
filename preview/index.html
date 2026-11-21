@@ -105,7 +105,7 @@ const content=document.getElementById('content');
 function esc(x){return String(x).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;')}
 function options(items,value){return items.map(x=>`<option value="${esc(x)}"${x===value?' selected':''}>${esc(x)}</option>`).join('')}
 function select(id,title,items,value,cls='field'){return `<select id="${id}" class="${cls}" aria-label="${esc(title)}">${options(items,value)}</select>`}
-function persist(){try{localStorage.setItem(storageKey,JSON.stringify({...state,screen:'skills'}))}catch{}}
+function persist(){try{localStorage.setItem(storageKey,JSON.stringify({...state,screen:'home'}))}catch{}}
 function area(){if(state.skill==='Spreken'){if(state.category==='Alle situaties')return 'Alle situaties';return state.situation==='Alle situaties'?state.category:state.category+' · '+state.situation}return state.choices[state.skill]}
 function example(){const a=area();const s=state.skill;return `<div class="summary"><strong>${esc(s)}</strong><div>${esc(a)}</div><div class="muted">Niveau: ${esc(state.mode==='Automatisch'?'Automatisch':state.level)}</div><div class="muted">${s==='Gemengd'?'Verdeling':config[s].methodLabel}: ${esc(state.mode==='Automatisch'?'Automatisch':state.method)}</div>${s==='Gemengd'?`<div class="muted">Vaardigheden: ${esc(state.selectedSkills.join(', '))}</div>`:''}</div><p class="note">${esc(config[s].sample)}</p><p class="tiny">Navigatieschets — nog geen echte oefening of beoordeling.</p>`}
 function settings(){const s=state.skill;const cfg=config[s];const mode=state.mode;
