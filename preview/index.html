@@ -389,12 +389,9 @@ main#content:has(.fris-full-composition){flex:1 1 auto;min-height:0;height:100%;
 .phone .fris-full-composition{width:100%;height:100%;position:relative;overflow:hidden}
 .phone .fris-full-composition #fris-home-canvas{display:block;width:100%;height:100%}
 .phone .fris-full-composition .fris-hotspot{position:absolute!important;z-index:5!important;background:transparent!important;border:0!important;padding:0!important;cursor:pointer}
-.phone:not(:has(.fris-full-composition)) header.hero{background-image:url('art/fris-fontbase-a.webp')!important}
+.phone:not(:has(.fris-full-composition)) header.hero{background-image:url('art/fris-a-goedgekeurd.webp')!important}
 .phone:not(:has(.fris-full-composition)) nav.nav:not(.on-home){background-image:url('art/fris-a-goedgekeurd.webp')!important;aspect-ratio:941 / 172!important}
 </style>
-
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-<style id="fris-selected-font-a-20261121">.phone, .phone button, .phone input, .phone select, .phone textarea, .phone .fris-inner-intro h1, .phone .fris-inner-intro p {font-family:'Nunito Sans',sans-serif!important}</style>
 </head>
 <body>
 <div class="phone">
@@ -502,16 +499,6 @@ function drawHomeCanvas(){
    }
    return offset;
  };
-
- // Independent, editable interface lettering; the approved artwork remains untouched elsewhere.
- ctx.textBaseline='alphabetic';ctx.textAlign='left';
- ctx.fillStyle='#203a59';ctx.font='700 50px "Nunito Sans", sans-serif';
- [["Lessen",380,588],["Oefenen",380,789],["Herhaling",380,991]].forEach(([text,x,y])=>ctx.fillText(text,x,mapY(y)));
- ctx.fillStyle='#3c4251';ctx.font='400 30px "Nunito Sans", sans-serif';
- [["Nieuwe stof leren en begrijpen.",380,634],["Direct aan de slag met de stof.",380,836],["Eerder geleerde stof opfrissen.",380,1038]].forEach(([text,x,y])=>ctx.fillText(text,x,mapY(y)));
- ctx.fillStyle='#203a59';ctx.font='600 26px "Nunito Sans", sans-serif';ctx.textAlign='center';
- [["Home",122,1607],["Theorie",350,1607],["Voortgang",582,1607],["Instellingen",810,1607]].forEach(([text,x,y])=>ctx.fillText(text,x,mapY(y)));
- ctx.textAlign='left';
  shell.querySelectorAll('[data-art-top]').forEach(btn=>{
   const top=mapY(Number(btn.dataset.artTop));
   const bottom=mapY(Number(btn.dataset.artBottom));
@@ -525,8 +512,6 @@ function drawHomeCanvas(){
 }
 window.addEventListener('resize',()=>requestAnimationFrame(drawHomeCanvas));
 window.addEventListener('orientationchange',()=>requestAnimationFrame(drawHomeCanvas));
-document.fonts.load('700 50px "Nunito Sans"').then(()=>requestAnimationFrame(drawHomeCanvas)).catch(()=>{});
-
 
 function render(){
 const areaKey=['home','skills','setup','started','lessons'].includes(state.screen)?'home':state.screen;
