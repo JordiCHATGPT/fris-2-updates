@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>FRIS! 2.0 — interactieve leerstructuur</title>
+<style>
+:root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#253448;background:#eef1f5;font-synthesis:none}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:clamp(10px,3vw,40px)}
+.phone{width:min(100%,394px);min-height:645px;background:#fff;border:1px solid #dde4ec;border-radius:20px;box-shadow:0 12px 42px #17293a12;display:flex;flex-direction:column;overflow:hidden}
+header{padding:18px 21px 14px;border-bottom:1px solid #edf0f3;display:flex;align-items:center;justify-content:space-between;gap:8px}header b{font-size:29px;letter-spacing:-1px}header small{color:#7a8796;font-size:10px;letter-spacing:.5px;font-weight:650}
+main{flex:1;padding:22px 21px}h1{font-size:22px;letter-spacing:-.4px;margin:0 0 18px}button,select{font:inherit}button{cursor:pointer}
+.skill{width:100%;border:1px solid #e0e6ee;background:white;border-radius:12px;min-height:57px;margin:0 0 9px;display:flex;align-items:center;gap:15px;padding:0 15px;text-align:left;font-weight:650;color:#273442}.skill:hover,.skill:focus-visible{border-color:#93a7b8;background:#f6f8fa}.symbol{width:28px;text-align:center;font-size:20px;color:#556b7c}.chev{margin-left:auto;color:#a1adba;font-size:22px}
+.back{border:0;background:transparent;color:#60758b;padding:4px 0;margin-bottom:13px}.field{display:block;width:100%;padding:12px 13px;border-radius:10px;border:1px solid #dbe2e9;color:#273747;background:#fff;margin:0 0 15px;min-width:0}
+.subtle{padding:13px;border-radius:12px;background:#f5f7fa;margin:9px 0 19px}.subtle-header{display:flex;align-items:center;justify-content:space-between;gap:9px;min-height:34px}.subtle-header strong{font-size:13.5px;letter-spacing:-.15px}.setting-mode{width:134px;border:1px solid #dce2e9;border-radius:8px;background:#fff;color:#42566d;font-size:13px;padding:7px 4px;cursor:pointer}
+.extra{padding-top:14px;border-top:1px solid #e5e9f0;margin-top:13px}.extra label{display:block;font-size:12px;color:#69798b;margin-bottom:6px}.extra .field{margin-bottom:12px}.extra .field:last-child{margin-bottom:0}
+.primary{border:0;background:#243c55;color:#fff;width:100%;padding:14px 16px;border-radius:11px;font-weight:650}.primary:hover{background:#385979}.summary{padding:16px;border-radius:12px;background:#f5f7fa;line-height:1.9;font-size:14px}.summary strong{display:block;font-size:18px;margin-bottom:3px}.muted{color:#758395}.note{font-size:13px;line-height:1.55;color:#64778a;margin:17px 0}
+.nav{border-top:1px solid #edf0f3;display:grid;grid-template-columns:repeat(3,1fr);padding:10px 8px 12px;gap:6px}.nav button{border:none;background:transparent;color:#778596;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;padding:7px 0;border-radius:9px}.nav button.active{color:#22394f;font-weight:700;background:#f2f5f9}.nav .navicon{font-size:20px}
+.check-row{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:7px 0 12px}.check-row label{font-size:13px;color:#435469;display:flex;align-items:center;gap:6px;background:#fff;border:1px solid #e1e6ed;border-radius:8px;padding:10px 8px}.check-row input{accent-color:#314c67}.tiny{font-size:11px;color:#8b98a7;margin:7px 0 0}
+@media(max-width:420px){body{padding:0}.phone{border:0;border-radius:0;box-shadow:none;min-height:100dvh}}
+</style>
+</head>
+<body>
+<div class="phone">
+<header><b>FRIS<span style="color:#d4433d">!</span></b><small>STRUCTUURPROEF · V4</small></header>
+<main id="content" aria-live="polite"></main>
+<nav class="nav" aria-label="Onderste navigatie">
+  <button type="button" data-nav="home" class="active"><span class="navicon">⌂</span>Home</button>
+  <button type="button" data-nav="progress"><span class="navicon">▥</span>Voortgang</button>
+  <button type="button" data-nav="settings"><span class="navicon">⚙</span>Instellingen</button>
+</nav>
+</div>
+<script>
+(()=>{
+'use strict';
+const skills=[['Lezen','▤'],['Luisteren','◉'],['Spreken','♬'],['Schrijven','✎'],['Gemengd','⇄']];
+const config={
+  Lezen:{label:'Tekstsoort',items:['Alle teksten','Berichten en e-mails','Borden en instructies','Artikelen en informatie','Verhalen en chats'],methodLabel:'Begrip oefenen',methods:['Automatisch','Hoofdlijn begrijpen','Informatie zoeken','Details begrijpen','Betekenis afleiden'],sample:'Je leest een korte Duitse tekst en beantwoordt vragen over de inhoud. Je hoeft hem niet letterlijk te vertalen.'},
+  Luisteren:{label:'Fragmentsoort',items:['Alle fragmenten','Gesprekken','Omroepen en aanwijzingen','Telefoon en voicemail','Verhalen en uitleg'],methodLabel:'Luisterdoel',methods:['Automatisch','Hoofdlijn begrijpen','Gerichte informatie horen','Details begrijpen','Instructies volgen'],sample:'Je luistert naar Duits en laat zien wat je hebt begrepen. Herhalen of langzamer luisteren kan afhankelijk zijn van je niveau.'},
+  Spreken:{label:'Situatie',items:['Alle situaties','Dagelijks leven','Winkelen en horeca','Reizen en onderweg','Afspraken en hulp','Vrije gesprekken'],methodLabel:'Spreekvorm',methods:['Automatisch','Kort reageren','Vragen stellen','Rollenspel','Vrijuit vertellen','Uitspraak oefenen'],sample:'Je voert een korte dialoog in een herkenbare situatie. Je antwoordt in het Duits; de app helpt indien nodig.'},
+  Schrijven:{label:'Schrijfdoel',items:['Alle schrijfdoelen','Korte antwoorden','Berichten en e-mails','Iets beschrijven','Vragen en verzoeken','Een mening geven','Vertalen NL → DE'],methodLabel:'Schrijfvorm',methods:['Automatisch','Woorden aanvullen','Zinnen ordenen','Schrijven met hulp','Zelfstandig schrijven','Vrij vertalen'],sample:'Je leert eerst bouwen met hulp en formuleert daarna steeds zelfstandiger. Correcte alternatieve zinnen mogen niet onterecht fout worden gerekend.'},
+  Gemengd:{label:'Trainingsdoel',items:['Evenwichtig oefenen','Dagelijks Duits','Mijn aandachtspunten','Herhalen'],methodLabel:'Verdeling',methods:['Automatisch','Gelijk verdeeld','Meer begrijpen','Meer produceren'],sample:'Lezen, luisteren, spreken en schrijven wisselen elkaar af. De voortgang blijft per vaardigheid gescheiden.'}
+};
+const situations={
+ 'Dagelijks leven':['Alle situaties','Kennismaken','Familie en vrienden','Hobby’s','Een gesprek beginnen'],
+ 'Winkelen en horeca':['Alle situaties','Supermarkt','Restaurant of café','Kleding kopen','Iets bestellen'],
+ 'Reizen en onderweg':['Alle situaties','Hotel','Openbaar vervoer','De weg vragen','Op vakantie'],
+ 'Afspraken en hulp':['Alle situaties','Een afspraak maken','Telefoneren','Hulp vragen','Een probleem uitleggen'],
+ 'Vrije gesprekken':['Alle situaties','Vragen beantwoorden','Een mening geven','Een gesprek gaande houden']
+};
+const defaults={Lezen:'Alle teksten',Luisteren:'Alle fragmenten',Spreken:'Alle situaties',Schrijven:'Alle schrijfdoelen',Gemengd:'Evenwichtig oefenen'};
+const state={screen:'skills',skill:'Lezen',mode:'Automatisch',level:'Automatisch',method:'Automatisch',choices:{...defaults},category:'Alle situaties',situation:'Alle situaties',selectedSkills:['Lezen','Luisteren','Spreken','Schrijven']};
+const content=document.getElementById('content');
+function esc(x){return String(x).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;')}
+function options(items,value){return items.map(x=>`<option value="${esc(x)}"${x===value?' selected':''}>${esc(x)}</option>`).join('')}
+function select(id,title,items,value,cls='field'){return `<select id="${id}" class="${cls}" aria-label="${esc(title)}">${options(items,value)}</select>`}
+function persist(){try{sessionStorage.setItem('fris2-prototype-state',JSON.stringify(state))}catch{}}
+try{const x=JSON.parse(sessionStorage.getItem('fris2-prototype-state')||'null');if(x&&skills.some(s=>s[0]===x.skill)){Object.assign(state,x,{choices:{...defaults,...x.choices}});}}catch{}
+function area(){if(state.skill==='Spreken'){if(state.category==='Alle situaties')return 'Alle situaties';return state.situation==='Alle situaties'?state.category:state.category+' · '+state.situation}return state.choices[state.skill]}
+function example(){const a=area();const s=state.skill;return `<div class="summary"><strong>${esc(s)}</strong><div>${esc(a)}</div><div class="muted">Niveau: ${esc(state.mode==='Automatisch'?'Automatisch':state.level)}</div><div class="muted">${s==='Gemengd'?'Verdeling':config[s].methodLabel}: ${esc(state.mode==='Automatisch'?'Automatisch':state.method)}</div>${s==='Gemengd'?`<div class="muted">Vaardigheden: ${esc(state.selectedSkills.join(', '))}</div>`:''}</div><p class="note">${esc(config[s].sample)}</p><p class="tiny">Navigatieschets — nog geen echte oefening of beoordeling.</p>`}
+function settings(){const s=state.skill;const cfg=config[s];const mode=state.mode;
+const skillchecks=s==='Gemengd'?`<label>Vaardigheden</label><div class="check-row">${skills.filter(x=>x[0]!=='Gemengd').map(([name])=>`<label><input type="checkbox" data-included="${name}"${state.selectedSkills.includes(name)?' checked':''}>${name}</label>`).join('')}</div>`:'';
+return `<section class="subtle"><div class="subtle-header"><strong>Oefeninstellingen</strong>${select('mode','Oefeninstellingen',['Automatisch','Handmatig'],mode,'setting-mode')}</div>${mode==='Handmatig'?`<div class="extra"><label for="level">Niveau</label>${select('level','Niveau',['Automatisch','A1','A2','B1'],state.level)}<label for="method">${esc(cfg.methodLabel)}</label>${select('method',cfg.methodLabel,cfg.methods,state.method)}${skillchecks}</div>`:''}</section>`
+}
+function render(){
+const areaKey=['skills','setup','started'].includes(state.screen)?'home':state.screen;
+document.querySelectorAll('[data-nav]').forEach(b=>b.classList.toggle('active',areaKey===b.dataset.nav));
+if(state.screen==='skills'){content.innerHTML=`<h1>Oefenen</h1>${skills.map(([s,ic])=>`<button class="skill" data-skill="${esc(s)}"><span class="symbol">${ic}</span>${esc(s)}<span class="chev">›</span></button>`).join('')}`;}
+else if(state.screen==='setup'){
+const s=state.skill,cfg=config[s];
+const first=s==='Spreken'?select('category','Situatie',cfg.items,state.category):select('choice',cfg.label,cfg.items,state.choices[s]);
+const second=s==='Spreken'&&state.category!=='Alle situaties'?select('situation','Specifieke situatie',situations[state.category]||['Alle situaties'],state.situation):'';
+content.innerHTML=`<button class="back" data-back="skills">← Terug</button><h1>${esc(s)}</h1>${first}${second}${settings()}<button class="primary" id="start">Start oefenen →</button>`;
+}
+else if(state.screen==='started'){content.innerHTML=`<button class="back" data-back="setup">← Terug</button><h1>Oefening</h1>${example()}<button class="primary" data-back="setup">Keuzes aanpassen</button>`;}
+else if(state.screen==='progress'){content.innerHTML=`<h1>Voortgang</h1><p class="note">Aparte voortgang voor lezen, luisteren, spreken en schrijven. Geen totaalscore die verschillende vaardigheden door elkaar haalt.</p>`;}
+else if(state.screen==='settings'){content.innerHTML=`<h1>Instellingen</h1><p class="note">Algemene appvoorkeuren. Niveau en oefenvorm kies je bij de oefeningen, en standaard regelt FRIS! dat automatisch.</p>`;}
+persist();
+}
+document.addEventListener('click',ev=>{
+const sk=ev.target.closest('[data-skill]');if(sk){state.skill=sk.dataset.skill;state.screen='setup';state.mode='Automatisch';state.level='Automatisch';state.method='Automatisch';render();return}
+const b=ev.target.closest('[data-back]');if(b){state.screen=b.dataset.back;render();return}
+const nav=ev.target.closest('[data-nav]');if(nav){state.screen=nav.dataset.nav==='home'?'skills':nav.dataset.nav;render();return}
+if(ev.target.closest('#start')){state.screen='started';render()}
+});
+document.addEventListener('change',ev=>{
+const id=ev.target.id,val=ev.target.value;
+if(id==='mode'){state.mode=val;render();return}
+if(id==='category'){state.category=val;state.situation='Alle situaties';render();return}
+if(id==='situation')state.situation=val;
+if(id==='choice')state.choices[state.skill]=val;
+if(id==='level')state.level=val;
+if(id==='method')state.method=val;
+if(ev.target.dataset.included){const name=ev.target.dataset.included;if(ev.target.checked){if(!state.selectedSkills.includes(name))state.selectedSkills.push(name)}else if(state.selectedSkills.length>1){state.selectedSkills=state.selectedSkills.filter(s=>s!==name)}else{ev.target.checked=true} }
+persist();
+});
+render();
+})();
+</script>
+</body>
+</html>
