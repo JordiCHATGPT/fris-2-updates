@@ -769,14 +769,15 @@ function drawBHome(){
  }
  // Gently frame the three choices using a warm tint; keep skyline and café untouched.
  // Feathered edges avoid a hard stripe between the three illustration zones.
- const zoneTop=at(378),zoneBottom=at(1190);
+ const zoneTop=at(365),zoneBottom=at(1190);
  const tint=ctx.createLinearGradient(0,zoneTop,0,zoneBottom);
- tint.addColorStop(0,'rgba(247,233,206,0)');
- tint.addColorStop(.15,'rgba(249,235,209,.10)');
- tint.addColorStop(.32,'rgba(241,219,178,.22)');
- tint.addColorStop(.57,'rgba(245,223,184,.23)');
- tint.addColorStop(.78,'rgba(251,236,206,.12)');
- tint.addColorStop(1,'rgba(250,238,218,0)');
+ tint.addColorStop(0,'rgba(244,225,190,0)');
+ tint.addColorStop(.13,'rgba(244,225,190,.17)');
+ tint.addColorStop(.31,'rgba(240,216,171,.42)');
+ tint.addColorStop(.52,'rgba(238,213,167,.44)');
+ tint.addColorStop(.72,'rgba(244,222,181,.39)');
+ tint.addColorStop(.87,'rgba(249,232,198,.19)');
+ tint.addColorStop(1,'rgba(249,232,198,0)');
  ctx.fillStyle=tint;
  ctx.fillRect(0,zoneTop,bArtWidth,zoneBottom-zoneTop);
  root.querySelectorAll('[data-b-top]').forEach(btn=>{
