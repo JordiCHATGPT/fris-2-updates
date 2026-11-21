@@ -11,6 +11,8 @@ root = Path(__file__).resolve().parents[1]
 historical = "db1319af4627a48b4c0f6f1d9b97616576ce21bf"
 source = subprocess.check_output(["git", "show", f"{historical}:preview/index.html"], cwd=root).decode("utf-8")
 matches = re.findall(r"data:image/(?:png|jpeg|webp);base64,([A-Za-z0-9+/=]+)", source)
+for i, m in enumerate(re.finditer(r"data:image/(?:png|jpeg|webp);base64,", source)):
+    print("SOURCE CONTEXT", i, repr(source[max(0, m.start() - 220):m.start()]))
 if not matches:
     raise RuntimeError("No embedded art was found in the approved historic HTML")
 images = []
