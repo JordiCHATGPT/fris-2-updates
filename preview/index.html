@@ -436,15 +436,15 @@ if(state.screen==='home'){content.innerHTML=`<div class="fris-full-composition" 
 <button type="button" class="fris-hotspot fris-bottom-hotspot" data-nav="progress" data-art-top="1397" data-art-bottom="1536" aria-label="Voortgang"></button>
 <button type="button" class="fris-hotspot fris-bottom-hotspot" data-nav="settings" data-art-top="1397" data-art-bottom="1536" aria-label="Instellingen"></button>
 </div>`;requestAnimationFrame(drawHomeCanvas);}
-else if(state.screen==='skills'){content.innerHTML=`<div class="page-inner"><button class="back" data-back="home">← Terug</button><h1>Oefenen</h1>${skills.map(([s,ic])=>`<button class="skill" data-skill="${esc(s)}"><span class="symbol">${skillIcon(ic)}</span>${esc(s)}<span class="chev">›</span></button>`).join('')}</div>`;}
+else if(state.screen==='skills'){content.innerHTML=`<div class="page-inner"><h1>Oefenen</h1>${skills.map(([s,ic])=>`<button class="skill" data-skill="${esc(s)}"><span class="symbol">${skillIcon(ic)}</span>${esc(s)}<span class="chev">›</span></button>`).join('')}</div>`;}
 else if(state.screen==='setup'){
 const s=state.skill,cfg=config[s];
 const first=s==='Spreken'?select('category','Situatie',cfg.items,state.category):select('choice',cfg.label,cfg.items,state.choices[s]);
 const second=s==='Spreken'&&state.category!=='Alle situaties'?select('situation','Specifieke situatie',situations[state.category]||['Alle situaties'],state.situation):'';
-content.innerHTML=`<div class="page-inner"><button class="back" data-back="skills">← Terug</button><h1>${esc(s)}</h1>${first}${second}${settings()}<button class="primary" id="start">Start oefenen →</button></div>`;
+content.innerHTML=`<div class="page-inner"><h1>${esc(s)}</h1>${first}${second}${settings()}<button class="primary" id="start">Start oefenen →</button></div>`;
 }
-else if(state.screen==='started'){content.innerHTML=`<div class="page-inner"><button class="back" data-back="setup">← Terug</button><h1>Oefening</h1>${example()}<button class="primary" data-back="setup">Keuzes aanpassen</button></div>`;}
-else if(['theory','vocabulary','review','lessons'].includes(state.screen)){const names={theory:'Theorie',vocabulary:'Woordenschat',review:'Herhaling',lessons:'Lessen'};content.innerHTML=`<div class="page-inner"><button class="back" data-back="home">← Terug</button><h1>${names[state.screen]}</h1><p class="note">Dit is een klikbaar navigatievoorbeeld. De lessen en oefeningen komen uit het afzonderlijke Android-project.</p>${state.screen==='lessons'?'<button class="primary" data-go="skills">Naar oefeningen</button>':''}</div>`;}
+else if(state.screen==='started'){content.innerHTML=`<div class="page-inner"><h1>Oefening</h1>${example()}<button class="primary" data-back="setup">Keuzes aanpassen</button></div>`;}
+else if(['theory','vocabulary','review','lessons'].includes(state.screen)){const names={theory:'Theorie',vocabulary:'Woordenschat',review:'Herhaling',lessons:'Lessen'};content.innerHTML=`<div class="page-inner"><h1>${names[state.screen]}</h1><p class="note">Dit is een klikbaar navigatievoorbeeld. De lessen en oefeningen komen uit het afzonderlijke Android-project.</p>${state.screen==='lessons'?'<button class="primary" data-go="skills">Naar oefeningen</button>':''}</div>`;}
 else if(state.screen==='progress'){content.innerHTML=`<div class="page-inner"><h1>Voortgang</h1><p class="note">De 9% op het startscherm is een voorbeeld uit het ontwerp. Er zijn in deze HTML-preview nog geen echte oefenresultaten.</p></div>`;}
 else if(state.screen==='settings'){content.innerHTML=`<div class="page-inner"><h1>Instellingen</h1><p class="note">Je oefenkeuzes worden bewaard in deze browser.</p></div>`;}
 if(state.screen!=='home'){
