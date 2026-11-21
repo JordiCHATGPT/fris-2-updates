@@ -22,11 +22,65 @@ main{flex:1;padding:22px 21px}h1{font-size:22px;letter-spacing:-.4px;margin:0 0 
 .who{border:1px solid #dfe5ed;border-radius:9px;background:#f8fafc;color:#34495f;font-size:13px;font-weight:650;padding:8px 12px}
 [hidden]{display:none!important}
 @media(max-width:420px){body{padding:0}.phone{border:0;border-radius:0;box-shadow:none;min-height:100dvh}}
+.illhome *{box-sizing:border-box}
+.illhome{margin:0;background:#fffbf3;color:#191713;font-family:Georgia,serif}
+.illhome .poster{position:relative;overflow:hidden;background:linear-gradient(#fffaf0,#fffdf7);padding:12px 10px 0}
+.illhome .brand{position:relative;z-index:2;font-family:Arial,sans-serif;font-size:37px;font-weight:950;letter-spacing:-2px;font-style:italic;transform:rotate(-5deg);width:max-content;margin:5px 0 0 24px}
+.illhome .brand b{color:#e7192e}
+.illhome .brand:before{content:'';position:absolute;width:180px;height:30px;border-top:6px solid #f9bb0c;border-radius:50%;top:-8px;left:-15px;transform:rotate(-10deg)}
+.illhome .subtitle{font:italic 27px cursive;position:relative;z-index:2;margin:-3px 0 0 94px;transform:rotate(-5deg)}
+.illhome .subtitle:after{content:'';display:block;width:150px;height:4px;background:#e7192e;border-radius:100%;transform:rotate(-7deg)}
+.illhome .sky{display:block;width:100%;height:auto;margin-top:-7px;filter:drop-shadow(0 1px 0 #151515)}
+.illhome .hello{text-align:center;margin:0 0 7px;font:italic bold 47px cursive;transform:rotate(-3deg)}
+.illhome .hello:after{content:'';display:block;width:110px;height:4px;background:#df172b;margin:-4px auto 0;transform:rotate(-4deg);border-radius:50%}
+.illhome .prompt{text-align:center;font:15px Arial,sans-serif;color:#53504d;margin:8px 0 15px}
+.illhome .choices{display:flex;gap:4px;margin:0 7px}
+.illhome .choice{display:flex;flex-direction:column;align-items:center;width:33.33%;text-decoration:none;color:#171717;min-height:174px}
+.illhome .choice svg{width:100%;height:116px}
+.illhome .choice strong{font:bold italic 26px cursive;margin:2px 0}
+.illhome .choice i{display:block;height:3px;width:75%;background:#f6b900;border-radius:50%;transform:rotate(-4deg)}
+.illhome .choice:nth-child(2) i{background:#e7192e}
+.illhome .progress{display:flex;align-items:center;gap:9px;margin:17px 18px 6px;font:15px Arial,sans-serif}
+.illhome .track{height:10px;border-radius:10px;background:#dfdcd7;flex:1;overflow:hidden}
+.illhome .fill{height:100%;background:#ffbe00;width:0%;border-radius:10px}
+.illhome .progress b{font-size:19px}
+.illhome .footer{width:100%;height:auto;display:block}
+.illhome .settings{position:absolute;right:10px;top:11px;font:22px Arial,sans-serif;text-decoration:none;color:#191919;background:#ffcc24;border-radius:50%;width:39px;height:39px;text-align:center;line-height:39px;z-index:3;box-shadow:0 2px 4px #0002}
+
+.illhome .poster{padding-top:18px}
+.illhome .hello{font-size:clamp(35px,11vw,47px)}
+.illhome .progress{font-size:12px}
+.illhome .quick-links{display:flex;justify-content:center;margin:8px 14px 2px}
+.illhome .quick-links button{border:1px solid #d4b780;background:#fff8e3;border-radius:8px;padding:7px 18px;color:#322b24;font-size:13px;font-weight:bold;cursor:pointer;box-shadow:1px 2px 0 #ecd9b5}
+.illhome .choice:focus-visible,.illhome .quick-links button:focus-visible{outline:3px solid #d62336;outline-offset:3px}
+body{background:#f0e8d9;color:#261f18}
+.phone{background:#fffbf3;border-color:#e1cdb0}
+header{background:#fffbf3;border-bottom:1px solid #ead9ba}
+header b{font-style:italic;letter-spacing:-1.6px;color:#1d1a17;transform:rotate(-3deg)}
+header small{color:#9b7d5f}
+main{background:#fffbf3}
+h1{font-family:Georgia,serif;font-style:italic;color:#24201b}
+.skill{border:1px solid #e6d1b4;background:#fff9e9;color:#2c251c;box-shadow:2px 3px 0 #e9d6b8}
+.skill:hover,.skill:focus-visible{background:#fff1cc;border-color:#e3ac2c}
+.symbol{color:#24201b}
+.back{color:#a52031;font-weight:700}
+.field{border-color:#decaab;background:#fffdf6;color:#282119}
+.subtle{background:#fff1d6;border:1px solid #f0dcb8}
+.setting-mode{color:#3b3023;border-color:#dfc8a4;background:#fffdf6}
+.primary{background:#d62336;color:#fff;box-shadow:2px 3px 0 #8e1524}
+.primary:hover{background:#b61c2c}
+.summary{background:#fff2d5}
+.nav{background:#fff8e9;border-top:1px solid #e4d2b8}
+.nav button.active{background:#ffe6a1;color:#921c29}
+.nav button{color:#745e48}
+.phone.home-mode header{display:none}
+.phone.home-mode main{padding:0}
+@media(max-width:420px){.illhome .choice strong{font-size:clamp(18px,6vw,26px)}}
 </style>
 </head>
 <body>
 <div class="phone">
-<header><b>FRIS<span style="color:#d4433d">!</span></b><small id="prototype-label">SCHETS · V6</small></header>
+<header><b>FRIS<span style="color:#d4433d">!</span></b><small id="prototype-label">SCHETS · V7</small></header>
 <main id="content" aria-live="polite"></main>
 <nav class="nav" aria-label="Onderste navigatie">
   <button type="button" data-nav="home" class="active"><span class="navicon">⌂</span>Home</button>
@@ -62,13 +116,14 @@ const situations={
 };
 const defaults={Lezen:'Alle teksten',Luisteren:'Alle fragmenten',Spreken:'Alle situaties',Schrijven:'Alle schrijfdoelen',Gemengd:'Evenwichtig oefenen'};
 const storageKey='fris2-v5-profile:Jordi';
+const illustratedHome="<div class=\"illhome\"><div class=\"poster\"><a class=\"settings\" href=\"#\" data-home-action=\"settings\" aria-label=\"Instellingen\">⚙</a><div class=\"brand\">FRIS<b>!</b></div><div class=\"subtitle\">je Duits op</div>\n<svg class=\"sky\" viewBox=\"0 0 360 190\" xmlns=\"http://www.w3.org/2000/svg\"><defs><pattern id=\"windows\" width=\"10\" height=\"14\" patternUnits=\"userSpaceOnUse\"><path d=\"M4 3v7\" stroke=\"#191919\" stroke-width=\"2\"/></pattern></defs>\n<g stroke=\"#1b1a17\" stroke-width=\"1.7\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n<path d=\"M1 155Q40 142 76 154Q120 165 158 151Q198 144 242 153Q305 142 360 156\" stroke-width=\"3\"/>\n<path d=\"M0 172Q80 165 140 172T280 171T360 172\" stroke=\"#e8a900\"/>\n<path d=\"M3 180q7-3 14 0m5 4q10-3 18 0m22-2q20-4 38 0m28 3q18-4 33 0m30-3q12-3 22 0m32 3q17-4 31 0m35-3q20-3 38 0\"/>\n<path d=\"M8 148V97h12V83l7-17 7 17v16h10v49z\" fill=\"#fffaf0\"/><path d=\"M13 108h27v37H13zm5-9h5m7 0h5m-21 20h24m-22 13h22\"/><path d=\"M48 148v-43l10-15 10 15v43m-18-41h16m-15 13h15m-13 14h13\" fill=\"#fffaf0\"/>\n<path d=\"M76 151V98l12-42 12 42v53m-22-52h20M84 89l4-17 5 17M82 109h13M82 125h13\" fill=\"#fffaf0\"/>\n<path d=\"M105 150V94l13-49 13 49v56m-24-56h22m-20 18h18m-18 17h18m-12-32v-18m6 18v-18\" fill=\"#fffaf0\"/>\n<path d=\"M132 150q19-39 44-39t46 39m-86 0q19-27 40-27t41 27m-79-1h77m-72-7 65 0m-56-9 46 0\" fill=\"#fffaf0\"/><path d=\"M143 143l10-14 12 14 11-17 12 17 10-14 11 14\"/>\n<path d=\"M224 150V76h8v74m-11-76h14l-3-9h-8zm2-12q8-16 13 0m-10-8q-8-10 1-18m2 3q9-9 0-16m-2 1V22\" fill=\"#fffaf0\"/><ellipse cx=\"228\" cy=\"48\" rx=\"8\" ry=\"14\" fill=\"#ffedb3\"/><path d=\"M221 48h14m-7-13v27m-7-13h14\"/>\n<path d=\"M243 151V102h56v49m-63-49h70l-7-8h-56zm10-13h52l-7-7h-38zm4-9h44\" fill=\"#fffaf0\"/><path d=\"M251 105v43m10-43v43m10-43v43m10-43v43m10-43v43\" stroke-width=\"4\"/><path d=\"M239 150h67m-44-73 9-8 9 8-9-4z\"/>\n<path d=\"M312 151V108h37v43m-40-43h43l-7-11h-28zm7-11q4-22 16-22t16 22m-31 0h32m-27-9h22m-17-8v20m-4-14h23\" fill=\"#fffaf0\"/>\n<path d=\"M344 97V64m0 0 12 5-12 5\" stroke=\"#191919\"/><path d=\"M344 65l12 4-12 1z\" fill=\"#e7192e\"/><path d=\"M344 70l12 0-12 4z\" fill=\"#f7b800\"/>\n<path d=\"M158 37q8-10 16 0 7-5 12 2m84-12q10-10 20 0 9-7 16 1m-119 25q5-6 10 0m7 0q5-6 10 0\" />\n</g><g fill=\"#efba08\" opacity=\".8\"><circle cx=\"3\" cy=\"140\" r=\"8\"/><circle cx=\"350\" cy=\"146\" r=\"9\"/><circle cx=\"66\" cy=\"143\" r=\"6\"/><circle cx=\"305\" cy=\"146\" r=\"5\"/></g><path d=\"M0 159Q88 143 170 161T360 159\" fill=\"none\" stroke=\"#e7192e\" stroke-width=\"3\"/></svg>\n<h1 class=\"hello\">Hallo Jordi!</h1><div class=\"prompt\">Tijd voor Duits. Waar ga je vandaag mee aan de slag?</div>\n<div class=\"choices\">\n<a class=\"choice\" href=\"#\" data-home-action=\"theory\"><svg viewBox=\"0 0 115 116\"><path d=\"M7 36L103 18 112 78 16 95z\" fill=\"#fbc20c\" opacity=\".5\"/><g stroke=\"#181715\" stroke-width=\"2.6\" stroke-linejoin=\"round\"><path d=\"M14 52l62-8 24 9v38l-25-9-61 7z\" fill=\"#fffaf0\"/><path d=\"M14 40l62-8 24 10v38l-24-10-62 7z\" fill=\"#fffaf0\"/><path d=\"M14 29l62-8 24 10v38l-24-10-62 7z\" fill=\"#fffaf0\"/><path d=\"M76 21v48M16 36l57-7M16 46l57-7\" fill=\"none\"/><path d=\"M79 26l16 6v22l-16-6z\" fill=\"#e7192e\"/></g><text x=\"46\" y=\"64\" font-size=\"15\" font-family=\"Arial\" font-weight=\"bold\">A1</text></svg><strong>Lessen</strong><i></i></a>\n<a class=\"choice\" href=\"#\" data-home-action=\"skills\"><svg viewBox=\"0 0 115 116\"><path d=\"M9 27L88 13 110 79 29 100z\" fill=\"#ed2638\" opacity=\".32\"/><g stroke=\"#1b1715\" stroke-width=\"2.6\"><circle cx=\"57\" cy=\"56\" r=\"42\" fill=\"#fffaf0\"/><circle cx=\"57\" cy=\"56\" r=\"31\" fill=\"#e7192e\"/><circle cx=\"57\" cy=\"56\" r=\"23\" fill=\"#fffaf0\"/><circle cx=\"57\" cy=\"56\" r=\"13\" fill=\"#e7192e\"/><circle cx=\"57\" cy=\"56\" r=\"5\" fill=\"#171717\"/><path d=\"M58 56l41-41\" fill=\"none\" stroke-width=\"4\"/><path d=\"M92 21l3-15 8-3-2 15z\" fill=\"#fbc20c\"/></g></svg><strong>Oefenen</strong><i></i></a>\n<a class=\"choice\" href=\"#\" data-home-action=\"review\"><svg viewBox=\"0 0 115 116\"><path d=\"M10 26L93 12 111 83 23 100z\" fill=\"#fbc20c\" opacity=\".5\"/><g stroke=\"#191715\" stroke-width=\"2.7\" stroke-linejoin=\"round\"><path d=\"M24 25h68v69H24z\" fill=\"#fffaf0\"/><path d=\"M24 25h68v15H24z\" fill=\"#f8be11\"/><path d=\"M38 18v16m39-16v16\" fill=\"none\" stroke-width=\"5\" stroke-linecap=\"round\"/><path d=\"M39 65a19 19 0 0 1 33-9m0 0v-11m0 11H61M76 66a19 19 0 0 1-33 10m0 0v11m0-11h11\" fill=\"none\" stroke-width=\"4\"/></g></svg><strong>Herhaling</strong><i></i></a>\n</div><div class=\"quick-links\"><button type=\"button\" data-home-action=\"vocab\">✦ Woordenschat</button></div><div class=\"progress\"><span>Voortgang (schets)</span><div class=\"track\"><div class=\"fill\"></div></div><b>0%</b></div>\n<svg class=\"footer\" viewBox=\"0 0 360 150\" xmlns=\"http://www.w3.org/2000/svg\"><rect width=\"360\" height=\"150\" fill=\"#fffaf0\"/><path d=\"M0 82Q50 45 105 75T230 70T360 66V150H0z\" fill=\"#eee7d8\"/><path d=\"M0 103Q90 76 175 98T360 89\" stroke=\"#d5b871\" fill=\"none\"/><g stroke=\"#191715\" stroke-width=\"2\"><path d=\"M0 113L360 106v44H0z\" fill=\"#d5a36d\"/><path d=\"M0 129l360-7m-310-9v37m95-40v40m100-42v42\" fill=\"none\" opacity=\".45\"/><path d=\"M25 113V80l40-2v35z\" fill=\"#b73325\"/><path d=\"M15 90q26-13 56-2\" fill=\"none\" stroke-width=\"7\" stroke=\"#c33\"/><path d=\"M88 121q-8-22 3-34h35q10 14 3 34z\" fill=\"#fffaf0\"/><path d=\"M96 87q-7-12 1-21m10 21q-7-14 3-23m10 23q-7-12 1-21\" fill=\"none\" stroke-width=\"1.5\"/><path d=\"M173 121l49-13 51 11-50 16z\" fill=\"#fffaf0\"/><path d=\"M223 135v-16m-47 2v-9l46-12 46 11v8\" fill=\"none\"/><path d=\"M274 114l25-16m-24 20l27-16\" stroke-width=\"3\"/></g><g fill=\"#e7192e\"><circle cx=\"16\" cy=\"106\" r=\"7\"/><circle cx=\"27\" cy=\"101\" r=\"7\"/><circle cx=\"39\" cy=\"107\" r=\"7\"/></g><path d=\"M16 113v26m11-30v29m12-27v29\" stroke=\"#42722c\" stroke-width=\"2\"/></svg></div></div>";
 const activeProfile='Jordi';
-const defaultsForState=()=>({screen:'skills',skill:'Lezen',mode:'Automatisch',level:'Automatisch',method:'Automatisch',choices:{...defaults},category:'Alle situaties',situation:'Alle situaties',selectedSkills:['Lezen','Luisteren','Spreken','Schrijven']});
+const defaultsForState=()=>({screen:'home',skill:'Lezen',mode:'Automatisch',level:'Automatisch',method:'Automatisch',choices:{...defaults},category:'Alle situaties',situation:'Alle situaties',selectedSkills:['Lezen','Luisteren','Spreken','Schrijven']});
 let state=defaultsForState();
 try {
  const saved=JSON.parse(localStorage.getItem(storageKey)||'null');
  if(saved && typeof saved==='object' && skills.some(s=>s[0]===saved.skill)){
-  state={...state,...saved,choices:{...defaults,...saved.choices},screen:'skills'};
+  state={...state,...saved,choices:{...defaults,...saved.choices},screen:'home'};
  }
 } catch {}
 const content=document.getElementById('content');
@@ -84,9 +139,11 @@ const levels=['Automatisch','A1','A2','B1','B2'];
 return `<section class="subtle"><div class="subtle-header"><strong>Oefeninstellingen</strong>${select('mode','Oefeninstellingen',['Automatisch','Handmatig'],mode,'setting-mode')}</div>${mode==='Handmatig'?`<div class="extra"><label for="level">Niveau</label>${select('level','Niveau',levels,state.level)}<label for="method">${esc(cfg.methodLabel)}</label>${select('method',cfg.methodLabel,cfg.methods,state.method)}${skillchecks}</div>`:''}</section>`
 }
 function render(){
-const areaKey=['skills','setup','started'].includes(state.screen)?'home':state.screen;
+const areaKey=['home','skills','setup','started','theory','vocab','review'].includes(state.screen)?'home':state.screen;
+const phone=document.querySelector('.phone');if(phone)phone.classList.toggle('home-mode',state.screen==='home');
 document.querySelectorAll('[data-nav]').forEach(b=>b.classList.toggle('active',areaKey===b.dataset.nav));
-if(state.screen==='skills'){content.innerHTML=`<h1>Oefenen</h1>${skills.map(([s,ic])=>`<button class="skill" data-skill="${esc(s)}"><span class="symbol">${skillIcon(ic)}</span>${esc(s)}<span class="chev">›</span></button>`).join('')}`;}
+if(state.screen==='home'){content.innerHTML=illustratedHome;}
+else if(state.screen==='skills'){content.innerHTML=`<button class="back" data-back="home">← Terug</button><h1>Oefenen</h1>${skills.map(([s,ic])=>`<button class="skill" data-skill="${esc(s)}"><span class="symbol">${skillIcon(ic)}</span>${esc(s)}<span class="chev">›</span></button>`).join('')}`;}
 else if(state.screen==='setup'){
 const s=state.skill,cfg=config[s];
 const first=s==='Spreken'?select('category','Situatie',cfg.items,state.category):select('choice',cfg.label,cfg.items,state.choices[s]);
@@ -94,14 +151,18 @@ const second=s==='Spreken'&&state.category!=='Alle situaties'?select('situation'
 content.innerHTML=`<button class="back" data-back="skills">← Terug</button><h1>${esc(s)}</h1>${first}${second}${settings()}<button class="primary" id="start">Start oefenen →</button>`;
 }
 else if(state.screen==='started'){content.innerHTML=`<button class="back" data-back="setup">← Terug</button><h1>Oefening</h1>${example()}<button class="primary" data-back="setup">Keuzes aanpassen</button>`;}
+else if(state.screen==='theory'){content.innerHTML='<button class="back" data-back="home">← Terug</button><h1>Lessen</h1><p class="note">Hier komen grammatica en theorie.</p>';}
+else if(state.screen==='vocab'){content.innerHTML='<button class="back" data-back="home">← Terug</button><h1>Woordenschat</h1><p class="note">Hier komen nieuwe en lastige woorden.</p>';}
+else if(state.screen==='review'){content.innerHTML='<button class="back" data-back="home">← Terug</button><h1>Herhaling</h1><p class="note">Hier komen gerichte herhaaloefeningen.</p>';}
 else if(state.screen==='progress'){content.innerHTML=`<h1>Voortgang</h1><p class="note">Voortgang voor ${esc(activeProfile)} komt hier. In deze schets zijn er nog geen echte oefenresultaten.</p>`;}
 else if(state.screen==='settings'){content.innerHTML=`<h1>Instellingen</h1><p class="note">Je oefenkeuzes worden bewaard in deze browser.</p>`;}
 persist();
 }
 document.addEventListener('click',ev=>{
+const homeAction=ev.target.closest('[data-home-action]');if(homeAction){ev.preventDefault?.();state.screen=homeAction.dataset.homeAction;render();return}
 const sk=ev.target.closest('[data-skill]');if(sk){state.skill=sk.dataset.skill;state.screen='setup';state.mode='Automatisch';state.level='Automatisch';state.method='Automatisch';render();return}
 const b=ev.target.closest('[data-back]');if(b){state.screen=b.dataset.back;render();return}
-const nav=ev.target.closest('[data-nav]');if(nav){state.screen=nav.dataset.nav==='home'?'skills':nav.dataset.nav;render();return}
+const nav=ev.target.closest('[data-nav]');if(nav){state.screen=nav.dataset.nav==='home'?'home':nav.dataset.nav;render();return}
 if(ev.target.closest('#start')){state.screen='started';render()}
 });
 document.addEventListener('change',ev=>{
