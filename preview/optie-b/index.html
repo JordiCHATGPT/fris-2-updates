@@ -1,0 +1,713 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>FRIS! je Duits op — Optie B</title>
+<style>
+:root{font-family:Arial,Helvetica,sans-serif;color:#181818;background:#f2f0e9;font-synthesis:none}
+*{box-sizing:border-box}body{margin:0;min-height:100dvh;display:flex;justify-content:center;align-items:flex-start}
+.phone{width:min(100%,480px);min-height:100dvh;background:#fffaf1;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 0 40px #0001}
+button,select{font:inherit}button{cursor:pointer}button:focus-visible,select:focus-visible{outline:3px solid #e8b500;outline-offset:3px}
+header.hero{height:clamp(216px,58vw,282px);max-height:282px;position:relative;overflow:hidden;flex-shrink:0;background:#fffaf1}
+.hero-art{width:100%;height:100%;display:block}
+.brand{position:absolute;z-index:2;left:15%;top:6%;transform:rotate(-7deg);line-height:.9;white-space:nowrap}
+.brand strong{font-family:Arial Black,Arial,sans-serif;font-weight:1000;font-style:italic;font-size:clamp(42px,11vw,66px);letter-spacing:-4px;text-shadow:1px 1px #222}
+.brand strong i{color:#df1014;font-style:normal}.brand small{display:block;margin:4px 0 0 33%;font-family:"Segoe Print","Comic Sans MS",cursive;font-weight:900;font-style:italic;font-size:clamp(16px,5vw,24px);transform:rotate(-3deg)}.brand:before{content:"";position:absolute;top:-6px;left:-17px;width:80%;height:13px;border-top:7px solid #ffbf00;border-radius:75% 65% 0 0;transform:rotate(-6deg)}.brand:after{content:"";position:absolute;bottom:-10px;left:36%;width:64%;height:10px;border-top:5px solid #e51b23;border-radius:70% 40% 0 0;transform:rotate(-7deg)}
+main{flex:1;min-height:0;padding:0;display:flex;flex-direction:column}
+.home-panel{display:flex;flex-direction:column;flex:1;min-height:0}
+.greeting{text-align:center;padding:7px 14px 5px}.greeting h1{font-family:"Segoe Script","Segoe Print","Brush Script MT","Comic Sans MS",cursive;font-size:clamp(34px,9vw,51px);font-style:italic;line-height:1.3;margin:0;color:#0b0b0b;font-weight:900;letter-spacing:-2px}.greeting h1:after{content:"";display:block;width:34%;border-top:5px solid #e52222;margin:-1px auto 5px;transform:rotate(-4deg);border-radius:100%}.greeting p{font-size:clamp(13px,3.5vw,17px);color:#444;margin:4px 0 0;line-height:1.4}
+.home-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;padding:18px 10px 8px;align-items:start}
+.home-action{display:flex;flex-direction:column;align-items:center;min-width:0;border:0;background:transparent;color:#0b0b0b;padding:0 2px;gap:3px}
+.home-action:hover .tile-illustration{transform:scale(1.055)}.home-action:active .tile-illustration{transform:scale(.97)}
+.tile-illustration{width:100%;height:clamp(104px,31vw,150px);transition:transform .15s;display:block;filter:drop-shadow(1px 2px 0 #7772)}
+.tile-label{font-family:"Segoe Script","Segoe Print","Brush Script MT","Comic Sans MS",cursive;font-size:clamp(21px,5.8vw,31px);font-style:italic;font-weight:900;white-space:nowrap;letter-spacing:-1px;line-height:1.3}
+.tile-underline{height:5px;width:68%;border-top:5px solid #f8b900;border-radius:100%;transform:rotate(-4deg)}.home-action.red .tile-underline{border-color:#eb2629}
+.progress-wrap{display:flex;align-items:center;gap:10px;padding:13px 28px 5px;margin-top:auto}
+.progress-label{white-space:nowrap;font-size:clamp(12px,3.2vw,16px);color:#454545}.progress-track{flex:1;min-width:30px;height:11px;border-radius:12px;background:#d9d6d1;overflow:hidden}.progress-fill{height:100%;width:9%;background:#ffc400;border-radius:12px}.progress-value{font-weight:900;font-size:21px;min-width:42px;text-align:right}
+.footer-illustration{height:clamp(130px,37vw,188px);width:100%;display:block;margin-top:5px}
+.nav{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;background:#fffaf3;border-top:1px solid #e0d5c3;padding:9px 6px max(8px,env(safe-area-inset-bottom));flex-shrink:0}
+.nav button{min-width:0;border:0;background:transparent;color:#111;display:flex;flex-direction:column;align-items:center;gap:2px;padding:2px 0 5px;font-size:clamp(10px,2.9vw,14px);font-weight:600;position:relative}
+.nav button svg{width:clamp(25px,7vw,35px);height:clamp(25px,7vw,35px);stroke:#131313;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.nav button.active{color:#e11b20}.nav button.active svg{stroke:#e11b20;fill:#e11b20}.nav button.active:after{content:"";position:absolute;bottom:-4px;height:4px;width:75%;background:#e11b20;border-radius:5px}
+.nav button[data-nav="progress"] svg rect:nth-child(2){fill:#f5b900;stroke:#f5b900}.nav button[data-nav="progress"] svg rect:nth-child(3){fill:#e11b20;stroke:#e11b20}
+.page-inner{padding:20px 22px;flex:1}.page-inner h1{font-size:24px;margin:0 0 17px}.back{border:0;background:none;padding:5px 0 17px;color:#5d5851;font-size:15px}
+.skill{width:100%;display:flex;align-items:center;gap:15px;border:1px solid #ded8cb;border-radius:12px;background:#fff;padding:13px;text-align:left;font-size:17px;font-weight:700;margin-bottom:10px;color:#292929}.skill:hover{background:#fff3d4}.symbol{width:28px;display:flex;align-items:center;justify-content:center}.symbol svg{width:26px;height:26px}.chev{margin-left:auto;font-size:25px;color:#999}
+.field{width:100%;padding:12px;border:1px solid #cfcac1;border-radius:9px;background:#fff;color:#272727;margin:0 0 14px}
+.subtle{border:1px solid #e6dac2;background:#fff7e9;border-radius:10px;padding:13px;margin-bottom:16px}.subtle-header{display:flex;align-items:center;justify-content:space-between;gap:10px}.subtle-header strong{font-size:14px}.setting-mode{width:130px;background:white;border:1px solid #ddd1bd;border-radius:8px;padding:7px}
+.extra{padding-top:12px}.extra label{font-size:13px;color:#555;display:block;margin:8px 0}.check-row{display:grid;grid-template-columns:1fr 1fr;gap:5px}.check-row label{margin:0;padding:6px;background:#fff;border:1px solid #eee}.check-row input{accent-color:#db1d21}
+.primary{background:#da1c22;color:white;width:100%;border:0;border-radius:9px;padding:14px;font-weight:700}.summary{background:#fff2d8;border-radius:10px;padding:16px;line-height:1.8}.summary strong{display:block}.muted,.note,.tiny{color:#626262}.note{font-size:14px;line-height:1.5}.tiny{font-size:12px}
+@media(min-width:650px){body{padding:18px}.phone{min-height:820px;border:1px solid #e3ded4;border-radius:20px}}
+@media(max-height:710px){header.hero{height:190px}.home-actions{padding-top:5px}.tile-illustration{height:100px}.footer-illustration{height:110px}.greeting h1{font-size:34px}.greeting p{font-size:13px}}
+</style>
+
+
+
+<style id="approved-art">
+header.hero{height:auto;aspect-ratio:1024/442;max-height:none;flex-shrink:0}
+.hero-photo{display:block;width:100%;height:100%;object-fit:fill}
+.home-panel{background:#fffaf1}
+.home-actions{padding:12px 13px 8px;gap:4px}
+.tile-illustration{width:100%;height:auto;aspect-ratio:341/274;object-fit:contain;filter:none}
+.footer-illustration{display:block;width:100%;height:auto;aspect-ratio:1024/274;object-fit:cover;margin-top:5px}
+.greeting{padding:8px 12px 0}
+.greeting h1{font-family:"Segoe Script","Brush Script MT","Comic Sans MS",cursive;font-weight:900;font-style:italic;font-size:clamp(34px,9vw,52px)}
+.tile-label{font-family:"Segoe Script","Brush Script MT","Comic Sans MS",cursive}
+.home-action{min-height:0}
+.progress-wrap{margin-top:auto;padding:14px 28px 9px}
+@media(max-height:720px){header.hero{height:auto}.footer-illustration{height:auto}.tile-illustration{height:auto}}
+</style>
+
+<style id="navigation-art">
+.nav{position:relative;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));width:100%;height:auto;aspect-ratio:1024/141;padding:0;border:0;background:#fffaf3 url("../art/desk.webp") center/100% 100% no-repeat;gap:0}
+.nav button{position:relative;height:100%;padding:0;background:transparent;border:0;border-radius:0;opacity:1;color:transparent}
+.nav button svg,.nav button span{visibility:hidden}
+.nav button.active{background:transparent;color:transparent}
+.nav button.active:after{display:none}
+.nav button:focus-visible{outline:3px solid #e51c23;outline-offset:-5px}
+@media(min-width:650px){.nav{border-radius:0 0 18px 18px}}
+</style>
+<style id="clean-main-buttons">
+/* Eenvoudige zelfstandige hoofdknoppen; header en footer blijven origineel. */
+.home-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding:18px 17px 12px}
+.home-action{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;min-width:0;min-height:143px;padding:13px 5px 12px;border:1.5px solid #ded6c4;border-radius:13px;background:#fffdf7;box-shadow:0 3px 0 #e8dfce;color:#242424}
+.home-action:hover{background:#fff5df;border-color:#c9ae64}
+.home-action:active{transform:translateY(2px);box-shadow:0 1px 0 #e8dfce}
+.tile-icon{display:block;width:clamp(49px,15vw,66px);height:clamp(49px,15vw,66px);flex-shrink:0}
+.tile-label{font-family:Arial,Helvetica,sans-serif;font-weight:750;font-style:normal;font-size:clamp(14px,3.7vw,18px);letter-spacing:0}
+.tile-underline{width:32%;height:3px;border:0;background:#f0bd17;border-radius:4px;transform:none}
+.home-action.red .tile-underline{background:#e12a2c}
+@media(max-width:360px){.home-actions{gap:7px;padding-inline:10px}.home-action{min-height:121px;padding:9px 2px}.tile-icon{width:47px;height:47px}.tile-label{font-size:13px}}
+@media(max-height:720px){.home-actions{padding-top:6px;padding-bottom:6px}.home-action{min-height:105px;gap:3px}.tile-icon{width:40px;height:40px}}
+</style><style id="warm-reference-background">:root{background:#f3ebdf}.phone,.home-panel,header.hero{background-color:#fcf6eb}.page-inner{background-color:#fcf6eb}.home-action{background:#fff9ed}.home-action:hover{background:#fff0d3}</style><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+<style id="reference-greeting-typography">
+.greeting{padding:8px 8px 2px}
+.greeting h1{
+  font-family:"Caveat Brush","Segoe Print",cursive;
+  font-size:clamp(43px,11vw,62px);
+  font-weight:400;
+  font-style:normal;
+  letter-spacing:-.6px;
+  line-height:1.12;
+  transform:rotate(-1deg);
+}
+.greeting h1:after{width:30%;border-top:5px solid #e92327;margin:0 auto 8px;transform:rotate(-4deg)}
+.greeting p{
+  font-family:Roboto,Arial,Helvetica,sans-serif;
+  font-weight:400;
+  font-style:normal;
+  font-size:clamp(13px,3.2vw,16px);
+  letter-spacing:0;
+  line-height:1.35;
+  color:#444;
+  margin:4px 0 0;
+}
+@media(max-height:710px){.greeting h1{font-size:clamp(39px,9vw,50px)}.greeting p{font-size:13px}}
+</style>
+<style id="footer-docking">
+/* Footer rests directly on the five-button bottom bar, independent of viewport height. */
+.phone{display:flex;flex-direction:column}
+main#content{flex:1 1 auto;min-height:0;display:flex;flex-direction:column}
+.home-panel{display:flex;flex-direction:column;flex:1}
+.footer-illustration{display:block;width:100%;height:auto;flex-shrink:0;margin-top:auto;margin-bottom:0;vertical-align:bottom}
+.nav{flex-shrink:0;margin-top:0}
+@media(max-height:710px){.footer-illustration{margin-top:auto}}
+</style><style id="reference-brush-lettering">
+/* The sample uses broad, connected brush lettering, not block/Comic Sans. */
+.greeting h1{
+  font-family:"Kaushan Script","Segoe Script",cursive;
+  font-size:clamp(38px,9.4vw,54px);
+  font-weight:400;
+  font-style:normal;
+  letter-spacing:-1.4px;
+  line-height:1.32;
+  transform:rotate(-1.4deg);
+  white-space:nowrap;
+}
+.tile-label{
+  font-family:"Kaushan Script","Segoe Script",cursive;
+  font-weight:400;
+  font-style:normal;
+  font-size:clamp(16px,4vw,22px);
+  line-height:1.3;
+  letter-spacing:-.7px;
+  white-space:nowrap;
+}
+.greeting p{
+  font-family:Roboto,Arial,Helvetica,sans-serif;
+  font-weight:400;
+  font-size:clamp(13px,3.2vw,16px);
+  letter-spacing:0;
+  transform:none;
+}
+@media(max-width:360px){
+  .greeting h1{font-size:clamp(33px,9.2vw,40px)}
+  .tile-label{font-size:clamp(14px,4vw,17px)}
+}
+</style><style id="exact-original-lettering">
+/* Exact pixels of the original AI illustration, not an assumed font match. */
+.greeting h1.exact-heading{display:block;width:52%;margin:0 auto 5px;line-height:0;transform:none;letter-spacing:normal;font-size:initial}
+.greeting h1.exact-heading:after{display:none}
+.greeting h1.exact-heading img{display:block;width:100%;height:auto}
+.greeting p.exact-subtitle{display:block;width:91%;margin:4px auto 0;line-height:0;font-size:initial}
+.greeting p.exact-subtitle img{display:block;width:100%;height:auto}
+.home-action .tile-label.exact-label{display:block;width:100%;height:auto;line-height:0;white-space:normal}
+.home-action .tile-label.exact-label img{display:block;width:100%;height:auto;object-fit:contain}
+.home-action .tile-underline{display:none}
+</style><style id="fris-approved-2026-home">
+/* Screens are functional HTML. Only individual artwork sections use raster illustrations. */
+:root {color-scheme:light;background:#f9f3eb}
+html,body{margin:0;min-height:100%;background:#f9f3eb}
+.phone{width:min(100%,480px);height:100dvh;min-height:0;display:flex;flex-direction:column;background:#fcf6ef}
+header.hero{width:100%;height:auto;max-height:none;aspect-ratio:941/462;overflow:hidden;flex:0 0 auto;background:transparent}
+header.hero .hero-photo{width:100%;height:100%;display:block;object-fit:fill}
+main#content{flex:1 1 auto;min-height:0;overflow:auto;padding:0;display:flex;flex-direction:column;background:#fcf6ef}
+.home-panel{display:flex;flex-direction:column;flex:1 0 auto;min-height:100%;background:#fcf6ef}
+.home-top-space{height:clamp(28px,7dvh,86px);flex:0 0 auto}
+.home-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:center;gap:0;width:100%;padding:0 11px;margin:0;background:transparent}
+.home-action{display:block;width:100%;height:auto;min-width:0;min-height:0;border:0;border-radius:0;box-shadow:none;background:transparent;padding:0;margin:0;outline-offset:-3px;cursor:pointer;transform:none}
+.home-action img{width:100%;height:auto;display:block;object-fit:contain;transition:transform .15s;filter:none}
+.home-action:hover,.home-action:active{background:transparent;box-shadow:none;transform:none}
+.home-action:hover img{transform:scale(1.02)}
+.home-action:active img{transform:scale(.98)}
+.home-fill-space{flex:1 0 12px;min-height:12px}
+.home-footer{width:100%;height:auto;aspect-ratio:941/289;object-fit:cover;display:block;flex:0 0 auto;margin:0;padding:0;vertical-align:bottom}
+.nav{width:100%;height:auto;aspect-ratio:941/215;flex:0 0 auto;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));align-items:stretch;border:0;padding:0;margin:0;gap:0;border-radius:0;background:#fcf6ef}
+.nav.on-home{background:#fcf6ef url("../art/2026-home-navigation.webp") center/100% 100% no-repeat}
+.nav button{width:100%;height:100%;border:0;background:none;border-radius:0;opacity:1;display:flex;align-items:center;justify-content:center;gap:3px;flex-direction:column;color:#272a2b;font-size:clamp(11px,2.9vw,14px);font-weight:600;padding:0}
+.nav button svg{width:clamp(28px,8vw,36px);height:clamp(28px,8vw,36px);stroke:#262a2b;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round;visibility:visible}
+.nav button.active{color:#e31920;background:transparent}
+.nav button.active svg{stroke:#e31920;fill:none}
+.nav button.active:after{display:none}
+.nav.on-home button,.nav.on-home button.active{color:transparent;background:transparent}
+.nav.on-home button svg,.nav.on-home button span{visibility:hidden}
+.nav button:focus-visible{outline:2px solid #e31920;outline-offset:-3px}
+.page-inner{background:#fcf6ef}
+@media(min-width:650px){body{padding:0}.phone{border:0;border-radius:0;box-shadow:0 0 24px #0001;min-height:0}.nav{border-radius:0}}
+@media(max-height:740px){.home-top-space{height:clamp(15px,3dvh,35px)}}
+@media(prefers-reduced-motion:reduce){.home-action img{transition:none}}
+</style><style id="fris-inner-navigation-fix">
+/* Keep illustrated footer/nav artwork exclusive to the home screen. */
+.nav:not(.on-home){background:#fcf6ef none!important}
+.nav:not(.on-home) button span,.nav:not(.on-home) button svg{visibility:visible}
+.nav:not(.on-home) button{color:#272a2b}
+.nav:not(.on-home) button.active{color:#e31920}
+.nav:not(.on-home) button.active svg{stroke:#e31920}
+</style>
+<style id="fris-first-variant-20261121">
+/* Eerste besproken variant: doorlopende aquarelsfeer, drie rijen met illustratie en uitleg. */
+.phone{background:#fcf7ee}
+.home-panel{background:linear-gradient(180deg,#f6f6ef 0%,#faf2e5 42%,#f8ecd9 85%,#fcf6ef 100%);min-height:100%;justify-content:space-between}
+.home-actions.fris-editorial-actions{display:flex;flex-direction:column;align-items:stretch;gap:0;width:100%;padding:0 24px;margin:0;flex:1 0 auto;background:transparent}
+.home-actions.fris-editorial-actions .home-action{display:grid;grid-template-columns:minmax(0,28%) minmax(0,1fr);align-items:center;gap:14px;min-height:clamp(78px,16dvh,112px);padding:5px 4px;background:transparent;box-shadow:none;border:0;border-radius:0;border-bottom:1px solid rgba(148,109,60,.25);text-align:left;color:#263b54;transform:none;overflow:hidden}
+.home-actions.fris-editorial-actions .home-action:last-child{border-bottom:0}
+.home-actions.fris-editorial-actions .home-action img{display:block;width:100%;height:auto;max-height:92px;object-fit:contain;mix-blend-mode:multiply;filter:none}
+.fris-action-copy{display:flex;flex-direction:column;gap:4px;justify-content:center;line-height:1.12}
+.fris-action-copy strong{font:700 clamp(20px,5.4vw,28px)/1.10 Georgia,"Times New Roman",serif;letter-spacing:-.6px;color:#293f5b}
+.fris-action-copy em{font:italic clamp(11px,3.1vw,15px)/1.35 Georgia,"Times New Roman",serif;color:#5a5360}
+.home-panel .home-fill-space{display:none}
+.home-panel .home-footer{width:100%;height:auto;aspect-ratio:941/289;object-fit:cover;flex:0 0 auto;display:block;margin:0}
+.nav.on-home{background-color:#fcf6ed}
+@media(max-width:390px){
+ .home-actions.fris-editorial-actions{padding:0 15px}
+ .home-actions.fris-editorial-actions .home-action{grid-template-columns:28% 1fr;gap:10px;min-height:82px}
+ .fris-action-copy strong{font-size:clamp(19px,5.3vw,24px)}
+ .fris-action-copy em{font-size:clamp(11px,3vw,13px)}
+}
+@media(max-height:700px){
+ .home-actions.fris-editorial-actions .home-action{min-height:76px}
+ .home-actions.fris-editorial-actions .home-action img{max-height:76px}
+}
+@media(prefers-reduced-motion:reduce){.home-actions.fris-editorial-actions .home-action img{transition:none}}
+</style><style id="fris-responsive-watercolor">
+/* The approved image fills any portrait phone; protect icons and text from distortion. */
+.phone{height:100dvh;min-height:0;overflow:hidden;background:#faf4eb}
+main#content:has(.fris-full-composition){flex:1 1 auto;min-height:0;height:100%;overflow:hidden;background:#faf4eb}
+.phone:has(.fris-full-composition)>header.hero,
+.phone:has(.fris-full-composition)>nav.nav{display:none!important}
+.fris-full-composition{height:100%;min-height:0;width:100%;position:relative;overflow:hidden;background:#faf3e6}
+#fris-home-canvas{width:100%;height:100%;display:block}
+.fris-hotspot{position:absolute;left:4%;width:92%;border:0;padding:0;background:transparent;cursor:pointer;z-index:3}
+.fris-hotspot:hover{background:rgba(255,198,65,.055)}
+.fris-hotspot:active{background:rgba(220,38,40,.08)}
+.fris-hotspot:focus-visible{outline:3px solid #d52429;outline-offset:-3px;border-radius:7px}
+.fris-bottom-hotspot{width:25%;left:0}
+.fris-bottom-hotspot:nth-of-type(5){left:25%}
+.fris-bottom-hotspot:nth-of-type(6){left:50%}
+.fris-bottom-hotspot:nth-of-type(7){left:75%}
+/* Inner pages use the same painted paper, navy serif text and warm gold accents. */
+.phone:not(:has(.fris-full-composition)) header.hero{height:clamp(132px,20dvh,178px);max-height:178px;aspect-ratio:auto;flex:0 0 auto;background:#f6ede0}
+.phone:not(:has(.fris-full-composition)) header.hero .hero-photo{width:100%;height:100%;object-fit:cover;object-position:center top}
+.phone:not(:has(.fris-full-composition)) main#content{overflow-y:auto;min-height:0;background:radial-gradient(ellipse at 6% 2%,rgba(233,197,131,.22),transparent 50%),radial-gradient(ellipse at 97% 96%,rgba(179,203,188,.18),transparent 58%),#fbf4e9}
+.phone:not(:has(.fris-full-composition)) .page-inner{background:transparent;padding:18px 22px 26px;color:#263d55}
+.page-inner h1{font:700 clamp(25px,6.5vw,32px)/1.22 Georgia,'Times New Roman',serif;color:#283e58;margin:2px 0 18px}
+.back{font:400 15px Georgia,serif;color:#75634e;padding:4px 0 17px}
+.skill{border:0;border-bottom:1px solid rgba(151,111,65,.3);border-radius:0;box-shadow:none;background:transparent;padding:16px 6px;font:700 clamp(17px,4.7vw,20px)/1.2 Georgia,serif;color:#2b435d;margin:0}
+.skill:hover{background:rgba(255,234,185,.28)}
+.skill .symbol{color:#8a6136}
+.chev{color:#b29366}
+.field,.setting-mode{background:rgba(255,251,244,.77);border:1px solid #dac7a9;border-radius:6px;color:#2e4156}
+.subtle,.summary{background:rgba(255,249,238,.62);border:1px solid rgba(173,138,95,.4);border-radius:7px;color:#2e4054}
+.primary{border-radius:7px;background:#2d4965;color:white}
+.primary:hover{background:#1c344c}
+.note,.muted,.tiny{color:#655e57}
+.phone:not(:has(.fris-full-composition)) .nav:not(.on-home){height:clamp(66px,9dvh,84px);aspect-ratio:auto;background:rgba(253,247,237,.98)!important;border-top:1px solid rgba(166,133,93,.4);flex:0 0 auto}
+.phone:not(:has(.fris-full-composition)) .nav button{font-family:Georgia,'Times New Roman',serif;font-weight:400;font-size:clamp(11px,3vw,14px);gap:1px}
+.phone:not(:has(.fris-full-composition)) .nav button.active{color:#284867;background:rgba(202,220,230,.4)}
+.phone:not(:has(.fris-full-composition)) .nav button.active svg{stroke:#284867}
+@media(min-width:650px){.phone{max-width:480px;height:100dvh;border-radius:0}}
+</style>
+<style id="fris-inner-watercolor-20261121">
+/* Compact approved skyline artwork, no top-right duplicate Home action. */
+.phone:not(:has(.fris-full-composition)) header.hero{
+  height:clamp(112px,16dvh,155px);
+  max-height:155px;
+  flex:0 0 auto;
+  aspect-ratio:auto;
+  background:#e8e7dc url('../art/fris-inner-header.webp') center top / cover no-repeat !important;
+  border-bottom:0;
+}
+.phone:not(:has(.fris-full-composition)) header.hero .hero-photo{display:none}
+.phone:not(:has(.fris-full-composition)) .page-inner{
+ background:radial-gradient(ellipse at 6% 10%,rgba(228,193,136,.19),transparent 45%),
+            radial-gradient(ellipse at 98% 96%,rgba(194,210,199,.21),transparent 55%),#faf2e6;
+ padding:14px 18px 24px;
+}
+.fris-inner-intro{display:flex;align-items:center;gap:12px;margin:0 0 18px;padding:2px 0 13px;border-bottom:1px solid rgba(171,128,77,.30)}
+.fris-inner-intro img{width:clamp(49px,13vw,64px);height:clamp(49px,13vw,64px);object-fit:contain;mix-blend-mode:multiply;flex:0 0 auto}
+.fris-inner-intro .fris-inner-title{display:flex;flex-direction:column;min-width:0;gap:3px}
+.fris-inner-intro h1{margin:0;font:700 clamp(23px,6.3vw,30px)/1.12 Georgia,'Times New Roman',serif;color:#233c5a}
+.fris-inner-intro p{margin:0;font:italic clamp(12px,3.2vw,15px)/1.23 Georgia,'Times New Roman',serif;color:#605869}
+.phone:not(:has(.fris-full-composition)) .back{padding:1px 0 11px}
+.phone:not(:has(.fris-full-composition)) .skill{padding:15px 6px;gap:12px}
+@media(max-height:650px){.phone:not(:has(.fris-full-composition)) header.hero{height:100px}.fris-inner-intro{margin-bottom:10px;padding-bottom:8px}}
+</style>
+<style id="fris-unified-bottom-navigation">
+/* Reuse the actual approved home-page navigation artwork, not substitute icons. */
+.phone:not(:has(.fris-full-composition)) nav.nav:not(.on-home){
+ display:grid!important;
+ grid-template-columns:repeat(4,minmax(0,1fr))!important;
+ width:100%;
+ height:auto!important;
+ aspect-ratio:1024 / 138!important;
+ min-height:0!important;
+ padding:0!important;
+ gap:0!important;
+ border:0!important;
+ flex:0 0 auto!important;
+ background-color:#faf3e8!important;
+ background-image:url('../art/fris-approved-watercolor.webp')!important;
+ background-position:center bottom!important;
+ background-size:100% auto!important;
+ background-repeat:no-repeat!important;
+ box-shadow:none!important;
+ border-radius:0!important;
+}
+.phone:not(:has(.fris-full-composition)) nav.nav:not(.on-home) button{
+ position:relative;
+ padding:0!important;
+ margin:0!important;
+ width:100%;
+ height:100%;
+ background:transparent!important;
+ border:0!important;
+ border-radius:0!important;
+ box-shadow:none!important;
+ color:transparent!important;
+}
+.phone:not(:has(.fris-full-composition)) nav.nav:not(.on-home) button svg,
+.phone:not(:has(.fris-full-composition)) nav.nav:not(.on-home) button span{
+ visibility:hidden!important;
+}
+.phone:not(:has(.fris-full-composition)) nav.nav:not(.on-home) button:after{display:none!important}
+.phone:not(:has(.fris-full-composition)) nav.nav:not(.on-home) button:focus-visible{
+ outline:3px solid #db2126!important;outline-offset:-4px;border-radius:9px!important
+}
+</style>
+<style id="fris-inner-typography-and-correct-header">
+/* The top artwork comes from the same image as HOME and contains no page name. */
+.phone:not(:has(.fris-full-composition)) header.hero{
+ background-image:url('../art/fris-approved-watercolor.webp')!important;
+ background-position:center top!important;
+ background-size:100% auto!important;
+ background-repeat:no-repeat!important;
+ background-color:#e9ecdf!important;
+ height:clamp(135px,39vw,178px)!important;
+ max-height:178px!important;
+}
+/* Page names belong only below the skyline, never baked into the header. */
+.phone:not(:has(.fris-full-composition)) .page-inner{
+ padding:clamp(23px,5.8vw,31px) 20px 28px!important;
+ font-family:Georgia,'Times New Roman',serif;
+ font-size:clamp(13px,3.6vw,16px);
+ line-height:1.38;
+}
+.phone:not(:has(.fris-full-composition)) .fris-inner-intro{
+ gap:10px;
+ padding:0 0 15px;
+ margin:0 0 17px;
+ border-bottom:1px solid rgba(165,126,78,.25);
+ align-items:center;
+}
+.phone:not(:has(.fris-full-composition)) .fris-inner-intro img{
+ width:clamp(45px,12vw,56px);
+ height:clamp(45px,12vw,56px);
+}
+.phone:not(:has(.fris-full-composition)) .fris-inner-intro h1{
+ font:700 clamp(20px,5.5vw,25px)/1.12 Georgia,'Times New Roman',serif!important;
+ letter-spacing:0;
+ color:#293d57;
+}
+.phone:not(:has(.fris-full-composition)) .fris-inner-intro p{
+ font:italic clamp(12px,3.1vw,14px)/1.27 Georgia,'Times New Roman',serif!important;
+ color:#645e63;
+}
+.phone:not(:has(.fris-full-composition)) .skill{
+ font:700 clamp(16px,4.25vw,19px)/1.22 Georgia,'Times New Roman',serif!important;
+ padding:13px 6px;
+}
+.phone:not(:has(.fris-full-composition)) .field,
+.phone:not(:has(.fris-full-composition)) .setting-mode,
+.phone:not(:has(.fris-full-composition)) .subtle,
+.phone:not(:has(.fris-full-composition)) .subtle label,
+.phone:not(:has(.fris-full-composition)) .primary,
+.phone:not(:has(.fris-full-composition)) .note,
+.phone:not(:has(.fris-full-composition)) .summary{
+ font-family:Georgia,'Times New Roman',serif;
+}
+@media(max-height:700px){
+ .phone:not(:has(.fris-full-composition)) header.hero{height:clamp(105px,32vw,145px)!important}
+ .phone:not(:has(.fris-full-composition)) .page-inner{padding-top:20px!important}
+}
+</style>
+<style id="fris-option-b-independent">
+/* A and B coexist: this file is published at /optie-b/, A remains untouched. */
+.phone.fris-b-theme{height:100dvh;min-height:0;overflow:hidden;background:#fff6e9}
+.phone.fris-b-theme:has(.fris-b-composition)>header.hero{display:none!important}
+.phone.fris-b-theme main#content:has(.fris-b-composition){flex:1 1 auto;height:100%;min-height:0;display:block;overflow-y:auto;overflow-x:hidden;background:#fff3e4}
+.phone.fris-b-theme .fris-b-composition{position:relative;width:100%;height:100%;min-height:0;background:#fff2df}
+.phone.fris-b-theme #fris-b-canvas{display:block;width:100%;height:auto;max-width:100%}
+.phone.fris-b-theme .fris-b-tap{position:absolute;left:4%;width:92%;border:0;box-shadow:none;background:transparent;padding:0;margin:0;z-index:4;cursor:pointer}
+.phone.fris-b-theme .fris-b-tap:hover{background:rgba(242,185,66,.08)}
+.phone.fris-b-theme .fris-b-tap:focus-visible{outline:3px solid #ec2425;outline-offset:-3px;border-radius:6px}
+/* Reusable navigation matches the graphic of option B while remaining truly interactive. */
+.phone.fris-b-theme nav.nav,.phone.fris-b-theme nav.nav.on-home,
+.phone.fris-b-theme nav.nav:not(.on-home){
+ display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;
+ width:100%;height:clamp(71px,9.2dvh,88px)!important;min-height:71px!important;
+ flex:0 0 auto!important;aspect-ratio:auto!important;gap:0!important;
+ padding:6px 2px max(7px,env(safe-area-inset-bottom))!important;
+ border:0!important;border-top:1px solid rgba(169,133,97,.22)!important;
+ background:#fff9f2!important;background-image:none!important;box-shadow:none!important;
+}
+.phone.fris-b-theme nav.nav button,
+.phone.fris-b-theme nav.nav:not(.on-home) button{
+ color:#2b2b2b!important;font:500 clamp(10px,3.4vw,15px)/1.12 Arial,Helvetica,sans-serif!important;
+ display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;
+ padding:4px 0 7px!important;background:transparent!important;border:0!important;
+ gap:2px!important;border-radius:0!important;box-shadow:none!important;
+}
+.phone.fris-b-theme nav.nav button svg,.phone.fris-b-theme nav.nav:not(.on-home) button svg{
+ visibility:visible!important;display:block!important;width:clamp(24px,7.5vw,35px)!important;height:clamp(24px,7.5vw,35px)!important;
+ stroke:#303030!important;fill:none!important;stroke-width:2!important;
+}
+.phone.fris-b-theme nav.nav button span,.phone.fris-b-theme nav.nav:not(.on-home) button span{
+ visibility:visible!important;display:block!important;line-height:1.15!important
+}
+.phone.fris-b-theme nav.nav button.active,
+.phone.fris-b-theme nav.nav:not(.on-home) button.active{color:#e91519!important}
+.phone.fris-b-theme nav.nav button.active svg,
+.phone.fris-b-theme nav.nav:not(.on-home) button.active svg{stroke:#ee1b20!important}
+.phone.fris-b-theme nav.nav button[data-nav="home"].active svg{fill:#ee1b20!important}
+.phone.fris-b-theme nav.nav button.active:after,
+.phone.fris-b-theme nav.nav:not(.on-home) button.active:after{
+ content:""!important;display:block!important;position:absolute!important;
+ bottom:0!important;left:22%!important;width:56%!important;height:3px!important;
+ background:#e91b1f!important;border-radius:5px!important;
+}
+/* Supporting pages inherit the new sharper identity, not A's skyline or artwork. */
+.phone.fris-b-theme:not(:has(.fris-b-composition))>header.hero{
+ display:block!important;
+ height:clamp(122px,33vw,160px)!important;max-height:160px!important;
+ background:#f8f3e9 url('../art/fris-optie-b.webp') center top / 100% auto no-repeat!important;
+}
+.phone.fris-b-theme>header.hero .hero-photo{display:none!important}
+.phone.fris-b-theme:not(:has(.fris-b-composition)) main#content{
+ min-height:0;flex:1 1 auto;overflow-y:auto;
+ background:#fff7eb!important;
+}
+.phone.fris-b-theme:not(:has(.fris-b-composition)) .page-inner{
+ padding:26px 21px 30px!important;background:linear-gradient(165deg,#fff6e6,#fff9f1)!important;
+ color:#2b3f58;font:400 clamp(13px,3.6vw,16px)/1.4 Georgia,'Times New Roman',serif
+}
+.phone.fris-b-theme .fris-inner-intro{margin-bottom:18px;padding-bottom:16px;border-color:rgba(165,126,77,.28)}
+.phone.fris-b-theme .fris-inner-intro h1{
+ color:#263f5d;font:700 clamp(22px,5.5vw,27px)/1.14 Georgia,'Times New Roman',serif!important;
+}
+.phone.fris-b-theme .fris-inner-intro p{font:italic clamp(12px,3.2vw,14px)/1.27 Georgia,serif!important}
+.phone.fris-b-theme .skill{border-bottom:1px solid #dec7a8;color:#2b4059;font-size:clamp(16px,4vw,19px)!important}
+@media(min-width:650px){.phone.fris-b-theme{max-width:480px}}
+</style>
+</head>
+<body>
+<div class="phone fris-b-theme">
+<header class="hero"><img class="hero-photo" src="../art/2026-home-header.webp" alt="FRIS! je Duits op – geïllustreerde Duitse skyline"></header>
+<main id="content" aria-live="polite"></main>
+<nav class="nav on-home" aria-label="Onderste navigatie">
+<button type="button" data-nav="home" class="active" aria-label="Home"><svg viewBox="0 0 34 34" aria-hidden="true"><path d="M4 16 17 5l13 11v14H21V21h-8v9H4Z"/></svg><span>Home</span></button>
+<button type="button" data-nav="theory" aria-label="Theorie"><svg viewBox="0 0 34 34" aria-hidden="true"><path d="M4 6q7-3 13 1v23q-6-4-13-1zM17 7q7-4 13-1v23q-7-3-13 1z"/></svg><span>Theorie</span></button>
+<button type="button" data-nav="progress" aria-label="Voortgang"><svg viewBox="0 0 34 34" aria-hidden="true"><rect x="4" y="23" width="6" height="8" rx="1"/><rect x="14" y="15" width="6" height="16" rx="1"/><rect x="24" y="8" width="6" height="23" rx="1"/></svg><span>Voortgang</span></button>
+<button type="button" data-nav="settings" aria-label="Instellingen"><svg viewBox="0 0 34 34" aria-hidden="true"><path d="M14 3h6l1 4 4 2 4-2 3 5-3 3v4l3 3-3 5-4-2-4 2-1 4h-6l-1-4-4-2-4 2-3-5 3-3v-4l-3-3 3-5 4 2 4-2z"/><circle cx="17" cy="17" r="5"/></svg><span>Instellingen</span></button>
+</nav>
+</div>
+<script>
+(()=>{
+'use strict';
+const iconPaths={
+  book:'<path d="M12 7v14"/><path d="M3 18V5a2 2 0 0 1 2-2h3a4 4 0 0 1 4 4v14a4 4 0 0 0-4-4H4a1 1 0 0 1-1-1z"/><path d="M21 18V5a2 2 0 0 0-2-2h-3a4 4 0 0 0-4 4v14a4 4 0 0 1 4-4h4a1 1 0 0 0 1-1z"/>',
+  headphones:'<path d="M3 14v-3a9 9 0 0 1 18 0v3"/><path d="M6 14H5a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v-7Z"/><path d="M18 14h1a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1v-7Z"/>',
+  mic:'<rect x="8" y="2" width="8" height="13" rx="4"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/><path d="M8 22h8"/>',
+  pencil:'<path d="M15 5 19 9"/><path d="M4 20l4-.5L19.5 8a2.12 2.12 0 0 0-3-3L5 16.5 4 20Z"/>',
+  shuffle:'<path d="m18 14 4 4-4 4"/><path d="m18 2 4 4-4 4"/><path d="M2 18h2.5a6 6 0 0 0 5.5-4l4-8a6 6 0 0 1 5.5-4H22"/><path d="M2 6h2.5a6 6 0 0 1 5.5 4l4 8a6 6 0 0 0 5.5 4H22"/>'
+};
+function skillIcon(key){return '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(iconPaths[key]||'')+'</svg>';}
+const skills=[['Lezen','book'],['Luisteren','headphones'],['Spreken','mic'],['Schrijven','pencil'],['Gemengd','shuffle']];
+const config={
+  Lezen:{label:'Tekstsoort',items:['Alle teksten','Berichten en e-mails','Borden en instructies','Artikelen en informatie','Verhalen en chats'],methodLabel:'Begrip oefenen',methods:['Automatisch','Hoofdlijn begrijpen','Informatie zoeken','Details begrijpen','Betekenis afleiden'],sample:'Je leest een korte Duitse tekst en beantwoordt vragen over de inhoud. Je hoeft hem niet letterlijk te vertalen.'},
+  Luisteren:{label:'Fragmentsoort',items:['Alle fragmenten','Gesprekken','Omroepen en aanwijzingen','Telefoon en voicemail','Verhalen en uitleg'],methodLabel:'Luisterdoel',methods:['Automatisch','Hoofdlijn begrijpen','Gerichte informatie horen','Details begrijpen','Instructies volgen'],sample:'Je luistert naar Duits en laat zien wat je hebt begrepen. Herhalen of langzamer luisteren kan afhankelijk zijn van je niveau.'},
+  Spreken:{label:'Situatie',items:['Alle situaties','Dagelijks leven','Winkelen en horeca','Reizen en onderweg','Afspraken en hulp','Vrije gesprekken'],methodLabel:'Spreekvorm',methods:['Automatisch','Kort reageren','Vragen stellen','Rollenspel','Vrijuit vertellen','Uitspraak oefenen'],sample:'Je voert een korte dialoog in een herkenbare situatie. Je antwoordt in het Duits; de app helpt indien nodig.'},
+  Schrijven:{label:'Schrijfdoel',items:['Alle schrijfdoelen','Korte antwoorden','Berichten en e-mails','Iets beschrijven','Vragen en verzoeken','Een mening geven','Vertalen NL → DE'],methodLabel:'Schrijfvorm',methods:['Automatisch','Woorden aanvullen','Zinnen ordenen','Schrijven met hulp','Zelfstandig schrijven','Vrij vertalen'],sample:'Je leert eerst bouwen met hulp en formuleert daarna steeds zelfstandiger. Correcte alternatieve zinnen mogen niet onterecht fout worden gerekend.'},
+  Gemengd:{label:'Trainingsdoel',items:['Evenwichtig oefenen','Dagelijks Duits','Mijn aandachtspunten','Herhalen'],methodLabel:'Verdeling',methods:['Automatisch','Gelijk verdeeld','Meer begrijpen','Meer produceren'],sample:'Lezen, luisteren, spreken en schrijven wisselen elkaar af. De voortgang blijft per vaardigheid gescheiden.'}
+};
+const situations={
+ 'Dagelijks leven':['Alle situaties','Kennismaken','Familie en vrienden','Hobby’s','Een gesprek beginnen'],
+ 'Winkelen en horeca':['Alle situaties','Supermarkt','Restaurant of café','Kleding kopen','Iets bestellen'],
+ 'Reizen en onderweg':['Alle situaties','Hotel','Openbaar vervoer','De weg vragen','Op vakantie'],
+ 'Afspraken en hulp':['Alle situaties','Een afspraak maken','Telefoneren','Hulp vragen','Een probleem uitleggen'],
+ 'Vrije gesprekken':['Alle situaties','Vragen beantwoorden','Een mening geven','Een gesprek gaande houden']
+};
+const defaults={Lezen:'Alle teksten',Luisteren:'Alle fragmenten',Spreken:'Alle situaties',Schrijven:'Alle schrijfdoelen',Gemengd:'Evenwichtig oefenen'};
+const storageKey='fris2-v5-profile:Jordi';
+const activeProfile='Jordi';
+const defaultsForState=()=>({screen:'home',skill:'Lezen',mode:'Automatisch',level:'Automatisch',method:'Automatisch',choices:{...defaults},category:'Alle situaties',situation:'Alle situaties',selectedSkills:['Lezen','Luisteren','Spreken','Schrijven']});
+let state=defaultsForState();
+try {
+ const saved=JSON.parse(localStorage.getItem(storageKey)||'null');
+ if(saved && typeof saved==='object' && skills.some(s=>s[0]===saved.skill)){
+  state={...state,...saved,choices:{...defaults,...saved.choices},screen:'home'};
+ }
+} catch {}
+const content=document.getElementById('content');
+function esc(x){return String(x).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;')}
+function options(items,value){return items.map(x=>`<option value="${esc(x)}"${x===value?' selected':''}>${esc(x)}</option>`).join('')}
+function select(id,title,items,value,cls='field'){return `<select id="${id}" class="${cls}" aria-label="${esc(title)}">${options(items,value)}</select>`}
+function persist(){try{localStorage.setItem(storageKey,JSON.stringify({...state,screen:'home'}))}catch{}}
+function area(){if(state.skill==='Spreken'){if(state.category==='Alle situaties')return 'Alle situaties';return state.situation==='Alle situaties'?state.category:state.category+' · '+state.situation}return state.choices[state.skill]}
+function example(){const a=area();const s=state.skill;return `<div class="summary"><strong>${esc(s)}</strong><div>${esc(a)}</div><div class="muted">Niveau: ${esc(state.mode==='Automatisch'?'Automatisch':state.level)}</div><div class="muted">${s==='Gemengd'?'Verdeling':config[s].methodLabel}: ${esc(state.mode==='Automatisch'?'Automatisch':state.method)}</div>${s==='Gemengd'?`<div class="muted">Vaardigheden: ${esc(state.selectedSkills.join(', '))}</div>`:''}</div><p class="note">${esc(config[s].sample)}</p><p class="tiny">Navigatieschets — nog geen echte oefening of beoordeling.</p>`}
+function settings(){const s=state.skill;const cfg=config[s];const mode=state.mode;
+const skillchecks=s==='Gemengd'?`<label>Vaardigheden</label><div class="check-row">${skills.filter(x=>x[0]!=='Gemengd').map(([name])=>`<label><input type="checkbox" data-included="${name}"${state.selectedSkills.includes(name)?' checked':''}>${name}</label>`).join('')}</div>`:'';
+const levels=['Automatisch','A1','A2','B1','B2'];
+return `<section class="subtle"><div class="subtle-header"><strong>Oefeninstellingen</strong>${select('mode','Oefeninstellingen',['Automatisch','Handmatig'],mode,'setting-mode')}</div>${mode==='Handmatig'?`<div class="extra"><label for="level">Niveau</label>${select('level','Niveau',levels,state.level)}<label for="method">${esc(cfg.methodLabel)}</label>${select('method',cfg.methodLabel,cfg.methods,state.method)}${skillchecks}</div>`:''}</section>`
+}
+
+// Rescale only soft watercolour bands; menu illustrations and lettering retain their proportions.
+// This adapts the approved 1024 x 1536 artwork to a tall phone without cropping the sides.
+const frisArt=new Image();
+frisArt.src='../art/fris-approved-watercolor.webp';
+frisArt.addEventListener('load',drawHomeCanvas);
+// The artwork is never stretched: only four quiet paper-texture bands grow.
+const frisStops=[475,660,835,1010];
+const frisWeights=[.13,.26,.26,.35];
+function frisGeometry(designHeight){
+ const extra=Math.max(0,designHeight-1536);
+ const gaps=frisWeights.map(weight=>weight*extra);
+ const mappedY=y=>y+frisStops.reduce((n,stop,i)=>n+(y>=stop?gaps[i]:0),0);
+ return {gaps,mappedY,renderHeight:1536+extra};
+}
+function drawHomeCanvas(){
+ const canvas=document.getElementById('fris-home-canvas');
+ if(!canvas||!frisArt.complete||!frisArt.naturalWidth)return;
+ const shell=canvas.closest('.fris-full-composition');
+ if(!shell)return;
+ const width=shell.clientWidth;
+ const viewHeight=shell.clientHeight;
+ if(width<1||viewHeight<1)return;
+ const designHeight=Math.max(1536,viewHeight/width*1024);
+ const naturalHeight=width*designHeight/1024;
+ const dpr=Math.min(window.devicePixelRatio||1,2);
+ canvas.style.height=naturalHeight+'px';
+ canvas.width=Math.round(width*dpr);
+ canvas.height=Math.round(naturalHeight*dpr);
+ const ctx=canvas.getContext('2d',{alpha:false});
+ const ratio=canvas.width/1024;
+ ctx.setTransform(ratio,0,0,ratio,0,0);
+ ctx.imageSmoothingEnabled=true;
+ ctx.imageSmoothingQuality='high';
+ const {gaps,mappedY}=frisGeometry(designHeight);
+ let previous=0;
+ let target=0;
+ for(let i=0;i<=frisStops.length;i++){
+   const next=i<frisStops.length?frisStops[i]:1536;
+   const segment=next-previous;
+   // Original header, text, icons, cafe and navigation are all rendered 1:1.
+   ctx.drawImage(frisArt,0,previous,1024,segment,0,target,1024,segment);
+   target+=segment;
+   if(i<frisStops.length){
+     // Only repeat the unobtrusive paper texture bordering a row.
+     const gap=gaps[i];
+     const stop=frisStops[i];
+     const stripe=14;
+     for(let y=0;y<gap;y+=stripe){
+       const height=Math.min(stripe,gap-y);
+       const cycle=Math.floor(y/stripe)%2;
+       const source=cycle?stop-7:stop-7;
+       ctx.save();
+       if(cycle){
+         ctx.translate(0,target+y+height);
+         ctx.scale(1,-1);
+         ctx.drawImage(frisArt,0,source,1024,7,0,0,1024,height);
+       }else{
+         ctx.drawImage(frisArt,0,source,1024,7,0,target+y,1024,height);
+       }
+       ctx.restore();
+     }
+     target+=gap;
+   }
+   previous=next;
+ }
+ shell.querySelectorAll('[data-art-top]').forEach(btn=>{
+   const top=mappedY(+btn.dataset.artTop);
+   const bottom=mappedY(+btn.dataset.artBottom);
+   btn.style.top=top/designHeight*100+'%';
+   btn.style.height=(bottom-top)/designHeight*100+'%';
+ });
+}
+window.addEventListener('resize',()=>requestAnimationFrame(drawHomeCanvas));
+window.addEventListener('orientationchange',()=>requestAnimationFrame(drawHomeCanvas));
+
+
+// Optie B: main artwork is drawn at its original aspect ratio. Only quiet separator bands expand.
+const frisBArt=new Image();
+frisBArt.src='../art/fris-optie-b.webp';
+frisBArt.addEventListener('load',()=>requestAnimationFrame(drawBHome));
+const bArtWidth=941,bArtEnd=1434;
+const bBreaks=[420,673,891,1130],bWeights=[.10,.23,.23,.44];
+function bMapFor(height){
+ const extra=Math.max(0,height-bArtEnd);
+ const gaps=bWeights.map(w=>extra*w);
+ const at=y=>y+bBreaks.reduce((a,v,i)=>a+(y>=v?gaps[i]:0),0);
+ return {gaps,at};
+}
+function drawBHome(){
+ const c=document.getElementById('fris-b-canvas');
+ if(!c||!frisBArt.complete||!frisBArt.naturalWidth)return;
+ const root=c.closest('.fris-b-composition');
+ if(!root)return;
+ const w=root.clientWidth,available=root.clientHeight;
+ if(w<=0||available<=0)return;
+ const h=Math.max(bArtEnd,available/w*bArtWidth);
+ const cssHeight=h*w/bArtWidth;
+ const dpr=Math.min(window.devicePixelRatio||1,2);
+ c.style.height=cssHeight+'px';
+ c.width=Math.round(w*dpr);c.height=Math.round(cssHeight*dpr);
+ const ctx=c.getContext('2d',{alpha:false});
+ const scale=c.width/bArtWidth;
+ ctx.setTransform(scale,0,0,scale,0,0);
+ ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
+ const {gaps,at}=bMapFor(h);
+ let src=0,dst=0;
+ for(let i=0;i<=bBreaks.length;i++){
+   const next=i<bBreaks.length?bBreaks[i]:bArtEnd;
+   ctx.drawImage(frisBArt,0,src,bArtWidth,next-src,0,dst,bArtWidth,next-src);
+   dst+=next-src;
+   if(i<bBreaks.length){
+     const gap=gaps[i],stripe=6;
+     for(let y=0;y<gap;y+=stripe){
+       const dh=Math.min(stripe,gap-y);
+       ctx.drawImage(frisBArt,0,bBreaks[i]-3,bArtWidth,6,0,dst+y,bArtWidth,dh);
+     }
+     dst+=gap;
+   }
+   src=next;
+ }
+ root.querySelectorAll('[data-b-top]').forEach(btn=>{
+  const top=at(+btn.dataset.bTop),bottom=at(+btn.dataset.bBottom);
+  btn.style.top=(top/h*100)+'%';
+  btn.style.height=((bottom-top)/h*100)+'%';
+ });
+}
+window.addEventListener('resize',()=>requestAnimationFrame(drawBHome));
+window.addEventListener('orientationchange',()=>requestAnimationFrame(drawBHome));
+
+function render(){
+const areaKey=['home','skills','setup','started','lessons'].includes(state.screen)?'home':state.screen;
+document.querySelector('.nav').classList.toggle('on-home',state.screen==='home');
+document.querySelectorAll('[data-nav]').forEach(b=>{b.classList.toggle('active',areaKey===b.dataset.nav); b.setAttribute('aria-current',areaKey===b.dataset.nav?'page':'false')});
+if(state.screen==='home'){content.innerHTML=`<div class="fris-b-composition" aria-label="FRIS! optie B startscherm">
+<canvas id="fris-b-canvas" role="img" aria-label="FRIS! skyline met lessen, oefenen, herhaling en caféillustratie"></canvas>
+<button type="button" class="fris-b-tap" data-go="lessons" data-b-top="477" data-b-bottom="640" aria-label="Lessen openen"></button>
+<button type="button" class="fris-b-tap" data-go="skills" data-b-top="700" data-b-bottom="858" aria-label="Oefenen openen"></button>
+<button type="button" class="fris-b-tap" data-go="review" data-b-top="917" data-b-bottom="1092" aria-label="Herhaling openen"></button>
+</div>`;requestAnimationFrame(drawBHome);}
+else if(state.screen==='skills'){content.innerHTML=`<div class="page-inner"><h1>Oefenen</h1>${skills.map(([s,ic])=>`<button class="skill" data-skill="${esc(s)}"><span class="symbol">${skillIcon(ic)}</span>${esc(s)}<span class="chev">›</span></button>`).join('')}</div>`;}
+else if(state.screen==='setup'){
+const s=state.skill,cfg=config[s];
+const first=s==='Spreken'?select('category','Situatie',cfg.items,state.category):select('choice',cfg.label,cfg.items,state.choices[s]);
+const second=s==='Spreken'&&state.category!=='Alle situaties'?select('situation','Specifieke situatie',situations[state.category]||['Alle situaties'],state.situation):'';
+content.innerHTML=`<div class="page-inner"><h1>${esc(s)}</h1>${first}${second}${settings()}<button class="primary" id="start">Start oefenen →</button></div>`;
+}
+else if(state.screen==='started'){content.innerHTML=`<div class="page-inner"><h1>Oefening</h1>${example()}<button class="primary" data-back="setup">Keuzes aanpassen</button></div>`;}
+else if(['theory','vocabulary','review','lessons'].includes(state.screen)){const names={theory:'Theorie',vocabulary:'Woordenschat',review:'Herhaling',lessons:'Lessen'};content.innerHTML=`<div class="page-inner"><h1>${names[state.screen]}</h1><p class="note">Dit is een klikbaar navigatievoorbeeld. De lessen en oefeningen komen uit het afzonderlijke Android-project.</p>${state.screen==='lessons'?'<button class="primary" data-go="skills">Naar oefeningen</button>':''}</div>`;}
+else if(state.screen==='progress'){content.innerHTML=`<div class="page-inner"><h1>Voortgang</h1><p class="note">De 9% op het startscherm is een voorbeeld uit het ontwerp. Er zijn in deze HTML-preview nog geen echte oefenresultaten.</p></div>`;}
+else if(state.screen==='settings'){content.innerHTML=`<div class="page-inner"><h1>Instellingen</h1><p class="note">Je oefenkeuzes worden bewaard in deze browser.</p></div>`;}
+if(state.screen!=='home'){
+ const title=content.querySelector('.page-inner h1');
+ if(title){
+   const extra={
+     lessons:['Nieuwe stof leren en begrijpen.','../art/2026-home-lessons.webp'],
+     skills:['Kies wat je wilt oefenen.','../art/2026-home-practice.webp'],
+     setup:['Oefen gericht in jouw tempo.','../art/2026-home-practice.webp'],
+     started:['Je gekozen oefening.','../art/2026-home-practice.webp'],
+     review:['Eerder geleerde stof opfrissen.','../art/2026-home-review.webp'],
+     theory:['Uitleg en overzicht.','../art/2026-home-lessons.webp'],
+     progress:['Jouw ontwikkeling in beeld.','../art/2026-home-review.webp'],
+     settings:['Stel FRIS! naar wens in.','../art/2026-home-lessons.webp']
+   };
+   const [subtitle,picture]=extra[state.screen]||['','../art/2026-home-lessons.webp'];
+   const intro=document.createElement('div');
+   intro.className='fris-inner-intro';
+   const art=document.createElement('img');
+   art.src=picture;art.alt='';art.setAttribute('aria-hidden','true');
+   const texts=document.createElement('div');texts.className='fris-inner-title';
+   title.before(intro);intro.append(art,texts);texts.appendChild(title);
+   if(subtitle){const sub=document.createElement('p');sub.textContent=subtitle;texts.appendChild(sub);}
+ }
+}
+persist();
+}
+document.addEventListener('click',ev=>{
+const go=ev.target.closest('[data-go]');if(go){state.screen=go.dataset.go;render();return}
+const sk=ev.target.closest('[data-skill]');if(sk){state.skill=sk.dataset.skill;state.screen='setup';state.mode='Automatisch';state.level='Automatisch';state.method='Automatisch';render();return}
+const b=ev.target.closest('[data-back]');if(b){state.screen=b.dataset.back;render();return}
+const nav=ev.target.closest('[data-nav]');if(nav){state.screen=nav.dataset.nav==='home'?'home':nav.dataset.nav;render();return}
+if(ev.target.closest('#start')){state.screen='started';render()}
+});
+document.addEventListener('change',ev=>{
+const id=ev.target.id,val=ev.target.value;
+if(id==='mode'){state.mode=val;render();return}
+if(id==='category'){state.category=val;state.situation='Alle situaties';render();return}
+if(id==='situation')state.situation=val;
+if(id==='choice')state.choices[state.skill]=val;
+if(id==='level')state.level=val;
+if(id==='method')state.method=val;
+if(ev.target.dataset.included){const name=ev.target.dataset.included;if(ev.target.checked){if(!state.selectedSkills.includes(name))state.selectedSkills.push(name)}else if(state.selectedSkills.length>1){state.selectedSkills=state.selectedSkills.filter(s=>s!==name)}else{ev.target.checked=true} }
+persist();
+});
+render();
+})();
+</script>
+</body>
+</html>
