@@ -594,7 +594,7 @@ const frisBArt=new Image();
 frisBArt.src='../art/fris-optie-b.webp';
 frisBArt.addEventListener('load',()=>requestAnimationFrame(drawBHome));
 const bArtWidth=941,bArtEnd=1434;
-const bBreaks=[420,673,891,1130],bWeights=[.10,.23,.23,.44];
+const bBreaks=[420,680,908,1130],bWeights=[.10,.23,.23,.44];
 function bMapFor(height){
  const extra=Math.max(0,height-bArtEnd);
  const gaps=bWeights.map(w=>extra*w);
@@ -625,10 +625,12 @@ function drawBHome(){
    ctx.drawImage(frisBArt,0,src,bArtWidth,next-src,0,dst,bArtWidth,next-src);
    dst+=next-src;
    if(i<bBreaks.length){
-     const gap=gaps[i],stripe=6;
-     for(let y=0;y<gap;y+=stripe){
-       const dh=Math.min(stripe,gap-y);
-       ctx.drawImage(frisBArt,0,bBreaks[i]-3,bArtWidth,6,0,dst+y,bArtWidth,dh);
+     // Take a clean paper-only sample and scale it once. Repeating narrow
+     // bands had copied the section divider into visible horizontal artifacts.
+     const gap=gaps[i];
+     if(gap>0.01){
+       const sampleY=[416,681,909,1127][i];
+       ctx.drawImage(frisBArt,0,sampleY,bArtWidth,3,0,dst,bArtWidth,gap);
      }
      dst+=gap;
    }
