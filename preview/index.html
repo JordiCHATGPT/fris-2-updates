@@ -11,7 +11,7 @@
 .phone{width:min(100%,394px);min-height:645px;background:#fff;border:1px solid #dde4ec;border-radius:20px;box-shadow:0 12px 42px #17293a12;display:flex;flex-direction:column;overflow:hidden}
 header{padding:18px 21px 14px;border-bottom:1px solid #edf0f3;display:flex;align-items:center;justify-content:space-between;gap:8px}header b{font-size:29px;letter-spacing:-1px}header small{color:#7a8796;font-size:10px;letter-spacing:.5px;font-weight:650}
 main{flex:1;padding:22px 21px}h1{font-size:22px;letter-spacing:-.4px;margin:0 0 18px}button,select{font:inherit}button{cursor:pointer}
-.skill{width:100%;border:1px solid #e0e6ee;background:white;border-radius:12px;min-height:57px;margin:0 0 9px;display:flex;align-items:center;gap:15px;padding:0 15px;text-align:left;font-weight:650;color:#273442}.skill:hover,.skill:focus-visible{border-color:#93a7b8;background:#f6f8fa}.symbol{width:28px;text-align:center;font-size:20px;color:#556b7c}.chev{margin-left:auto;color:#a1adba;font-size:22px}
+.skill{width:100%;border:1px solid #e0e6ee;background:white;border-radius:12px;min-height:57px;margin:0 0 9px;display:flex;align-items:center;gap:15px;padding:0 15px;text-align:left;font-weight:650;color:#273442}.skill:hover,.skill:focus-visible{border-color:#93a7b8;background:#f6f8fa}.symbol{width:28px;display:flex;align-items:center;justify-content:center;color:#556b7c;flex-shrink:0}.symbol svg{width:23px;height:23px}.chev{margin-left:auto;color:#a1adba;font-size:22px}
 .back{border:0;background:transparent;color:#60758b;padding:4px 0;margin-bottom:13px}.field{display:block;width:100%;padding:12px 13px;border-radius:10px;border:1px solid #dbe2e9;color:#273747;background:#fff;margin:0 0 15px;min-width:0}
 .subtle{padding:13px;border-radius:12px;background:#f5f7fa;margin:9px 0 19px}.subtle-header{display:flex;align-items:center;justify-content:space-between;gap:9px;min-height:34px}.subtle-header strong{font-size:13.5px;letter-spacing:-.15px}.setting-mode{width:134px;border:1px solid #dce2e9;border-radius:8px;background:#fff;color:#42566d;font-size:13px;padding:7px 4px;cursor:pointer}
 .extra{padding-top:14px;border-top:1px solid #e5e9f0;margin-top:13px}.extra label{display:block;font-size:12px;color:#69798b;margin-bottom:6px}.extra .field{margin-bottom:12px}.extra .field:last-child{margin-bottom:0}
@@ -37,7 +37,15 @@ main{flex:1;padding:22px 21px}h1{font-size:22px;letter-spacing:-.4px;margin:0 0 
 <script>
 (()=>{
 'use strict';
-const skills=[['Lezen','▤'],['Luisteren','◉'],['Spreken','♬'],['Schrijven','✎'],['Gemengd','⇄']];
+const iconPaths={
+  book:'<path d="M12 7v14"/><path d="M3 18V5a2 2 0 0 1 2-2h3a4 4 0 0 1 4 4v14a4 4 0 0 0-4-4H4a1 1 0 0 1-1-1z"/><path d="M21 18V5a2 2 0 0 0-2-2h-3a4 4 0 0 0-4 4v14a4 4 0 0 1 4-4h4a1 1 0 0 0 1-1z"/>',
+  headphones:'<path d="M3 14v-3a9 9 0 0 1 18 0v3"/><path d="M6 14H5a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v-7Z"/><path d="M18 14h1a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1v-7Z"/>',
+  mic:'<rect x="8" y="2" width="8" height="13" rx="4"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/><path d="M8 22h8"/>',
+  pencil:'<path d="M15 5 19 9"/><path d="M4 20l4-.5L19.5 8a2.12 2.12 0 0 0-3-3L5 16.5 4 20Z"/>',
+  shuffle:'<path d="m18 14 4 4-4 4"/><path d="m18 2 4 4-4 4"/><path d="M2 18h2.5a6 6 0 0 0 5.5-4l4-8a6 6 0 0 1 5.5-4H22"/><path d="M2 6h2.5a6 6 0 0 1 5.5 4l4 8a6 6 0 0 0 5.5 4H22"/>'
+};
+function skillIcon(key){return '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(iconPaths[key]||'')+'</svg>';}
+const skills=[['Lezen','book'],['Luisteren','headphones'],['Spreken','mic'],['Schrijven','pencil'],['Gemengd','shuffle']];
 const config={
   Lezen:{label:'Tekstsoort',items:['Alle teksten','Berichten en e-mails','Borden en instructies','Artikelen en informatie','Verhalen en chats'],methodLabel:'Begrip oefenen',methods:['Automatisch','Hoofdlijn begrijpen','Informatie zoeken','Details begrijpen','Betekenis afleiden'],sample:'Je leest een korte Duitse tekst en beantwoordt vragen over de inhoud. Je hoeft hem niet letterlijk te vertalen.'},
   Luisteren:{label:'Fragmentsoort',items:['Alle fragmenten','Gesprekken','Omroepen en aanwijzingen','Telefoon en voicemail','Verhalen en uitleg'],methodLabel:'Luisterdoel',methods:['Automatisch','Hoofdlijn begrijpen','Gerichte informatie horen','Details begrijpen','Instructies volgen'],sample:'Je luistert naar Duits en laat zien wat je hebt begrepen. Herhalen of langzamer luisteren kan afhankelijk zijn van je niveau.'},
@@ -99,7 +107,7 @@ if(!activeProfile){
 who.textContent=activeProfile+' ⌄';
 const areaKey=['skills','setup','started'].includes(state.screen)?'home':state.screen;
 document.querySelectorAll('[data-nav]').forEach(b=>b.classList.toggle('active',areaKey===b.dataset.nav));
-if(state.screen==='skills'){content.innerHTML=`<h1>Oefenen</h1>${skills.map(([s,ic])=>`<button class="skill" data-skill="${esc(s)}"><span class="symbol">${ic}</span>${esc(s)}<span class="chev">›</span></button>`).join('')}`;}
+if(state.screen==='skills'){content.innerHTML=`<h1>Oefenen</h1>${skills.map(([s,ic])=>`<button class="skill" data-skill="${esc(s)}"><span class="symbol">${skillIcon(ic)}</span>${esc(s)}<span class="chev">›</span></button>`).join('')}`;}
 else if(state.screen==='setup'){
 const s=state.skill,cfg=config[s];
 const first=s==='Spreken'?select('category','Situatie',cfg.items,state.category):select('choice',cfg.label,cfg.items,state.choices[s]);
