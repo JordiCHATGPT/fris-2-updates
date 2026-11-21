@@ -285,6 +285,48 @@ main#content:has(.fris-full-composition){flex:1 1 auto;min-height:0;height:100%;
 .phone:not(:has(.fris-full-composition)) .skill{padding:15px 6px;gap:12px}
 @media(max-height:650px){.phone:not(:has(.fris-full-composition)) header.hero{height:100px}.fris-inner-intro{margin-bottom:10px;padding-bottom:8px}}
 </style>
+<style id="fris-unified-bottom-navigation">
+/* Reuse the actual approved home-page navigation artwork, not substitute icons. */
+.phone:not(:has(.fris-full-composition)) nav.nav:not(.on-home){
+ display:grid!important;
+ grid-template-columns:repeat(4,minmax(0,1fr))!important;
+ width:100%;
+ height:auto!important;
+ aspect-ratio:1024 / 138!important;
+ min-height:0!important;
+ padding:0!important;
+ gap:0!important;
+ border:0!important;
+ flex:0 0 auto!important;
+ background-color:#faf3e8!important;
+ background-image:url('art/fris-approved-watercolor.webp')!important;
+ background-position:center bottom!important;
+ background-size:100% auto!important;
+ background-repeat:no-repeat!important;
+ box-shadow:none!important;
+ border-radius:0!important;
+}
+.phone:not(:has(.fris-full-composition)) nav.nav:not(.on-home) button{
+ position:relative;
+ padding:0!important;
+ margin:0!important;
+ width:100%;
+ height:100%;
+ background:transparent!important;
+ border:0!important;
+ border-radius:0!important;
+ box-shadow:none!important;
+ color:transparent!important;
+}
+.phone:not(:has(.fris-full-composition)) nav.nav:not(.on-home) button svg,
+.phone:not(:has(.fris-full-composition)) nav.nav:not(.on-home) button span{
+ visibility:hidden!important;
+}
+.phone:not(:has(.fris-full-composition)) nav.nav:not(.on-home) button:after{display:none!important}
+.phone:not(:has(.fris-full-composition)) nav.nav:not(.on-home) button:focus-visible{
+ outline:3px solid #db2126!important;outline-offset:-4px;border-radius:9px!important
+}
+</style>
 </head>
 <body>
 <div class="phone">
