@@ -24,50 +24,39 @@ for encoded in matches:
 if not images:
     raise RuntimeError("Could not decode historic art")
 print("All available historical images:", [(i, x.size) for i, x in enumerate(images)])
-im = max(images, key=lambda x: x.width * x.height)
-print("Original artwork resolution:", im.size)
-sx, sy = im.width / 1024, im.height / 1536
-
-def crop(name, box):
-    coords = tuple(round(val * (sx if i % 2 == 0 else sy)) for i, val in enumerate(box))
-    out = im.crop(coords)
+print("Using separate historic assets: navbar, hero buttons, desk, skyline")
+def crop_image(name, image, box=None):
+    out = image.crop(box) if box else image
     target = root / "preview" / "art" / (name + ".webp")
     target.parent.mkdir(parents=True, exist_ok=True)
-    out.save(target, "WEBP", quality=94, method=6)
-    print("Created", target, out.size)
-
-crop("skyline", (0, 50, 1024, 482))
-crop("lessons", (15, 700, 347, 925))
-crop("practice", (346, 699, 671, 925))
-crop("repeat", (680, 697, 1015, 925))
-crop("desk", (0, 1136, 1024, 1399))
+    out.save(target, "WEBP", quality=96, method=6)
+    print("Created", target, out.size, target.stat().st_size)
+if len(images) != 4:
+    raise RuntimeError("Unexpected original image inventory")
+navigation, cards, desk, skyline = images
+crop_image("skyline", skyline)
+crop_image("lessons", cards, (0, 0, 341, cards.height))
+crop_image("practice", cards, (341, 0, 683, cards.height))
+crop_image("repeat", cards, (683, 0, 1024, cards.height))
+crop_image("desk", desk)
+crop_image("navigation", navigation)
 
 file = root / "preview" / "index.html"
 html = file.read_text(encoding="utf-8")
-html, n = re.subn(
-    r'<header class="hero">.*?</header>',
-    '<header class="hero"><img class="hero-photo" src="art/skyline.webp" alt="FRIS! je Duits op, Duitse skyline"></header>',
-    html, count=1, flags=re.S)
-if n != 1:
-    raise RuntimeError("Header insertion point not found")
-for name in ("lessons", "practice", "repeat"):
-    replacement = f'<img class="tile-illustration" src="art/{name}.webp" alt="" loading="eager">'
-    html, n = re.subn(r'<svg class="tile-illustration".*?</svg>', replacement, html, count=1, flags=re.S)
-    if n != 1:
-        raise RuntimeError("Art slot not found: " + name)
-html, n = re.subn(r'<svg class="footer-illustration".*?</svg>',
-                 '<img class="footer-illustration" src="art/desk.webp" alt="" loading="eager">',
-                 html, count=1, flags=re.S)
-if n != 1:
-    raise RuntimeError("Footer insertion point not found")
+# The first successful rebuild already installed these independent image slots.
+if 'src="art/skyline.webp"' not in html:
+    raise RuntimeError("Expected new component header not found")
+for name in ("lessons","practice","repeat","desk"):
+    if f'src="art/{name}.webp"' not in html:
+        raise RuntimeError("Missing independent artwork component " + name)
 extra = """
 <style id="approved-art">
-header.hero{height:auto;aspect-ratio:1024/432;max-height:none;flex-shrink:0}
+header.hero{height:auto;aspect-ratio:1024/442;max-height:none;flex-shrink:0}
 .hero-photo{display:block;width:100%;height:100%;object-fit:fill}
 .home-panel{background:#fffaf1}
 .home-actions{padding:12px 13px 8px;gap:4px}
-.tile-illustration{width:100%;height:auto;aspect-ratio:1.45;object-fit:contain;filter:none}
-.footer-illustration{display:block;width:100%;height:auto;aspect-ratio:1024/263;object-fit:cover;margin-top:5px}
+.tile-illustration{width:100%;height:auto;aspect-ratio:341/274;object-fit:contain;filter:none}
+.footer-illustration{display:block;width:100%;height:auto;aspect-ratio:1024/141;object-fit:cover;margin-top:5px}
 .greeting{padding:8px 12px 0}
 .greeting h1{font-family:"Segoe Script","Brush Script MT","Comic Sans MS",cursive;font-weight:900;font-style:italic;font-size:clamp(34px,9vw,52px)}
 .tile-label{font-family:"Segoe Script","Brush Script MT","Comic Sans MS",cursive}
@@ -76,6 +65,6 @@ header.hero{height:auto;aspect-ratio:1024/432;max-height:none;flex-shrink:0}
 @media(max-height:720px){header.hero{height:auto}.footer-illustration{height:auto}.tile-illustration{height:auto}}
 </style>
 """
-html = html.replace("</head>", extra + "</head>", 1)
+html = re.sub(r"<style id=\"approved-art\">.*?</style>", "", html, flags=re.S)\nhtml = html.replace("</head>", extra + "</head>", 1)
 file.write_text(html, encoding="utf-8")
 print("Finished HTML", len(html))
