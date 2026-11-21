@@ -6,27 +6,57 @@
 <meta name="color-scheme" content="light">
 <title>FRIS! 2.0 — interactieve leerstructuur</title>
 <style>
-:root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#253448;background:#eef1f5;font-synthesis:none}
-*{box-sizing:border-box}body{margin:0;min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:clamp(10px,3vw,40px)}
-.phone{width:min(100%,394px);min-height:645px;background:#fff;border:1px solid #dde4ec;border-radius:20px;box-shadow:0 12px 42px #17293a12;display:flex;flex-direction:column;overflow:hidden}
-header{padding:18px 21px 14px;border-bottom:1px solid #edf0f3;display:flex;align-items:center;justify-content:space-between;gap:8px}header b{font-size:29px;letter-spacing:-1px}header small{color:#7a8796;font-size:10px;letter-spacing:.5px;font-weight:650}
-main{flex:1;padding:22px 21px}h1{font-size:22px;letter-spacing:-.4px;margin:0 0 18px}button,select{font:inherit}button{cursor:pointer}
-.skill{width:100%;border:1px solid #e0e6ee;background:white;border-radius:12px;min-height:57px;margin:0 0 9px;display:flex;align-items:center;gap:15px;padding:0 15px;text-align:left;font-weight:650;color:#273442}.skill:hover,.skill:focus-visible{border-color:#93a7b8;background:#f6f8fa}.symbol{width:28px;display:flex;align-items:center;justify-content:center;color:#556b7c;flex-shrink:0}.symbol svg{width:23px;height:23px}.chev{margin-left:auto;color:#a1adba;font-size:22px}
-.back{border:0;background:transparent;color:#60758b;padding:4px 0;margin-bottom:13px}.field{display:block;width:100%;padding:12px 13px;border-radius:10px;border:1px solid #dbe2e9;color:#273747;background:#fff;margin:0 0 15px;min-width:0}
-.subtle{padding:13px;border-radius:12px;background:#f5f7fa;margin:9px 0 19px}.subtle-header{display:flex;align-items:center;justify-content:space-between;gap:9px;min-height:34px}.subtle-header strong{font-size:13.5px;letter-spacing:-.15px}.setting-mode{width:134px;border:1px solid #dce2e9;border-radius:8px;background:#fff;color:#42566d;font-size:13px;padding:7px 4px;cursor:pointer}
-.extra{padding-top:14px;border-top:1px solid #e5e9f0;margin-top:13px}.extra label{display:block;font-size:12px;color:#69798b;margin-bottom:6px}.extra .field{margin-bottom:12px}.extra .field:last-child{margin-bottom:0}
-.primary{border:0;background:#243c55;color:#fff;width:100%;padding:14px 16px;border-radius:11px;font-weight:650}.primary:hover{background:#385979}.summary{padding:16px;border-radius:12px;background:#f5f7fa;line-height:1.9;font-size:14px}.summary strong{display:block;font-size:18px;margin-bottom:3px}.muted{color:#758395}.note{font-size:13px;line-height:1.55;color:#64778a;margin:17px 0}
-.nav{border-top:1px solid #edf0f3;display:grid;grid-template-columns:repeat(3,1fr);padding:10px 8px 12px;gap:6px}.nav button{border:none;background:transparent;color:#778596;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;padding:7px 0;border-radius:9px}.nav button.active{color:#22394f;font-weight:700;background:#f2f5f9}.nav .navicon{font-size:20px}
-.check-row{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:7px 0 12px}.check-row label{font-size:13px;color:#435469;display:flex;align-items:center;gap:6px;background:#fff;border:1px solid #e1e6ed;border-radius:8px;padding:10px 8px}.check-row input{accent-color:#314c67}.tiny{font-size:11px;color:#8b98a7;margin:7px 0 0}
-.profile-title{margin-bottom:18px}.profile-selection{display:grid;gap:10px}
-.who{border:1px solid #dfe5ed;border-radius:9px;background:#f8fafc;color:#34495f;font-size:13px;font-weight:650;padding:8px 12px}
-[hidden]{display:none!important}
-@media(max-width:420px){body{padding:0}.phone{border:0;border-radius:0;box-shadow:none;min-height:100dvh}}
+:root{font-family:"Trebuchet MS",system-ui,sans-serif;color:#242b2d;background:#ebece8;font-synthesis:none}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:clamp(8px,2vw,24px)}
+.phone{width:min(100%,394px);min-height:750px;background:#fffdf7;border:1px solid #d7d2c8;border-radius:19px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 8px 26px #27272712}
+header{position:relative;padding:19px 20px 0;min-height:146px;overflow:hidden;background:#fffdf7}
+.brand{position:relative;z-index:2;line-height:.93;display:inline-flex;flex-direction:column;transform:rotate(-3deg)}
+.brand strong{font-size:43px;font-family:"Trebuchet MS",sans-serif;font-weight:900;letter-spacing:-2.5px;color:#222629}
+.brand strong i{font-style:normal;color:#d73731}
+.brand small{margin:4px 0 0 4px;font-size:12px;font-weight:700;letter-spacing:.3px}
+.city{position:absolute;right:3px;bottom:0;width:94%;height:112px;color:#303538;pointer-events:none}
+.city .accent{fill:#dcb947;stroke:#24282b}
+.city .red{fill:#db554b;stroke:#24282b}
+.city path,.city line,.city rect,.city circle,.city polygon{vector-effect:non-scaling-stroke}
+main{flex:1;padding:13px 23px 8px}
+h1{font-size:20px;letter-spacing:-.3px;margin:0 0 17px;font-weight:800}
+button,select{font:inherit}button{cursor:pointer}
+.home-title{font-size:14px;text-align:center;letter-spacing:1.2px;text-transform:uppercase;color:#676057;margin:6px 0 14px;font-weight:800}
+.home-actions{display:grid;gap:12px;padding:0 8px}
+.home-action{width:100%;min-height:63px;display:flex;align-items:center;gap:13px;border:2px solid #323332;border-radius:10px;background:#fffefa;color:#24272a;text-align:left;padding:9px 16px;font-size:21px;letter-spacing:.1px;font-weight:800;box-shadow:3px 4px 0 #e9e2d2;transform:rotate(-.5deg)}
+.home-action:nth-child(2){transform:rotate(.5deg)}.home-action:nth-child(3){transform:rotate(-.3deg)}.home-action:nth-child(4){transform:rotate(.3deg)}
+.home-action:hover,.home-action:focus-visible{background:#fff5d9;outline:2px solid #d8a94d;outline-offset:2px}
+.home-action .symbol{color:#272b2e;width:38px}.home-action .symbol svg{width:29px;height:29px}
+.home-action .chev{margin-left:auto;font-size:26px;color:#5d5d56}
+.home-action:nth-child(1) .symbol{color:#b43d33}.home-action:nth-child(3) .symbol{color:#a88c26}
+.cafe{width:100%;height:155px;margin-top:5px;display:block;color:#303538;pointer-events:none}
+.cafe path,.cafe rect,.cafe line,.cafe circle,.cafe ellipse{vector-effect:non-scaling-stroke}
+.skill{width:100%;border:1.5px solid #4c4a43;background:#fffefa;border-radius:9px;min-height:54px;margin:0 0 9px;display:flex;align-items:center;gap:13px;padding:0 13px;text-align:left;font-weight:750;color:#222c30}
+.skill:hover,.skill:focus-visible{background:#fff4d8}.symbol{width:29px;display:flex;align-items:center;justify-content:center;flex-shrink:0}.symbol svg{width:23px;height:23px}.chev{margin-left:auto;color:#76716a;font-size:22px}
+.back{border:0;background:transparent;color:#4b4b46;padding:4px 0;margin-bottom:13px}
+.field{display:block;width:100%;padding:12px;border-radius:8px;border:1px solid #c9c7bf;color:#252b30;background:#fff;margin:0 0 15px;min-width:0}
+.subtle{padding:13px;border-radius:10px;border:1px solid #ddd7c8;background:#f8f5ed;margin:9px 0 19px}.subtle-header{display:flex;align-items:center;justify-content:space-between;gap:9px;min-height:34px}.subtle-header strong{font-size:13.5px}.setting-mode{width:134px;border:1px solid #c7c1b8;border-radius:8px;background:#fff;color:#343b41;font-size:13px;padding:7px 4px;cursor:pointer}
+.extra{padding-top:14px;border-top:1px solid #ddd4c6;margin-top:13px}.extra label{display:block;font-size:12px;color:#4e5358;margin-bottom:6px}.extra .field{margin-bottom:12px}.extra .field:last-child{margin-bottom:0}
+.primary{border:0;background:#313936;color:#fff;width:100%;padding:14px 16px;border-radius:10px;font-weight:700}.summary{padding:16px;border-radius:10px;background:#f5f1e7;line-height:1.9;font-size:14px}.summary strong{display:block;font-size:18px;margin-bottom:3px}.muted{color:#70736c}.note{font-size:13px;line-height:1.55;color:#66706a;margin:17px 0}
+.nav{border-top:1.5px solid #b9b5a9;display:grid;grid-template-columns:repeat(3,1fr);padding:8px 8px 12px;gap:6px;background:#fffdf7}.nav button{border:0;background:transparent;color:#686a65;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;padding:7px 0;border-radius:8px}.nav button.active{color:#272e2b;font-weight:800;background:#f1eddf}.nav .navicon{font-size:20px}
+.check-row{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:7px 0 12px}.check-row label{font-size:13px;color:#435469;display:flex;align-items:center;gap:6px;background:#fff;border:1px solid #e1e0d7;border-radius:8px;padding:10px 8px}.check-row input{accent-color:#ad3933}.tiny{font-size:11px;color:#777b74;margin:7px 0 0}[hidden]{display:none!important}
+@media(max-width:420px){body{padding:0}.phone{border:0;border-radius:0;box-shadow:none;min-height:100dvh}header{min-height:143px}.cafe{height:clamp(115px,19vh,160px)}}
 </style>
 </head>
 <body>
 <div class="phone">
-<header><b>FRIS<span style="color:#d4433d">!</span></b><small id="prototype-label">SCHETS · V6</small></header>
+<header><div class="brand"><strong>FRIS<i>!</i></strong><small>je Duits op</small></div><svg class="city" viewBox="0 0 350 120" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M3 115H347M15 114V83h27v31M21 83V75h15v8M25 75V68h8v7M19 91h7m6 0h6M23 104h12"/>
+<path d="M50 115V87h30v28M54 87V80h22v7M58 93h5m7 0h5m-17 10h5m7 0h5M63 115v-8h6v8"/>
+<path d="M93 114V64h40v50M101 64V55h24v9M109 55V46h8v9M99 75h28M99 85h28M99 95h28M103 109v-9h8v9m7 0v-9h9v9"/>
+<path d="M147 115V91l8-8v-8h53v8l8 8v24M154 91h55M162 91V76m8 15V76m8 15V76m8 15V76m8 15V76m8 15V76M159 115V99h47v16M166 114v-15m33 15V99M151 75h59M148 83h65"/>
+<path d="M227 115V88h25v27M229 88v-9h21v9M235 79v-7h8v7M234 96h11m-11 10h11"/>
+<path d="M277 115V53m-13 0h26M277 53V18M268 25h18l5 7h-28zM275 18V6M264 34h26l5 8h-36zM274 42v12m5-12v12M262 53h29M265 53v10m22-10v10"/>
+<circle class="red" cx="277" cy="18" r="5"/><path d="M301 115V89h33v26M305 89v-8h25v8M309 81V69h17v12M312 69l5-7 6 7M309 98h5m8 0h5m-18 9h5m8 0h5"/>
+<path d="M4 115q4-8 8 0m28 0q4-12 8 0m35 0q5-8 9 0m126 0q4-9 9 0m25 0q4-12 9 0m72 0q6-8 11 0"/>
+<path class="accent" d="M160 101h8v13h-8zM195 101h8v13h-8z"/>
+</svg></header>
 <main id="content" aria-live="polite"></main>
 <nav class="nav" aria-label="Onderste navigatie">
   <button type="button" data-nav="home" class="active"><span class="navicon">⌂</span>Home</button>
@@ -63,12 +93,12 @@ const situations={
 const defaults={Lezen:'Alle teksten',Luisteren:'Alle fragmenten',Spreken:'Alle situaties',Schrijven:'Alle schrijfdoelen',Gemengd:'Evenwichtig oefenen'};
 const storageKey='fris2-v5-profile:Jordi';
 const activeProfile='Jordi';
-const defaultsForState=()=>({screen:'skills',skill:'Lezen',mode:'Automatisch',level:'Automatisch',method:'Automatisch',choices:{...defaults},category:'Alle situaties',situation:'Alle situaties',selectedSkills:['Lezen','Luisteren','Spreken','Schrijven']});
+const defaultsForState=()=>({screen:'home',skill:'Lezen',mode:'Automatisch',level:'Automatisch',method:'Automatisch',choices:{...defaults},category:'Alle situaties',situation:'Alle situaties',selectedSkills:['Lezen','Luisteren','Spreken','Schrijven']});
 let state=defaultsForState();
 try {
  const saved=JSON.parse(localStorage.getItem(storageKey)||'null');
  if(saved && typeof saved==='object' && skills.some(s=>s[0]===saved.skill)){
-  state={...state,...saved,choices:{...defaults,...saved.choices},screen:'skills'};
+  state={...state,...saved,choices:{...defaults,...saved.choices},screen:'home'};
  }
 } catch {}
 const content=document.getElementById('content');
@@ -84,9 +114,25 @@ const levels=['Automatisch','A1','A2','B1','B2'];
 return `<section class="subtle"><div class="subtle-header"><strong>Oefeninstellingen</strong>${select('mode','Oefeninstellingen',['Automatisch','Handmatig'],mode,'setting-mode')}</div>${mode==='Handmatig'?`<div class="extra"><label for="level">Niveau</label>${select('level','Niveau',levels,state.level)}<label for="method">${esc(cfg.methodLabel)}</label>${select('method',cfg.methodLabel,cfg.methods,state.method)}${skillchecks}</div>`:''}</section>`
 }
 function render(){
-const areaKey=['skills','setup','started'].includes(state.screen)?'home':state.screen;
+const areaKey=['home','skills','setup','started','theory','vocabulary','review'].includes(state.screen)?'home':state.screen;
 document.querySelectorAll('[data-nav]').forEach(b=>b.classList.toggle('active',areaKey===b.dataset.nav));
-if(state.screen==='skills'){content.innerHTML=`<h1>Oefenen</h1>${skills.map(([s,ic])=>`<button class="skill" data-skill="${esc(s)}"><span class="symbol">${skillIcon(ic)}</span>${esc(s)}<span class="chev">›</span></button>`).join('')}`;}
+if(state.screen==='home'){content.innerHTML=`<div class="home-title">Wat wil je doen?</div><div class="home-actions"><button class="home-action" data-go="skills"><span class="symbol">${skillIcon('pencil')}</span>Oefenen<span class="chev">›</span></button><button class="home-action" data-go="theory"><span class="symbol">${skillIcon('book')}</span>Theorie<span class="chev">›</span></button><button class="home-action" data-go="vocabulary"><span class="symbol">${skillIcon('book')}</span>Woordenschat<span class="chev">›</span></button><button class="home-action" data-go="review"><span class="symbol">${skillIcon('shuffle')}</span>Herhaling<span class="chev">›</span></button></div><svg class="cafe" viewBox="0 0 350 150" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
+<path d="M10 125q160 8 329 0M15 132q172 6 320 0" stroke="#b6aa95"/>
+<path d="M26 119q6-22 7-47m0 30q-12-13-20-12m20 4q12-19 27-18m-28 6q-8-8-14-20m15 8q8-20 19-24"/>
+<path d="M33 78q-8-10-17-6 6 11 17 6m0 9q11-9 22-5-11 12-22 5m-4-21q-8-13-3-22 13 8 3 22"/>
+<path d="M42 52l-4-6 6-5 6 5-2 7z" fill="#dbb449"/><circle cx="44" cy="47" r="3" fill="#a84236"/>
+<path d="M19 106h35l-4 23H24z" fill="#e3d0b8"/><path d="M18 106h37M28 116h16"/>
+<ellipse cx="157" cy="128" rx="84" ry="8" fill="#e8e3d5" stroke="#b9b5aa"/>
+<path d="M99 89h68l-5 34q-27 9-54-2z" fill="#f8f3e7"/><path d="M167 94q25-5 22 10-2 12-26 9"/><ellipse cx="133" cy="90" rx="34" ry="6" fill="#fff"/><ellipse cx="133" cy="90" rx="27" ry="4" fill="#ad7357" stroke="#6a534b"/>
+<path d="M122 80q-9-8 0-17m15 17q-8-9 0-19m12 19q-8-9 0-16" stroke="#b0a99b"/>
+<path d="M204 115l88-27 13 34-87 23z" fill="#f9f7ef"/><path d="M211 116l86-26M218 123l83-24M225 130l80-25" stroke="#c6c6c0"/>
+<path d="M270 75l7 3-32 58-5 3 1-7z" fill="#e5c458"/><path d="M270 75l3-7 7 3-3 7z" fill="#db5047"/>
+<path d="M310 115V75m0 22q-12-9-16-7m16-3q13-12 23-9m-23-5q-10-11-13-18m13 6q11-14 17-15"/>
+<path d="M293 53q-4-8 2-13 8 6 4 13m24-5q5-8 12-4-3 8-12 9m-19 6q-7-5-11 1 4 6 11 4" fill="#d0d7b0"/>
+<circle cx="309" cy="70" r="7" fill="#e0b63a"/><path d="M310 56v28M296 70h28M300 60l19 20m0-20-19 20" stroke="#d7a945"/>
+<path d="M296 120h28l-3 12h-22z" fill="#e3d0b8"/>
+</svg>`;}
+else if(state.screen==='skills'){content.innerHTML=`<button class="back" data-back="home">← Terug</button><h1>Oefenen</h1>${skills.map(([s,ic])=>`<button class="skill" data-skill="${esc(s)}"><span class="symbol">${skillIcon(ic)}</span>${esc(s)}<span class="chev">›</span></button>`).join('')}`;}
 else if(state.screen==='setup'){
 const s=state.skill,cfg=config[s];
 const first=s==='Spreken'?select('category','Situatie',cfg.items,state.category):select('choice',cfg.label,cfg.items,state.choices[s]);
@@ -94,14 +140,16 @@ const second=s==='Spreken'&&state.category!=='Alle situaties'?select('situation'
 content.innerHTML=`<button class="back" data-back="skills">← Terug</button><h1>${esc(s)}</h1>${first}${second}${settings()}<button class="primary" id="start">Start oefenen →</button>`;
 }
 else if(state.screen==='started'){content.innerHTML=`<button class="back" data-back="setup">← Terug</button><h1>Oefening</h1>${example()}<button class="primary" data-back="setup">Keuzes aanpassen</button>`;}
+else if(['theory','vocabulary','review'].includes(state.screen)){const names={theory:'Theorie',vocabulary:'Woordenschat',review:'Herhaling'};content.innerHTML=`<button class="back" data-back="home">← Terug</button><h1>${names[state.screen]}</h1><p class="note">Deze sectie wordt in de HTML-schets verder uitgewerkt.</p>`;}
 else if(state.screen==='progress'){content.innerHTML=`<h1>Voortgang</h1><p class="note">Voortgang voor ${esc(activeProfile)} komt hier. In deze schets zijn er nog geen echte oefenresultaten.</p>`;}
 else if(state.screen==='settings'){content.innerHTML=`<h1>Instellingen</h1><p class="note">Je oefenkeuzes worden bewaard in deze browser.</p>`;}
 persist();
 }
 document.addEventListener('click',ev=>{
+const go=ev.target.closest('[data-go]');if(go){state.screen=go.dataset.go;render();return}
 const sk=ev.target.closest('[data-skill]');if(sk){state.skill=sk.dataset.skill;state.screen='setup';state.mode='Automatisch';state.level='Automatisch';state.method='Automatisch';render();return}
 const b=ev.target.closest('[data-back]');if(b){state.screen=b.dataset.back;render();return}
-const nav=ev.target.closest('[data-nav]');if(nav){state.screen=nav.dataset.nav==='home'?'skills':nav.dataset.nav;render();return}
+const nav=ev.target.closest('[data-nav]');if(nav){state.screen=nav.dataset.nav==='home'?'home':nav.dataset.nav;render();return}
 if(ev.target.closest('#start')){state.screen='started';render()}
 });
 document.addEventListener('change',ev=>{
