@@ -762,6 +762,29 @@ function drawBHome(){
    dest+=grown;source=band.end;
  }
  if(source<imageH){ctx.drawImage(frisBArt,0,source,imageW,imageH-source,0,dest,imageW,imageH-source);}
+ // Text on the approved B illustration was too large. Replace only its
+ // three baked-in captions with crisp, smaller canvas lettering; all other
+ // illustration pixels, button hit areas, page proportions remain unchanged.
+ const labels=[
+  {top:480,bottom:634,title:'Lessen',y:528,subtitle:['Nieuwe stof leren en','begrijpen.']},
+  {top:711,bottom:865,title:'Oefenen',y:759,subtitle:['Direct aan de slag met','de stof.']},
+  {top:944,bottom:1099,title:'Herhaling',y:992,subtitle:['Eerder geleerde stof','opfrissen.']}
+ ];
+ for(const item of labels){
+   // The 6px blank watercolor paper strip at the right of each card
+   // covers the former large letters without introducing a flat color block.
+   ctx.drawImage(frisBArt,749,item.top,7,item.bottom-item.top,
+                 409,item.top,351,item.bottom-item.top);
+   ctx.textAlign='left';
+   ctx.textBaseline='alphabetic';
+   ctx.fillStyle='#253d59';
+   ctx.font='bold 37px Georgia, Times New Roman, serif';
+   ctx.fillText(item.title,422,item.y);
+   ctx.font='italic 22px Georgia, Times New Roman, serif';
+   ctx.fillStyle='#575367';
+   ctx.fillText(item.subtitle[0],422,item.y+39);
+   ctx.fillText(item.subtitle[1],422,item.y+65);
+ }
  const mapY=y=>{
    let offset=y;
    for(const band of frisApprovedBands){
