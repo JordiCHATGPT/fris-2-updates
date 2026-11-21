@@ -189,6 +189,13 @@ main#content{flex:1 1 auto;min-height:0;overflow:auto;padding:0;display:flex;fle
 @media(min-width:650px){body{padding:0}.phone{border:0;border-radius:0;box-shadow:0 0 24px #0001;min-height:0}.nav{border-radius:0}}
 @media(max-height:740px){.home-top-space{height:clamp(15px,3dvh,35px)}}
 @media(prefers-reduced-motion:reduce){.home-action img{transition:none}}
+</style><style id="fris-inner-navigation-fix">
+/* Keep illustrated footer/nav artwork exclusive to the home screen. */
+.nav:not(.on-home){background:#fcf6ef none!important}
+.nav:not(.on-home) button span,.nav:not(.on-home) button svg{visibility:visible}
+.nav:not(.on-home) button{color:#272a2b}
+.nav:not(.on-home) button.active{color:#e31920}
+.nav:not(.on-home) button.active svg{stroke:#e31920}
 </style></head>
 <body>
 <div class="phone">
@@ -252,7 +259,7 @@ return `<section class="subtle"><div class="subtle-header"><strong>Oefeninstelli
 }
 function render(){
 const areaKey=['home','skills','setup','started','lessons'].includes(state.screen)?'home':state.screen;
-document.querySelector('.nav').classList.toggle('on-home',areaKey==='home');
+document.querySelector('.nav').classList.toggle('on-home',state.screen==='home');
 document.querySelectorAll('[data-nav]').forEach(b=>{b.classList.toggle('active',areaKey===b.dataset.nav); b.setAttribute('aria-current',areaKey===b.dataset.nav?'page':'false')});
 if(state.screen==='home'){content.innerHTML=`<div class="home-panel">
 <div class="home-top-space" aria-hidden="true"></div>
