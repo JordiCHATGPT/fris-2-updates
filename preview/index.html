@@ -383,6 +383,15 @@ main#content:has(.fris-full-composition){flex:1 1 auto;min-height:0;height:100%;
  .phone:not(:has(.fris-full-composition)) .page-inner{padding-top:20px!important}
 }
 </style>
+<style id="fris-option-a-approved-20261121">
+.phone:has(.fris-full-composition)>header.hero,.phone:has(.fris-full-composition)>nav.nav{display:none!important}
+.phone:has(.fris-full-composition) main#content{overflow:hidden!important;flex:1 1 auto!important;min-height:0!important}
+.phone .fris-full-composition{width:100%;height:100%;position:relative;overflow:hidden}
+.phone .fris-full-composition #fris-home-canvas{display:block;width:100%;height:100%}
+.phone .fris-full-composition .fris-hotspot{position:absolute!important;z-index:5!important;background:transparent!important;border:0!important;padding:0!important;cursor:pointer}
+.phone:not(:has(.fris-full-composition)) header.hero{background-image:url('art/fris-a-goedgekeurd.webp')!important}
+.phone:not(:has(.fris-full-composition)) nav.nav:not(.on-home){background-image:url('art/fris-a-goedgekeurd.webp')!important;aspect-ratio:941 / 172!important}
+</style>
 </head>
 <body>
 <div class="phone">
@@ -447,74 +456,58 @@ return `<section class="subtle"><div class="subtle-header"><strong>Oefeninstelli
 
 // Rescale only soft watercolour bands; menu illustrations and lettering retain their proportions.
 // This adapts the approved 1024 x 1536 artwork to a tall phone without cropping the sides.
+// Precisely render the approved Optie A image at the original aspect ratio.
+// Only blank watercolor intervals may grow on taller screens, never text or illustrations.
 const frisArt=new Image();
-frisArt.src='art/fris-approved-watercolor.webp';
-frisArt.addEventListener('load',drawHomeCanvas);
-// The artwork is never stretched: only four quiet paper-texture bands grow.
-const frisStops=[475,660,835,1010];
-const frisWeights=[.13,.26,.26,.35];
-function frisGeometry(designHeight){
- const extra=Math.max(0,designHeight-1536);
- const gaps=frisWeights.map(weight=>weight*extra);
- const mappedY=y=>y+frisStops.reduce((n,stop,i)=>n+(y>=stop?gaps[i]:0),0);
- return {gaps,mappedY,renderHeight:1536+extra};
-}
+frisArt.src='art/fris-a-goedgekeurd.webp';
+frisArt.addEventListener('load',()=>requestAnimationFrame(drawHomeCanvas));
+const frisApprovedBands=[[470,530,0.15],[711,727,0.2],[917,929,0.2],[1091,1160,0.45]].map(([start,end,share])=>({start,end,share}));
 function drawHomeCanvas(){
  const canvas=document.getElementById('fris-home-canvas');
  if(!canvas||!frisArt.complete||!frisArt.naturalWidth)return;
  const shell=canvas.closest('.fris-full-composition');
  if(!shell)return;
- const width=shell.clientWidth;
- const viewHeight=shell.clientHeight;
- if(width<1||viewHeight<1)return;
- const designHeight=Math.max(1536,viewHeight/width*1024);
- const naturalHeight=width*designHeight/1024;
+ const viewportW=shell.clientWidth,viewportH=shell.clientHeight;
+ if(viewportW<1||viewportH<1)return;
+ const imageW=941,imageH=1672;
+ const scale=Math.min(viewportW/imageW,viewportH/imageH);
+ const imageLeft=(viewportW-imageW*scale)/2;
+ const extra=Math.max(0,viewportH/scale-imageH);
  const dpr=Math.min(window.devicePixelRatio||1,2);
- canvas.style.height=naturalHeight+'px';
- canvas.width=Math.round(width*dpr);
- canvas.height=Math.round(naturalHeight*dpr);
+ canvas.width=Math.round(viewportW*dpr);
+ canvas.height=Math.round(viewportH*dpr);
  const ctx=canvas.getContext('2d',{alpha:false});
- const ratio=canvas.width/1024;
- ctx.setTransform(ratio,0,0,ratio,0,0);
- ctx.imageSmoothingEnabled=true;
- ctx.imageSmoothingQuality='high';
- const {gaps,mappedY}=frisGeometry(designHeight);
- let previous=0;
- let target=0;
- for(let i=0;i<=frisStops.length;i++){
-   const next=i<frisStops.length?frisStops[i]:1536;
-   const segment=next-previous;
-   // Original header, text, icons, cafe and navigation are all rendered 1:1.
-   ctx.drawImage(frisArt,0,previous,1024,segment,0,target,1024,segment);
-   target+=segment;
-   if(i<frisStops.length){
-     // Only repeat the unobtrusive paper texture bordering a row.
-     const gap=gaps[i];
-     const stop=frisStops[i];
-     const stripe=14;
-     for(let y=0;y<gap;y+=stripe){
-       const height=Math.min(stripe,gap-y);
-       const cycle=Math.floor(y/stripe)%2;
-       const source=cycle?stop-7:stop-7;
-       ctx.save();
-       if(cycle){
-         ctx.translate(0,target+y+height);
-         ctx.scale(1,-1);
-         ctx.drawImage(frisArt,0,source,1024,7,0,0,1024,height);
-       }else{
-         ctx.drawImage(frisArt,0,source,1024,7,0,target+y,1024,height);
-       }
-       ctx.restore();
-     }
-     target+=gap;
-   }
-   previous=next;
+ ctx.setTransform(dpr,0,0,dpr,0,0);
+ ctx.fillStyle='#fff8ef';ctx.fillRect(0,0,viewportW,viewportH);
+ ctx.translate(imageLeft,0);ctx.scale(scale,scale);
+ ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
+ let source=0,dest=0;
+ for(const band of frisApprovedBands){
+   const unchanged=band.start-source;
+   if(unchanged>0){ctx.drawImage(frisArt,0,source,imageW,unchanged,0,dest,imageW,unchanged);dest+=unchanged;}
+   const portion=band.end-band.start;
+   const grown=portion+extra*band.share;
+   ctx.drawImage(frisArt,0,band.start,imageW,portion,0,dest,imageW,grown);
+   dest+=grown;source=band.end;
  }
+ if(source<imageH){ctx.drawImage(frisArt,0,source,imageW,imageH-source,0,dest,imageW,imageH-source);}
+ const mapY=y=>{
+   let offset=y;
+   for(const band of frisApprovedBands){
+     if(y>=band.end)offset+=extra*band.share;
+     else if(y>band.start)offset+=extra*band.share*(y-band.start)/(band.end-band.start);
+   }
+   return offset;
+ };
  shell.querySelectorAll('[data-art-top]').forEach(btn=>{
-   const top=mappedY(+btn.dataset.artTop);
-   const bottom=mappedY(+btn.dataset.artBottom);
-   btn.style.top=top/designHeight*100+'%';
-   btn.style.height=(bottom-top)/designHeight*100+'%';
+  const top=mapY(Number(btn.dataset.artTop));
+  const bottom=mapY(Number(btn.dataset.artBottom));
+  const x=Number(btn.dataset.artX||0);
+  const w=Number(btn.dataset.artW||imageW);
+  btn.style.top=(top*scale/viewportH*100)+'%';
+  btn.style.height=((bottom-top)*scale/viewportH*100)+'%';
+  btn.style.left=((imageLeft+x*scale)/viewportW*100)+'%';
+  btn.style.width=(w*scale/viewportW*100)+'%';
  });
 }
 window.addEventListener('resize',()=>requestAnimationFrame(drawHomeCanvas));
@@ -524,16 +517,14 @@ function render(){
 const areaKey=['home','skills','setup','started','lessons'].includes(state.screen)?'home':state.screen;
 document.querySelector('.nav').classList.toggle('on-home',state.screen==='home');
 document.querySelectorAll('[data-nav]').forEach(b=>{b.classList.toggle('active',areaKey===b.dataset.nav); b.setAttribute('aria-current',areaKey===b.dataset.nav?'page':'false')});
-if(state.screen==='home'){content.innerHTML=`<div class="fris-full-composition" aria-label="FRIS! startscherm in aquarelstijl">
-<canvas id="fris-home-canvas" role="img" aria-label="Duitse skyline, aquarelmenu met Lessen, Oefenen en Herhaling, café en onderste navigatie"></canvas>
-<button type="button" class="fris-hotspot" data-go="lessons" data-art-top="489" data-art-bottom="642" aria-label="Lessen openen"></button>
-<button type="button" class="fris-hotspot" data-go="skills" data-art-top="671" data-art-bottom="820" aria-label="Oefenen openen"></button>
-<button type="button" class="fris-hotspot" data-go="review" data-art-top="847" data-art-bottom="1000" aria-label="Herhaling openen"></button>
-<button type="button" class="fris-hotspot fris-bottom-hotspot" data-nav="home" data-art-top="1397" data-art-bottom="1536" aria-label="Home"></button>
-<button type="button" class="fris-hotspot fris-bottom-hotspot" data-nav="theory" data-art-top="1397" data-art-bottom="1536" aria-label="Theorie"></button>
-<button type="button" class="fris-hotspot fris-bottom-hotspot" data-nav="progress" data-art-top="1397" data-art-bottom="1536" aria-label="Voortgang"></button>
-<button type="button" class="fris-hotspot fris-bottom-hotspot" data-nav="settings" data-art-top="1397" data-art-bottom="1536" aria-label="Instellingen"></button>
-</div>`;requestAnimationFrame(drawHomeCanvas);}
+if(state.screen==='home'){content.innerHTML=`<div class="fris-full-composition" aria-label="FRIS! goedgekeurde optie A"><canvas id="fris-home-canvas" role="img" aria-label="Goedgekeurde FRIS! optie A illustratie met navigatie"></canvas>
+<button class="fris-hotspot" type="button" data-go="lessons" data-art-top="540" data-art-bottom="694" data-art-x="50" data-art-w="841" aria-label="Lessen openen"></button>
+<button class="fris-hotspot" type="button" data-go="skills" data-art-top="727" data-art-bottom="903" data-art-x="50" data-art-w="841" aria-label="Oefenen openen"></button>
+<button class="fris-hotspot" type="button" data-go="review" data-art-top="929" data-art-bottom="1095" data-art-x="50" data-art-w="841" aria-label="Herhaling openen"></button>
+<button class="fris-hotspot" type="button" data-nav="home" data-art-top="1500" data-art-bottom="1672" data-art-x="0.00" data-art-w="235.25" aria-label="Home"></button>
+<button class="fris-hotspot" type="button" data-nav="theory" data-art-top="1500" data-art-bottom="1672" data-art-x="235.25" data-art-w="235.25" aria-label="Theorie"></button>
+<button class="fris-hotspot" type="button" data-nav="progress" data-art-top="1500" data-art-bottom="1672" data-art-x="470.50" data-art-w="235.25" aria-label="Voortgang"></button>
+<button class="fris-hotspot" type="button" data-nav="settings" data-art-top="1500" data-art-bottom="1672" data-art-x="705.75" data-art-w="235.25" aria-label="Instellingen"></button>`;requestAnimationFrame(drawHomeCanvas);}
 else if(state.screen==='skills'){content.innerHTML=`<div class="page-inner"><h1>Oefenen</h1>${skills.map(([s,ic])=>`<button class="skill" data-skill="${esc(s)}"><span class="symbol">${skillIcon(ic)}</span>${esc(s)}<span class="chev">›</span></button>`).join('')}</div>`;}
 else if(state.screen==='setup'){
 const s=state.skill,cfg=config[s];
