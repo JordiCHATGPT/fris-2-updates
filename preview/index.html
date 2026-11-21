@@ -260,6 +260,31 @@ main#content:has(.fris-full-composition){flex:1 1 auto;min-height:0;height:100%;
 .phone:not(:has(.fris-full-composition)) .nav button.active svg{stroke:#284867}
 @media(min-width:650px){.phone{max-width:480px;height:100dvh;border-radius:0}}
 </style>
+<style id="fris-inner-watercolor-20261121">
+/* Compact approved skyline artwork, no top-right duplicate Home action. */
+.phone:not(:has(.fris-full-composition)) header.hero{
+  height:clamp(112px,16dvh,155px);
+  max-height:155px;
+  flex:0 0 auto;
+  aspect-ratio:auto;
+  background:#e8e7dc url('art/fris-inner-header.webp') center top / cover no-repeat !important;
+  border-bottom:0;
+}
+.phone:not(:has(.fris-full-composition)) header.hero .hero-photo{display:none}
+.phone:not(:has(.fris-full-composition)) .page-inner{
+ background:radial-gradient(ellipse at 6% 10%,rgba(228,193,136,.19),transparent 45%),
+            radial-gradient(ellipse at 98% 96%,rgba(194,210,199,.21),transparent 55%),#faf2e6;
+ padding:14px 18px 24px;
+}
+.fris-inner-intro{display:flex;align-items:center;gap:12px;margin:0 0 18px;padding:2px 0 13px;border-bottom:1px solid rgba(171,128,77,.30)}
+.fris-inner-intro img{width:clamp(49px,13vw,64px);height:clamp(49px,13vw,64px);object-fit:contain;mix-blend-mode:multiply;flex:0 0 auto}
+.fris-inner-intro .fris-inner-title{display:flex;flex-direction:column;min-width:0;gap:3px}
+.fris-inner-intro h1{margin:0;font:700 clamp(23px,6.3vw,30px)/1.12 Georgia,'Times New Roman',serif;color:#233c5a}
+.fris-inner-intro p{margin:0;font:italic clamp(12px,3.2vw,15px)/1.23 Georgia,'Times New Roman',serif;color:#605869}
+.phone:not(:has(.fris-full-composition)) .back{padding:1px 0 11px}
+.phone:not(:has(.fris-full-composition)) .skill{padding:15px 6px;gap:12px}
+@media(max-height:650px){.phone:not(:has(.fris-full-composition)) header.hero{height:100px}.fris-inner-intro{margin-bottom:10px;padding-bottom:8px}}
+</style>
 </head>
 <body>
 <div class="phone">
@@ -422,6 +447,29 @@ else if(state.screen==='started'){content.innerHTML=`<div class="page-inner"><bu
 else if(['theory','vocabulary','review','lessons'].includes(state.screen)){const names={theory:'Theorie',vocabulary:'Woordenschat',review:'Herhaling',lessons:'Lessen'};content.innerHTML=`<div class="page-inner"><button class="back" data-back="home">← Terug</button><h1>${names[state.screen]}</h1><p class="note">Dit is een klikbaar navigatievoorbeeld. De lessen en oefeningen komen uit het afzonderlijke Android-project.</p>${state.screen==='lessons'?'<button class="primary" data-go="skills">Naar oefeningen</button>':''}</div>`;}
 else if(state.screen==='progress'){content.innerHTML=`<div class="page-inner"><h1>Voortgang</h1><p class="note">De 9% op het startscherm is een voorbeeld uit het ontwerp. Er zijn in deze HTML-preview nog geen echte oefenresultaten.</p></div>`;}
 else if(state.screen==='settings'){content.innerHTML=`<div class="page-inner"><h1>Instellingen</h1><p class="note">Je oefenkeuzes worden bewaard in deze browser.</p></div>`;}
+if(state.screen!=='home'){
+ const title=content.querySelector('.page-inner h1');
+ if(title){
+   const extra={
+     lessons:['Nieuwe stof leren en begrijpen.','art/2026-home-lessons.webp'],
+     skills:['Kies wat je wilt oefenen.','art/2026-home-practice.webp'],
+     setup:['Oefen gericht in jouw tempo.','art/2026-home-practice.webp'],
+     started:['Je gekozen oefening.','art/2026-home-practice.webp'],
+     review:['Eerder geleerde stof opfrissen.','art/2026-home-review.webp'],
+     theory:['Uitleg en overzicht.','art/2026-home-lessons.webp'],
+     progress:['Jouw ontwikkeling in beeld.','art/2026-home-review.webp'],
+     settings:['Stel FRIS! naar wens in.','art/2026-home-lessons.webp']
+   };
+   const [subtitle,picture]=extra[state.screen]||['','art/2026-home-lessons.webp'];
+   const intro=document.createElement('div');
+   intro.className='fris-inner-intro';
+   const art=document.createElement('img');
+   art.src=picture;art.alt='';art.setAttribute('aria-hidden','true');
+   const texts=document.createElement('div');texts.className='fris-inner-title';
+   title.before(intro);intro.append(art,texts);texts.appendChild(title);
+   if(subtitle){const sub=document.createElement('p');sub.textContent=subtitle;texts.appendChild(sub);}
+ }
+}
 persist();
 }
 document.addEventListener('click',ev=>{
