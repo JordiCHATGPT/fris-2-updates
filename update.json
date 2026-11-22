@@ -1,6 +1,6 @@
 {
-  "versionCode": 21,
-  "versionName": "0.1.20-dev",
-  "downloadUrl": "https://raw.githubusercontent.com/JordiCHATGPT/fris-2-updates/main/downloads/fris-2.0-v0.1.20-dev.apk",
-  "notes": "B1 schrijven: 48 nieuwe zinsopdrachten. B2 lezen: vier langere Duitse teksten en 12 begripsvragen. Nieuwe niveaus en feedback."
+  "versionCode": 22,
+  "versionName": "0.1.21-dev",
+  "downloadUrl": "https://raw.githubusercontent.com/JordiCHATGPT/fris-2-updates/main/downloads/fris-2.0-v0.1.21-dev.apk",
+  "notes": "Nu echte luisteroefeningen via Oefenen > Luisteren: Duitse systeemspraak op A1-B2, drie snelheden, herhalen, begripsvragen en opgeslagen antwoorden. Vaste FRIS-stemmen volgen later."
 }
