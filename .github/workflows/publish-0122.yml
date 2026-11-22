@@ -1,0 +1,27 @@
+name: Publish 0122
+on: push
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Publish built apk
+        env:
+          URL: 'https://sdmntprnortheu.oaiusercontent.com/files/00000000-2b7c-81f4-8d8d-a2834a3639d9/raw?se=2026-11-22T21%3A29%3A18Z&sp=r&sv=2026-06-06&sr=b&scid=1bf33189-b13a-50ec-83f4-b6b7890277e6&skoid=c30e7ce7-1f51-4051-a377-288cdba21c02&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-11-22T07%3A48%3A37Z&ske=2026-11-23T07%3A48%3A37Z&sks=b&skv=2026-06-06&sig=gx62FeNwdITHiPJ%2BiGVdEfZWR%2By2diR74IaQfaCkk04%3D'
+        run: |
+          curl -fLsS --retry 2 "$URL" -o /tmp/app.zip
+          unzip -p /tmp/app.zip app-debug.apk > downloads/fris-2.0-v0.1.22-dev.apk
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("update.json")
+          data=json.loads(p.read_text())
+          data.update(versionCode=23,versionName="0.1.22-dev",downloadUrl="https://raw.githubusercontent.com/JordiCHATGPT/fris-2-updates/main/downloads/fris-2.0-v0.1.22-dev.apk",notes="Verbeterde leesbaarheid van luistervragen, antwoordopties, feedback en transcript.")
+          p.write_text(json.dumps(data,indent=2)+"\n")
+          PY
+          git config user.name github-actions
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add downloads/fris-2.0-v0.1.22-dev.apk update.json
+          git commit -m "Publish 0.1.22" && git push
