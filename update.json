@@ -1,6 +1,6 @@
 {
-  "versionCode": 22,
-  "versionName": "0.1.21-dev",
-  "downloadUrl": "https://raw.githubusercontent.com/JordiCHATGPT/fris-2-updates/main/downloads/fris-2.0-v0.1.21-dev.apk",
-  "notes": "Nu echte luisteroefeningen via Oefenen > Luisteren: Duitse systeemspraak op A1-B2, drie snelheden, herhalen, begripsvragen en opgeslagen antwoorden. Vaste FRIS-stemmen volgen later."
+  "versionCode": 23,
+  "versionName": "0.1.22-dev",
+  "downloadUrl": "https://raw.githubusercontent.com/JordiCHATGPT/fris-2-updates/main/downloads/fris-2.0-v0.1.22-dev.apk",
+  "notes": "Verbeterde leesbaarheid van luistervragen, antwoordopties, feedback en transcript."
 }
