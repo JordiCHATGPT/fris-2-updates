@@ -1,6 +1,6 @@
 {
-  "versionCode": 23,
-  "versionName": "0.1.22-dev",
-  "downloadUrl": "https://raw.githubusercontent.com/JordiCHATGPT/fris-2-updates/main/downloads/fris-2.0-v0.1.22-dev.apk",
-  "notes": "Verbeterde leesbaarheid van luistervragen, antwoordopties, feedback en transcript."
+  "versionCode": 24,
+  "versionName": "0.1.23-dev",
+  "downloadUrl": "https://raw.githubusercontent.com/JordiCHATGPT/fris-2-updates/main/downloads/fris-2.0-v0.1.23-dev.apk",
+  "notes": "Voortgang laat nu ook het aantal beantwoorde luistervragen, goedpercentage en dekking per A1/A2/B1/B2 zien."
 }
