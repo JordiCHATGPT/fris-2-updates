@@ -1,0 +1,39 @@
+name: Publish FRIS 0.1.18 home and reading
+on:
+  push:
+    paths:
+      - .github/workflows/publish-home-theory-0118.yml
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch compiled FRIS APK
+        env:
+          ARTIFACT_URL: 'https://sdmntprdenmarkeast.oaiusercontent.com/files/00000000-595c-8210-b6bd-7d97c91c4675/raw?se=2026-11-22T19%3A58%3A32Z&sp=r&sv=2026-06-06&sr=b&scid=3b8b8d8b-bee0-5fe1-941f-95fe6fc0bc8f&skoid=c30e7ce7-1f51-4051-a377-288cdba21c02&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-11-22T10%3A02%3A40Z&ske=2026-11-23T10%3A02%3A40Z&sks=b&skv=2026-06-06&sig=L1%2ByieVg//kCEV9AVasqs7Ig4xi3gzPNAZL2aygeUto%3D'
+        run: |
+          curl -fLsS --retry 3 --max-time 180 "$ARTIFACT_URL" -o artifact.zip
+          unzip -o artifact.zip app-debug.apk
+          mkdir -p downloads
+          mv app-debug.apk downloads/fris-2.0-v0.1.18-dev.apk
+          test $(wc -c < downloads/fris-2.0-v0.1.18-dev.apk) -gt 1000000
+          rm artifact.zip
+      - name: Publish update manifest
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          Path('update.json').write_text(json.dumps({
+            'versionCode': 19,
+            'versionName': '0.1.18-dev',
+            'downloadUrl': 'https://raw.githubusercontent.com/JordiCHATGPT/fris-2-updates/main/downloads/fris-2.0-v0.1.18-dev.apk',
+            'notes': 'Theorie nu als vierde hoofdknop op Home; onderbalk met drie knoppen. Rustiger leeslettertype, regelafstand en uitlijning in theorie en lessen.'
+          },indent=2)+'\n')
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add update.json downloads/fris-2.0-v0.1.18-dev.apk
+          git commit -m "Publish FRIS 0.1.18 home Theory and readable typography"
+          git push
