@@ -1,0 +1,39 @@
+name: Publish FRIS 0.1.14 theory layout
+on:
+  push:
+    paths:
+      - .github/workflows/publish-theory-0114.yml
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Retrieve FRIS APK
+        env:
+          ARTIFACT_URL: 'https://sdmntprukwest.oaiusercontent.com/files/00000000-9b50-8243-a486-fa8110a213eb/raw?se=2026-11-22T18%3A31%3A19Z&sp=r&sv=2026-06-06&sr=b&scid=d778dd03-1171-550c-9631-ddefb319656c&skoid=c30e7ce7-1f51-4051-a377-288cdba21c02&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-11-22T15%3A48%3A19Z&ske=2026-11-23T15%3A48%3A19Z&sks=b&skv=2026-06-06&sig=bYelSbrCMYNNu7HJXW68VwvYVao8cg1rdATHhyePxp0%3D'
+        run: |
+          curl -fLsS --retry 3 --max-time 180 "$ARTIFACT_URL" -o artifact.zip
+          unzip -o artifact.zip app-debug.apk
+          mkdir -p downloads
+          mv app-debug.apk downloads/fris-2.0-v0.1.14-dev.apk
+          test $(wc -c < downloads/fris-2.0-v0.1.14-dev.apk) -gt 1000000
+          rm artifact.zip
+      - name: Publish update metadata
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          Path('update.json').write_text(json.dumps({
+            'versionCode': 15,
+            'versionName': '0.1.14-dev',
+            'downloadUrl': 'https://raw.githubusercontent.com/JordiCHATGPT/fris-2-updates/main/downloads/fris-2.0-v0.1.14-dev.apk',
+            'notes': 'Theorie nu echt compact: overbodige tekst en aantallen weg, korte hoofdstukregels, begrippenknop naast titel.'
+          }, indent=2)+'\n')
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add update.json downloads/fris-2.0-v0.1.14-dev.apk
+          git commit -m "Publish FRIS 0.1.14 refined Theory overview"
+          git push
