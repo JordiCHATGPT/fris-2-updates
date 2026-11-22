@@ -1,0 +1,40 @@
+name: Publish FRIS 0.1.9 verified signing update
+on:
+  push:
+    paths:
+      - .github/workflows/publish-019.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Retrieve already tested and signature-matched 0.1.9 APK
+        env:
+          ARTIFACT_URL: 'https://sdmntprdenmarkeast.oaiusercontent.com/files/00000000-11d0-8210-aa11-a313660f900f/raw?se=2026-11-22T17%3A42%3A06Z&sp=r&sv=2026-06-06&sr=b&scid=8242571a-ebdd-5e2f-ba57-772b39f1a2b3&skoid=c30e7ce7-1f51-4051-a377-288cdba21c02&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-11-22T16%3A12%3A33Z&ske=2026-11-23T16%3A12%3A33Z&sks=b&skv=2026-06-06&sig=aXvGNWPOYa80BmrousDrZky9hYAC0cvA5W36py7w3/k%3D'
+        run: |
+          curl -fLsS --retry 3 --max-time 180 "$ARTIFACT_URL" -o artifact.zip
+          unzip -o artifact.zip app-debug.apk
+          mkdir -p downloads
+          mv app-debug.apk downloads/fris-2.0-v0.1.9-dev.apk
+          test $(wc -c < downloads/fris-2.0-v0.1.9-dev.apk) -gt 1000000
+          rm artifact.zip
+      - name: Publish APK and update manifest
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          Path('update.json').write_text(json.dumps({
+            'versionCode': 10,
+            'versionName': '0.1.9-dev',
+            'downloadUrl': 'https://raw.githubusercontent.com/JordiCHATGPT/fris-2-updates/main/downloads/fris-2.0-v0.1.9-dev.apk',
+            'notes': 'APK is met dezelfde testsleutel ondertekend als 0.1.8-dev.'
+          }, indent=2)+'\n')
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add update.json downloads/fris-2.0-v0.1.9-dev.apk
+          git commit -m "Publish matching-signature FRIS 0.1.9 test update"
+          git push
