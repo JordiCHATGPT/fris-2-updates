@@ -1,6 +1,6 @@
 {
-  "versionCode": 10,
-  "versionName": "0.1.9-dev",
-  "downloadUrl": "https://raw.githubusercontent.com/JordiCHATGPT/fris-2-updates/main/downloads/fris-2.0-v0.1.9-dev.apk",
-  "notes": "APK is met dezelfde testsleutel ondertekend als 0.1.8-dev."
+  "versionCode": 11,
+  "versionName": "0.1.10-dev",
+  "downloadUrl": "https://raw.githubusercontent.com/JordiCHATGPT/fris-2-updates/main/downloads/fris-2.0-v0.1.10-dev.apk",
+  "notes": "Dezelfde onderste navigatiebalk is nu zichtbaar op alle pagina\u2019s."
 }
