@@ -1,4 +1,4 @@
-name: Publish FRIS 2.0 wireframe
+name: Publish FRIS and BIO browser previews
 
 on:
   push:
