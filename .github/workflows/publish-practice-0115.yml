@@ -1,0 +1,39 @@
+name: Publish FRIS practice 0.1.15
+on:
+  push:
+    paths:
+      - .github/workflows/publish-practice-0115.yml
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch compiled Android artifact
+        env:
+          ARTIFACT_URL: 'https://sdmntprdenmarkeast.oaiusercontent.com/files/00000000-a620-8210-8678-db0bcc8ea861/raw?se=2026-11-22T18%3A47%3A31Z&sp=r&sv=2026-06-06&sr=b&scid=8c6fcc16-03de-5ecc-b77c-5f1df70a9dc0&skoid=c30e7ce7-1f51-4051-a377-288cdba21c02&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-11-22T09%3A24%3A31Z&ske=2026-11-23T09%3A24%3A31Z&sks=b&skv=2026-06-06&sig=z6S2cE4JBo4j/Q8av7RGFSn1M9B0W0Zm/Hyv3n5dzgk%3D'
+        run: |
+          curl -fLsS --retry 3 --max-time 180 "$ARTIFACT_URL" -o artifact.zip
+          unzip -o artifact.zip app-debug.apk
+          mkdir -p downloads
+          mv app-debug.apk downloads/fris-2.0-v0.1.15-dev.apk
+          test $(wc -c < downloads/fris-2.0-v0.1.15-dev.apk) -gt 1000000
+          rm artifact.zip
+      - name: Publish update metadata
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          Path('update.json').write_text(json.dumps({
+            'versionCode': 16,
+            'versionName': '0.1.15-dev',
+            'downloadUrl': 'https://raw.githubusercontent.com/JordiCHATGPT/fris-2-updates/main/downloads/fris-2.0-v0.1.15-dev.apk',
+            'notes': 'Nieuw oefenscherm: A1, herkenvragen, schrijven en gemengd; luisteren en spreken volgen later.'
+          }, indent=2)+'\n')
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add update.json downloads/fris-2.0-v0.1.15-dev.apk
+          git commit -m "Publish FRIS 0.1.15 practice skills screen"
+          git push
