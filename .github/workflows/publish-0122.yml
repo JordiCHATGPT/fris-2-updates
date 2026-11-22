@@ -9,7 +9,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Publish built apk
         env:
-          URL: 'https://sdmntprnortheu.oaiusercontent.com/files/00000000-2b7c-81f4-8d8d-a2834a3639d9/raw?se=2026-11-22T21%3A29%3A18Z&sp=r&sv=2026-06-06&sr=b&scid=1bf33189-b13a-50ec-83f4-b6b7890277e6&skoid=c30e7ce7-1f51-4051-a377-288cdba21c02&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-11-22T07%3A48%3A37Z&ske=2026-11-23T07%3A48%3A37Z&sks=b&skv=2026-06-06&sig=gx62FeNwdITHiPJ%2BiGVdEfZWR%2By2diR74IaQfaCkk04%3D'
+          URL: 'https://sdmntprnortheu.oaiusercontent.com/files/00000000-9758-81f4-82d0-7a8541e29610/raw?se=2026-11-22T21%3A40%3A18Z&sp=r&sv=2026-06-06&sr=b&scid=7346d843-7990-5efb-ae38-7a97774a849f&skoid=c30e7ce7-1f51-4051-a377-288cdba21c02&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-11-22T04%3A20%3A26Z&ske=2026-11-23T04%3A20%3A26Z&sks=b&skv=2026-06-06&sig=EebNrXDxHQKqVK0ndE7oS/euiWdAI38syAlbyWdXPps%3D'
         run: |
           curl -fLsS --retry 2 "$URL" -o /tmp/app.zip
           unzip -p /tmp/app.zip app-debug.apk > downloads/fris-2.0-v0.1.22-dev.apk
