@@ -1,6 +1,6 @@
 {
-  "versionCode": 17,
-  "versionName": "0.1.16-dev",
-  "downloadUrl": "https://raw.githubusercontent.com/JordiCHATGPT/fris-2-updates/main/downloads/fris-2.0-v0.1.16-dev.apk",
-  "notes": "Nieuwe A2- en B1-leesteksten: 12 originele Duitse teksten, 36 begripsvragen en Nederlandse feedback."
+  "versionCode": 19,
+  "versionName": "0.1.18-dev",
+  "downloadUrl": "https://raw.githubusercontent.com/JordiCHATGPT/fris-2-updates/main/downloads/fris-2.0-v0.1.18-dev.apk",
+  "notes": "Theorie nu als vierde hoofdknop op Home; onderbalk met drie knoppen. Rustiger leeslettertype, regelafstand en uitlijning in theorie en lessen."
 }
