@@ -1,0 +1,39 @@
+name: Publish FRIS 0.1.21 listening
+on:
+  push:
+    paths:
+      - .github/workflows/publish-listening-0121.yml
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download tested FRIS listening APK
+        env:
+          ARTIFACT_URL: 'https://sdmntprdenmarkeast.oaiusercontent.com/files/00000000-d420-8210-a3ef-2a52703ddf89/raw?se=2026-11-22T21%3A11%3A06Z&sp=r&sv=2026-06-06&sr=b&scid=c0f1cdb6-ce25-5489-90ee-ab222110a75a&skoid=c30e7ce7-1f51-4051-a377-288cdba21c02&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-11-22T15%3A02%3A29Z&ske=2026-11-23T15%3A02%3A29Z&sks=b&skv=2026-06-06&sig=FS81Yu9N14gpum1ISLrUwqkZ5Sy3ZCCvRSJjGxwoH9s%3D'
+        run: |
+          curl -fLsS --retry 3 --max-time 180 "$ARTIFACT_URL" -o artifact.zip
+          unzip -o artifact.zip app-debug.apk
+          mkdir -p downloads
+          mv app-debug.apk downloads/fris-2.0-v0.1.21-dev.apk
+          test $(wc -c < downloads/fris-2.0-v0.1.21-dev.apk) -gt 1000000
+          rm artifact.zip
+      - name: Publish APK and in-app update manifest
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          Path('update.json').write_text(json.dumps({
+            'versionCode': 22,
+            'versionName': '0.1.21-dev',
+            'downloadUrl': 'https://raw.githubusercontent.com/JordiCHATGPT/fris-2-updates/main/downloads/fris-2.0-v0.1.21-dev.apk',
+            'notes': 'Nu echte luisteroefeningen via Oefenen > Luisteren: Duitse systeemspraak op A1-B2, drie snelheden, herhalen, begripsvragen en opgeslagen antwoorden. Vaste FRIS-stemmen volgen later.'
+          },indent=2)+'\n')
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add update.json downloads/fris-2.0-v0.1.21-dev.apk
+          git commit -m "Publish FRIS 0.1.21 first usable listening practice"
+          git push
