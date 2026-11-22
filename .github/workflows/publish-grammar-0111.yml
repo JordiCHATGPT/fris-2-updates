@@ -1,0 +1,40 @@
+name: Publish FRIS compact grammar 0.1.11
+on:
+  push:
+    paths:
+      - .github/workflows/publish-grammar-0111.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Retrieve compiled FRIS APK
+        env:
+          ARTIFACT_URL: 'https://sdmntprdenmarkeast.oaiusercontent.com/files/00000000-7fa4-8210-bcad-6c34b70e355c/raw?se=2026-11-22T18%3A04%3A29Z&sp=r&sv=2026-06-06&sr=b&scid=8374c39c-e50c-514d-bde1-910a33b5752b&skoid=c30e7ce7-1f51-4051-a377-288cdba21c02&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-11-22T04%3A14%3A22Z&ske=2026-11-23T04%3A14%3A22Z&sks=b&skv=2026-06-06&sig=UIsxIa0m6b7XMN2ZA2NbWQhQLNtkrUlHeLg%2BNlb8F84%3D'
+        run: |
+          curl -fLsS --retry 3 --max-time 180 "$ARTIFACT_URL" -o artifact.zip
+          unzip -o artifact.zip app-debug.apk
+          mkdir -p downloads
+          mv app-debug.apk downloads/fris-2.0-v0.1.11-dev.apk
+          test $(wc -c < downloads/fris-2.0-v0.1.11-dev.apk) -gt 1000000
+          rm artifact.zip
+      - name: Publish signed APK and update manifest
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          Path('update.json').write_text(json.dumps({
+            'versionCode': 12,
+            'versionName': '0.1.11-dev',
+            'downloadUrl': 'https://raw.githubusercontent.com/JordiCHATGPT/fris-2-updates/main/downloads/fris-2.0-v0.1.11-dev.apk',
+            'notes': 'Nieuw compact theorieboek: 7 hoofdstukken, 42 onderwerpen, gewone Nederlandse uitleg.'
+          }, indent=2)+'\n')
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add update.json downloads/fris-2.0-v0.1.11-dev.apk
+          git commit -m "Publish FRIS 0.1.11 compact grammar handbook"
+          git push
