@@ -1,6 +1,6 @@
 {
-  "versionCode": 14,
-  "versionName": "0.1.13-dev",
-  "downloadUrl": "https://raw.githubusercontent.com/JordiCHATGPT/fris-2-updates/main/downloads/fris-2.0-v0.1.13-dev.apk",
-  "notes": "Nieuwe grafische voortgang: beantwoorde vragen, resultaten, herhaling en voortgangsbalken. Terugknop verwijderd."
+  "versionCode": 15,
+  "versionName": "0.1.14-dev",
+  "downloadUrl": "https://raw.githubusercontent.com/JordiCHATGPT/fris-2-updates/main/downloads/fris-2.0-v0.1.14-dev.apk",
+  "notes": "Theorie nu echt compact: overbodige tekst en aantallen weg, korte hoofdstukregels, begrippenknop naast titel."
 }
