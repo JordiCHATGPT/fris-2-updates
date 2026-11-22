@@ -1,0 +1,39 @@
+name: Publish FRIS 0.1.20 B1 writing B2 reading
+on:
+  push:
+    paths:
+      - .github/workflows/publish-content-0120.yml
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch validated FRIS APK
+        env:
+          ARTIFACT_URL: 'https://sdmntprnortheu.oaiusercontent.com/files/00000000-ec30-81f4-8e97-d84b862a378b/raw?se=2026-11-22T20%3A29%3A49Z&sp=r&sv=2026-06-06&sr=b&scid=8b45cf57-3058-5df3-b56e-9fa9e056e3d0&skoid=c30e7ce7-1f51-4051-a377-288cdba21c02&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-11-22T11%3A48%3A40Z&ske=2026-11-23T11%3A48%3A40Z&sks=b&skv=2026-06-06&sig=iu1urOAQJYbptD/Lj9qUbD8Vz4/ixnI11HeEIalcyKI%3D'
+        run: |
+          curl -fLsS --retry 3 --max-time 180 "$ARTIFACT_URL" -o artifact.zip
+          unzip -o artifact.zip app-debug.apk
+          mkdir -p downloads
+          mv app-debug.apk downloads/fris-2.0-v0.1.20-dev.apk
+          test $(wc -c < downloads/fris-2.0-v0.1.20-dev.apk) -gt 1000000
+          rm artifact.zip
+      - name: Publish APK and app update
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          Path('update.json').write_text(json.dumps({
+            'versionCode': 21,
+            'versionName': '0.1.20-dev',
+            'downloadUrl': 'https://raw.githubusercontent.com/JordiCHATGPT/fris-2-updates/main/downloads/fris-2.0-v0.1.20-dev.apk',
+            'notes': 'B1 schrijven: 48 nieuwe zinsopdrachten. B2 lezen: vier langere Duitse teksten en 12 begripsvragen. Nieuwe niveaus en feedback.'
+          }, indent=2)+'\n')
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add update.json downloads/fris-2.0-v0.1.20-dev.apk
+          git commit -m "Publish FRIS 0.1.20 B1 writing and B2 reading"
+          git push
