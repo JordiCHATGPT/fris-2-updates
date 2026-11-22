@@ -1,6 +1,6 @@
 {
-  "versionCode": 13,
-  "versionName": "0.1.12-dev",
-  "downloadUrl": "https://raw.githubusercontent.com/JordiCHATGPT/fris-2-updates/main/downloads/fris-2.0-v0.1.12-dev.apk",
-  "notes": "Uniforme compacte kaders en knoppen op alle FRIS!-schermen, volgens de theoriepagina."
+  "versionCode": 14,
+  "versionName": "0.1.13-dev",
+  "downloadUrl": "https://raw.githubusercontent.com/JordiCHATGPT/fris-2-updates/main/downloads/fris-2.0-v0.1.13-dev.apk",
+  "notes": "Nieuwe grafische voortgang: beantwoorde vragen, resultaten, herhaling en voortgangsbalken. Terugknop verwijderd."
 }
