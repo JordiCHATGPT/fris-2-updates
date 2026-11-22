@@ -1,6 +1,6 @@
 {
-  "versionCode": 1,
-  "versionName": "0.1.0-dev",
-  "downloadUrl": "https://github.com/JordiCHATGPT/fris-2-updates/releases",
-  "notes": "Eerste testversie. Nieuwe APK's verschijnen hier na publicatie."
+  "versionCode": 4,
+  "versionName": "0.1.3-dev",
+  "downloadUrl": "https://raw.githubusercontent.com/JordiCHATGPT/fris-2-updates/main/downloads/fris-2.0-v0.1.3-dev.apk",
+  "notes": "Volledige FRIS!-header op binnenpagina\u2019s."
 }
