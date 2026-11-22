@@ -1,0 +1,39 @@
+name: Publish FRIS 0.1.12 unified design
+on:
+  push:
+    paths:
+      - .github/workflows/publish-design-0112.yml
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Retrieve compiled FRIS package
+        env:
+          ARTIFACT_URL: 'https://sdmntprukwest.oaiusercontent.com/files/00000000-e2b0-8243-b559-0021498e77d4/raw?se=2026-11-22T18%3A16%3A28Z&sp=r&sv=2026-06-06&sr=b&scid=a87a99b6-bbbc-5b62-a84e-3475cff208d5&skoid=c30e7ce7-1f51-4051-a377-288cdba21c02&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-11-22T16%3A21%3A50Z&ske=2026-11-23T16%3A21%3A50Z&sks=b&skv=2026-06-06&sig=kwwFYbvd6xDkkw7W8eQ3AHB0KVLQkDCwpaLa1DUj0pY%3D'
+        run: |
+          curl -fLsS --retry 3 --max-time 180 "$ARTIFACT_URL" -o artifact.zip
+          unzip -o artifact.zip app-debug.apk
+          mkdir -p downloads
+          mv app-debug.apk downloads/fris-2.0-v0.1.12-dev.apk
+          test $(wc -c < downloads/fris-2.0-v0.1.12-dev.apk) -gt 1000000
+          rm artifact.zip
+      - name: Update manifest
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          Path('update.json').write_text(json.dumps({
+            'versionCode': 13,
+            'versionName': '0.1.12-dev',
+            'downloadUrl': 'https://raw.githubusercontent.com/JordiCHATGPT/fris-2-updates/main/downloads/fris-2.0-v0.1.12-dev.apk',
+            'notes': 'Uniforme compacte kaders en knoppen op alle FRIS!-schermen, volgens de theoriepagina.'
+          }, indent=2)+'\n')
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add update.json downloads/fris-2.0-v0.1.12-dev.apk
+          git commit -m "Publish FRIS 0.1.12 uniform compact design"
+          git push
