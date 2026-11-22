@@ -1,0 +1,36 @@
+name: Publish FRIS listening progress 0123
+on:
+  push:
+    paths:
+      - .github/workflows/publish-progress-0123.yml
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Get validated APK
+        env:
+          ARTIFACT_URL: 'https://sdmntprdenmarkeast.oaiusercontent.com/files/00000000-cfec-8210-a940-c5e9e17fc096/raw?se=2026-11-22T22%3A01%3A44Z&sp=r&sv=2026-06-06&sr=b&scid=5b185a52-0dcc-5596-9fbb-53ae74e5c4e6&skoid=c30e7ce7-1f51-4051-a377-288cdba21c02&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-11-22T15%3A02%3A42Z&ske=2026-11-23T15%3A02%3A42Z&sks=b&skv=2026-06-06&sig=pNt13FPpFK0GX21qj03K%2BZ9adL1AAxOidp0PlfhQwiE%3D'
+        run: |
+          curl -fLsS --retry 3 --max-time 180 "$ARTIFACT_URL" -o /tmp/artifact.zip
+          unzip -p /tmp/artifact.zip app-debug.apk > downloads/fris-2.0-v0.1.23-dev.apk
+          test $(wc -c < downloads/fris-2.0-v0.1.23-dev.apk) -gt 1000000
+      - name: Publish latest version
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          Path('update.json').write_text(json.dumps({
+            'versionCode':24,
+            'versionName':'0.1.23-dev',
+            'downloadUrl':'https://raw.githubusercontent.com/JordiCHATGPT/fris-2-updates/main/downloads/fris-2.0-v0.1.23-dev.apk',
+            'notes':'Voortgang laat nu ook het aantal beantwoorde luistervragen, goedpercentage en dekking per A1/A2/B1/B2 zien.'
+          },indent=2)+'\n')
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add update.json downloads/fris-2.0-v0.1.23-dev.apk
+          git commit -m "Publish FRIS 0.1.23 listening progress"
+          git push
