@@ -1,6 +1,6 @@
 {
-  "versionCode": 19,
-  "versionName": "0.1.18-dev",
-  "downloadUrl": "https://raw.githubusercontent.com/JordiCHATGPT/fris-2-updates/main/downloads/fris-2.0-v0.1.18-dev.apk",
-  "notes": "Theorie nu als vierde hoofdknop op Home; onderbalk met drie knoppen. Rustiger leeslettertype, regelafstand en uitlijning in theorie en lessen."
+  "versionCode": 20,
+  "versionName": "0.1.19-dev",
+  "downloadUrl": "https://raw.githubusercontent.com/JordiCHATGPT/fris-2-updates/main/downloads/fris-2.0-v0.1.19-dev.apk",
+  "notes": "Compacte theorie: fijnere tekst, betere regelafstand, nette opsommingen en rustigere voorbeeldkaders."
 }
