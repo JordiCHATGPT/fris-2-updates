@@ -1,6 +1,6 @@
 {
-  "versionCode": 12,
-  "versionName": "0.1.11-dev",
-  "downloadUrl": "https://raw.githubusercontent.com/JordiCHATGPT/fris-2-updates/main/downloads/fris-2.0-v0.1.11-dev.apk",
-  "notes": "Nieuw compact theorieboek: 7 hoofdstukken, 42 onderwerpen, gewone Nederlandse uitleg."
+  "versionCode": 13,
+  "versionName": "0.1.12-dev",
+  "downloadUrl": "https://raw.githubusercontent.com/JordiCHATGPT/fris-2-updates/main/downloads/fris-2.0-v0.1.12-dev.apk",
+  "notes": "Uniforme compacte kaders en knoppen op alle FRIS!-schermen, volgens de theoriepagina."
 }
