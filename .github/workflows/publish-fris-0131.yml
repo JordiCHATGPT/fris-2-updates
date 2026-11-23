@@ -1,0 +1,40 @@
+name: Publish FRIS 0.1.31
+on:
+  push:
+    paths:
+      - .github/workflows/publish-fris-0131.yml
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download verified Android build
+        env:
+          ARTIFACT_URL: 'https://sdmntprnortheu.oaiusercontent.com/files/00000000-c364-81f4-aee1-689174957626/raw?se=2026-11-23T22%3A38%3A38Z&sp=r&sv=2026-06-06&sr=b&scid=499840eb-670d-5e0a-80f2-32ebac5d3e3a&skoid=c30e7ce7-1f51-4051-a377-288cdba21c02&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-11-23T07%3A23%3A39Z&ske=2026-11-24T07%3A23%3A39Z&sks=b&skv=2026-06-06&sig=WiBuih%2B5CSKHFT84ZOj4vkCAgzC4LJvo3uRix9h2JPs%3D'
+        run: |
+          curl -fLsS --retry 3 --max-time 180 "$ARTIFACT_URL" -o artifact.zip
+          unzip -o artifact.zip app-debug.apk
+          mkdir -p downloads
+          mv app-debug.apk downloads/fris-2.0-v0.1.31-dev.apk
+          test $(wc -c < downloads/fris-2.0-v0.1.31-dev.apk) -eq 13208046
+          echo "5cc7dfce30e50408ca53a21e851ef13904c2091f66445ca4a91a53fd3ee200bc  downloads/fris-2.0-v0.1.31-dev.apk" | sha256sum -c -
+          rm artifact.zip
+      - name: Publish update metadata and APK
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          Path('update.json').write_text(json.dumps({
+            'versionCode': 32,
+            'versionName': '0.1.31-dev',
+            'downloadUrl': 'https://raw.githubusercontent.com/JordiCHATGPT/fris-2-updates/main/downloads/fris-2.0-v0.1.31-dev.apk',
+            'notes': 'Herhaling heeft nu Herhaal nu, niveaukeuze en compacte gefilterde onderwerpen. FRIS!-icoon aangepast voor ronde en adaptive Android-iconen. Subpagina-accents en koppen krachtiger. Hoofdpagina, lessen en voortgangsopslag ongewijzigd.'
+          }, indent=2, ensure_ascii=False)+'\n')
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add update.json downloads/fris-2.0-v0.1.31-dev.apk
+          git commit -m "Publish FRIS 0.1.31 review screen adaptive icon"
+          git push
