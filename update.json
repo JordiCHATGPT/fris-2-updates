@@ -1,6 +1,6 @@
 {
-  "versionCode": 29,
-  "versionName": "0.1.28-dev",
-  "downloadUrl": "https://raw.githubusercontent.com/JordiCHATGPT/fris-2-updates/main/downloads/fris-2.0-v0.1.28-dev.apk",
-  "notes": "Grote inhoudsuitbreiding: 20 nieuwe lesmodules, 384 nieuwe grammatica- en schrijfoefeningen, 48 leesbegripsvragen en 16 extra luisterteksten met 48 luistervragen. Alle A1-B2 niveaus aangevuld. Bestaande voortgang behouden."
+  "versionCode": 30,
+  "versionName": "0.1.29-dev",
+  "downloadUrl": "https://raw.githubusercontent.com/JordiCHATGPT/fris-2-updates/main/downloads/fris-2.0-v0.1.29-dev.apk",
+  "notes": "Nieuw in Instellingen: Cursusinhoud. Bekijk automatisch berekende aantallen vragen, oefeningen, leesteksten, luisterteksten en woorden, uitgesplitst per vaardigheid, ERK-niveau en vraagtype. Verder geen wijzigingen aan cursus en voortgang."
 }
