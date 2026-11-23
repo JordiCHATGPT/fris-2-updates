@@ -1,6 +1,6 @@
 {
-  "versionCode": 30,
-  "versionName": "0.1.29-dev",
-  "downloadUrl": "https://raw.githubusercontent.com/JordiCHATGPT/fris-2-updates/main/downloads/fris-2.0-v0.1.29-dev.apk",
-  "notes": "Nieuw in Instellingen: Cursusinhoud. Bekijk automatisch berekende aantallen vragen, oefeningen, leesteksten, luisterteksten en woorden, uitgesplitst per vaardigheid, ERK-niveau en vraagtype. Verder geen wijzigingen aan cursus en voortgang."
+  "versionCode": 31,
+  "versionName": "0.1.30-dev",
+  "downloadUrl": "https://raw.githubusercontent.com/JordiCHATGPT/fris-2-updates/main/downloads/fris-2.0-v0.1.30-dev.apk",
+  "notes": "Uniforme subpaginastijl: centrale FRIS-kleuraccenten, krachtigere kaderranden, consistente afgeronde kaarten en knoppen. Lessen, Luisteren, Theorie, Oefenen, Voortgang en Cursusinhoud verfijnd. Startscherm en lesinhoud behouden."
 }
