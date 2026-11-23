@@ -1,6 +1,6 @@
 {
-  "versionCode": 31,
-  "versionName": "0.1.30-dev",
-  "downloadUrl": "https://raw.githubusercontent.com/JordiCHATGPT/fris-2-updates/main/downloads/fris-2.0-v0.1.30-dev.apk",
-  "notes": "Uniforme subpaginastijl: centrale FRIS-kleuraccenten, krachtigere kaderranden, consistente afgeronde kaarten en knoppen. Lessen, Luisteren, Theorie, Oefenen, Voortgang en Cursusinhoud verfijnd. Startscherm en lesinhoud behouden."
+  "versionCode": 32,
+  "versionName": "0.1.31-dev",
+  "downloadUrl": "https://raw.githubusercontent.com/JordiCHATGPT/fris-2-updates/main/downloads/fris-2.0-v0.1.31-dev.apk",
+  "notes": "Herhaling heeft nu Herhaal nu, niveaukeuze en compacte gefilterde onderwerpen. FRIS!-icoon aangepast voor ronde en adaptive Android-iconen. Subpagina-accents en koppen krachtiger. Hoofdpagina, lessen en voortgangsopslag ongewijzigd."
 }
