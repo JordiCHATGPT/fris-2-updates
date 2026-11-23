@@ -1,6 +1,6 @@
 {
-  "versionCode": 32,
-  "versionName": "0.1.31-dev",
-  "downloadUrl": "https://raw.githubusercontent.com/JordiCHATGPT/fris-2-updates/main/downloads/fris-2.0-v0.1.31-dev.apk",
-  "notes": "Herhaling heeft nu Herhaal nu, niveaukeuze en compacte gefilterde onderwerpen. FRIS!-icoon aangepast voor ronde en adaptive Android-iconen. Subpagina-accents en koppen krachtiger. Hoofdpagina, lessen en voortgangsopslag ongewijzigd."
+  "versionCode": 33,
+  "versionName": "0.1.32-dev",
+  "downloadUrl": "https://raw.githubusercontent.com/JordiCHATGPT/fris-2-updates/main/downloads/fris-2.0-v0.1.32-dev.apk",
+  "notes": "Launchericoon gecorrigeerd: net als BIO!logisch rechtstreeks als ronde vector-drawable opgebouwd, zonder vierkante bitmap. Geen wijzigingen aan lessen, herhaling, navigatie of opgeslagen voortgang."
 }
