@@ -1,0 +1,40 @@
+name: Publish FRIS 0.1.29
+on:
+  push:
+    paths:
+      - .github/workflows/publish-fris-0129.yml
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download checked Android build
+        env:
+          ARTIFACT_URL: 'https://sdmntprdenmarkeast.oaiusercontent.com/files/00000000-74b4-8210-aa76-dbbe953729ba/raw?se=2026-11-23T18%3A16%3A13Z&sp=r&sv=2026-06-06&sr=b&scid=b5ae4735-26eb-520f-bf2a-21224760fcbd&skoid=c30e7ce7-1f51-4051-a377-288cdba21c02&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-11-23T08%3A27%3A57Z&ske=2026-11-24T08%3A27%3A57Z&sks=b&skv=2026-06-06&sig=e38zXcjY1eKvD%2Bzxytk69tndbDe/4SkuHwJ5icpFdgg%3D'
+        run: |
+          curl -fLsS --retry 3 --max-time 180 "$ARTIFACT_URL" -o artifact.zip
+          unzip -o artifact.zip app-debug.apk
+          mkdir -p downloads
+          mv app-debug.apk downloads/fris-2.0-v0.1.29-dev.apk
+          test $(wc -c < downloads/fris-2.0-v0.1.29-dev.apk) -eq 13190151
+          echo "bbb11aac3458ed5d359063d175bc157d86fa7768ad6491a841ff772533d4cc99  downloads/fris-2.0-v0.1.29-dev.apk" | sha256sum -c -
+          rm artifact.zip
+      - name: Publish update metadata and APK
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          Path('update.json').write_text(json.dumps({
+            'versionCode': 30,
+            'versionName': '0.1.29-dev',
+            'downloadUrl': 'https://raw.githubusercontent.com/JordiCHATGPT/fris-2-updates/main/downloads/fris-2.0-v0.1.29-dev.apk',
+            'notes': 'Nieuw in Instellingen: Cursusinhoud. Bekijk automatisch berekende aantallen vragen, oefeningen, leesteksten, luisterteksten en woorden, uitgesplitst per vaardigheid, ERK-niveau en vraagtype. Verder geen wijzigingen aan cursus en voortgang.'
+          }, indent=2, ensure_ascii=False)+'\n')
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add update.json downloads/fris-2.0-v0.1.29-dev.apk
+          git commit -m "Publish FRIS 0.1.29 course contents"
+          git push
