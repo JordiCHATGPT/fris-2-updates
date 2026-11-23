@@ -1,6 +1,6 @@
 {
-  "versionCode": 24,
-  "versionName": "0.1.23-dev",
-  "downloadUrl": "https://raw.githubusercontent.com/JordiCHATGPT/fris-2-updates/main/downloads/fris-2.0-v0.1.23-dev.apk",
-  "notes": "Voortgang laat nu ook het aantal beantwoorde luistervragen, goedpercentage en dekking per A1/A2/B1/B2 zien."
+  "versionCode": 25,
+  "versionName": "0.1.24-dev",
+  "downloadUrl": "https://raw.githubusercontent.com/JordiCHATGPT/fris-2-updates/main/downloads/fris-2.0-v0.1.24-dev.apk",
+  "notes": "Gemengd oefenen over alle onderwerpen op hetzelfde niveau, met opslag van voortgang bij het oorspronkelijke onderwerp. Extra A2-grammatica toegevoegd."
 }
