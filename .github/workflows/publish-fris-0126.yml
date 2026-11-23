@@ -1,0 +1,40 @@
+name: Publish FRIS 0.1.26
+on:
+  push:
+    paths:
+      - .github/workflows/publish-fris-0126.yml
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download successful Android build
+        env:
+          ARTIFACT_URL: 'https://sdmntprnortheu.oaiusercontent.com/files/00000000-cab8-81f4-b2db-a7249a0242b1/raw?se=2026-11-23T14%3A12%3A21Z&sp=r&sv=2026-06-06&sr=b&scid=103702c7-7c14-57ff-8123-1c9ba64e0693&skoid=c30e7ce7-1f51-4051-a377-288cdba21c02&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-11-23T09%3A26%3A36Z&ske=2026-11-24T09%3A26%3A36Z&sks=b&skv=2026-06-06&sig=uYhoPGfWEwwBpF57htUdm/RaPdG6tRd%2BkYCuJZRYqDU%3D'
+        run: |
+          curl -fLsS --retry 3 --max-time 180 "$ARTIFACT_URL" -o artifact.zip
+          unzip -o artifact.zip app-debug.apk
+          mkdir -p downloads
+          mv app-debug.apk downloads/fris-2.0-v0.1.26-dev.apk
+          test $(wc -c < downloads/fris-2.0-v0.1.26-dev.apk) -eq 13121600
+          echo "e536e6dead84407e0fe828fdf1d29046efb7b06902375ad245cfa196e7bfd464  downloads/fris-2.0-v0.1.26-dev.apk" | sha256sum -c -
+          rm artifact.zip
+      - name: Publish update metadata and APK
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          Path('update.json').write_text(json.dumps({
+            'versionCode': 27,
+            'versionName': '0.1.26-dev',
+            'downloadUrl': 'https://raw.githubusercontent.com/JordiCHATGPT/fris-2-updates/main/downloads/fris-2.0-v0.1.26-dev.apk',
+            'notes': 'Lessen overzichtelijk ingedeeld per niveau A1-B2 en uitklapbare secties Grammatica, Lezen, Luisteren en Schrijven. Bestaande lesinhoud en voortgang behouden.'
+          }, indent=2)+'\n')
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add update.json downloads/fris-2.0-v0.1.26-dev.apk
+          git commit -m "Publish FRIS 0.1.26 lessons layout"
+          git push
